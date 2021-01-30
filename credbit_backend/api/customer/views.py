@@ -20,27 +20,32 @@ def generate_session_tokens(length=10):
         + [str(i) for i in range(10)]
         + [chr(i) for i in range(65, 91)]
     )
-    return ''.join(
+    return "".join(
         random.SystemRandom().choice(token_chars_list) for _ in range(length)
     )
 
 
 @csrf_exempt
 def client_signin(request):
-    if not request.method == 'POST':
-        return JsonResponse({'error': 'Send a post request with valid parameters'}, status=status.HTTP_400_BAD_REQUEST)
-
-    username = request.POST['email']
-    password = request.POST['password']
+    if not request.method == "POST":
+        return JsonResponse(
+            {"error": "Send a post request with valid parameters"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    
+    username = request.POST["email"]
+    password = request.POST["password"]
 
     # Validation Part
-    if not re.match(r'\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b', username):
-        return JsonResponse({'error': 'Enter a valid email'}, status=status.HTTP_400_BAD_REQUEST)
+    if not re.match(r"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b", username):
+        return JsonResponse(
+            {"error": "Enter a valid email"}, status=status.HTTP_400_BAD_REQUEST
+        )
 
     # if not re.match(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$', password):
     #     return JsonResponse(
     #         {
-    #             'error': '''Password should match these criteria 
+    #             'error': '''Password should match these criteria
     #             - at least 8 characters
     #             - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number
     #             - Can contain special characters'''
@@ -57,36 +62,36 @@ def client_signin(request):
         if user.check_password(password):
             user_dict = UserModel.objects.filter(email=username).values().first()
 
-            user_dict.pop('password')
+            user_dict.pop("password")
 
-            if user.session_token != '0':
-                user.session_token = '0'
+            if user.session_token != "0":
+                user.session_token = "0"
                 user.save()
                 return JsonResponse(
-                    {'error': 'Previous session exists'},
-                    status=status.HTTP_406_NOT_ACCEPTABLE,
+                    {"error": "Previous session exists. Try again"},
+                    status=status.HTTP_409_CONFLICT,
                 )
 
             token = generate_session_tokens()
             user.session_token = token
             user.save()
-            user_dict['session_token'] = token
-            user_dict['_id'] = str(user_dict['_id'])  # To convert ObjectId to String
+            user_dict["session_token"] = token
+            user_dict["_id"] = str(user_dict["_id"])  # To convert ObjectId to String
 
             user = authenticate(username=username, password=password)
             login(request, user)
 
             return JsonResponse(
-                {'token': token, 'user': user_dict}, status=status.HTTP_200_OK
+                {"token": token, "user": user_dict}, status=status.HTTP_200_OK
             )
         else:
             return JsonResponse(
-                {'error': 'Invalid password'}, status=status.HTTP_401_UNAUTHORIZED
+                {"error": "Invalid password"}, status=status.HTTP_401_UNAUTHORIZED
             )
 
     except UserModel.DoesNotExist:
         return JsonResponse(
-            {'error': 'Invalid email'}, status=status.HTTP_401_UNAUTHORIZED
+            {"error": "Client does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
 
 
@@ -96,22 +101,26 @@ def client_signout(request, id):
 
     try:
         user = UserModel.objects.get(_id=ObjectId(id))
-        user.session_token = '0'
-        user.save()
+        if user.session_token == "0":
+            return JsonResponse({"error": "Already logged out"}, status=status.HTTP_409_CONFLICT)
+        else:
+            user.session_token = "0"
+            user.save()
+            return JsonResponse({"success": "Logout success"}, status=status.HTTP_200_OK)
+
     except UserModel.DoesNotExist:
         return JsonResponse(
-            {'error': 'User doesn\'t exsists'}, status=status.HTTP_404_NOT_FOUND
+            {"error": "Client does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
     except errors.InvalidId:
         return JsonResponse(
-            {'error': 'Provide proper ID'}, status=status.HTTP_406_NOT_ACCEPTABLE
+            {"error": "Provide proper ID"}, status=status.HTTP_406_NOT_ACCEPTABLE
         )
 
-    return JsonResponse({'success': 'Logout success'}, status=status.HTTP_200_OK)
 
 
 class ClientViewSet(viewsets.ModelViewSet):
-    permission_classes_by_action = {'create': [AllowAny], 'update': [AllowAny]}
+    permission_classes_by_action = {"create": [AllowAny], "update": [AllowAny]}
 
     queryset = Client.objects.all().exclude(is_superuser=True)
     serializer_class = ClientSerializer
@@ -122,17 +131,22 @@ class ClientViewSet(viewsets.ModelViewSet):
                 client = Client.objects.get(_id=ObjectId(id))
             except errors.InvalidId:
                 return JsonResponse(
-                    {'error': 'Provide proper ID'},
-                    status=status.HTTP_406_NOT_ACCEPTABLE,
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
-            # Since this is hyperlinked model serializer, we need to pass request 
-            client_serializer = ClientSerializer(client, context={'request': request})
+            except Client.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Client does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            # Since this is hyperlinked model serializer, we need to pass request
+            client_serializer = ClientSerializer(client, context={"request": request})
 
             return JsonResponse(client_serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
             return JsonResponse(
-                {'error': 'Provide proper ID'},
-                status=status.HTTP_406_NOT_ACCEPTABLE,
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
     def update(self, request, id):
@@ -141,7 +155,12 @@ class ClientViewSet(viewsets.ModelViewSet):
             client = Client.objects.get(_id=ObjectId(id))
         except errors.InvalidId:
             return JsonResponse(
-                {'error': 'Provide proper ID'}, status=status.HTTP_406_NOT_ACCEPTABLE
+                {"error": "Provide proper ID"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        except Client.DoesNotExist:
+            return JsonResponse(
+                {"error": "Client does not exist"},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         client_serializer = ClientSerializer(client, data=data, partial=True)
@@ -151,7 +170,7 @@ class ClientViewSet(viewsets.ModelViewSet):
             return JsonResponse(client_serializer.data, status=status.HTTP_202_ACCEPTED)
 
         return JsonResponse(
-            client_serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE
+            client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
         )
 
     def get_permissions(self):
