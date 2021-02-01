@@ -5,6 +5,9 @@ from . import views
 router = routers.DefaultRouter()
 router.register('client', views.ClientViewSet)
 
+# From https://github.com/encode/django-rest-framework/issues/1249
+# router.register('permission', views.PermissionViewSet)
+
 urlpatterns = [
     path('client/login/', views.client_signin, name='client_signin'),
     path('client/logout/<str:id>/', views.client_signout, name='client_signout'),

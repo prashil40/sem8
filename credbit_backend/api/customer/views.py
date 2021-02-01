@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Permission
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
@@ -120,10 +121,11 @@ def client_signout(request, id):
 
 
 class ClientViewSet(viewsets.ModelViewSet):
-    permission_classes_by_action = {"create": [AllowAny], "update": [AllowAny]}
+    permission_classes_by_action = {"create": [AllowAny], "update": [AllowAny], "retrieve": [AllowAny]}
 
     queryset = Client.objects.all().exclude(is_superuser=True)
     serializer_class = ClientSerializer
+    lookup_field = '_id'
 
     def retrieve(self, request, id=None):
         if id is not None:
@@ -142,7 +144,7 @@ class ClientViewSet(viewsets.ModelViewSet):
             # Since this is hyperlinked model serializer, we need to pass request
             client_serializer = ClientSerializer(client, context={"request": request})
 
-            return JsonResponse(client_serializer.data, status=status.HTTP_202_ACCEPTED)
+            return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
         else:
             return JsonResponse(
                 {"error": "Provide proper ID"},
@@ -167,7 +169,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 
         if client_serializer.is_valid():
             client_serializer.save()
-            return JsonResponse(client_serializer.data, status=status.HTTP_202_ACCEPTED)
+            return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
 
         return JsonResponse(
             client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
@@ -181,3 +183,13 @@ class ClientViewSet(viewsets.ModelViewSet):
             ]
         except KeyError:
             return [permission() for permission in self.permission_classes]
+
+
+# From https://github.com/encode/django-rest-framework/issues/1249
+
+# class PermissionViewSet(viewsets.ModelViewSet):
+#     """
+#     API endpoint that allows permissions to be viewed or edited.
+#     """
+#     queryset = Permission.objects.all()
+#     serializer_class = PermissionSerializer

@@ -5,7 +5,16 @@ from .models import Client
 import re
 
 
+# From https://github.com/encode/django-rest-framework/issues/1249
+
+# from django.contrib.auth.models import Permission
+# class PermissionSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = Permission
+
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='client-detail', lookup_field='_id')
+
     @transaction.atomic()
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -38,14 +47,9 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Client
-        fields = '__all__'
-        # lookup_field = '_id'
-        # fields = (
-        #   'id', 'first_name', 'middle_name', 'last_name', 
-        #   'email', 'password', 'phone', 
-        #   'is_active', 'is_superuser', 'is_staff',
-        #   'street', 'city', 'state', 'zip_code', 
-        #   'session_token', 
-        #   'created_at', 'updated_at', 
-        #   'registered_at', 'last_login_at', 
-        #   'status')
+        exclude = ('user_permissions', 'groups') 
+        # Since there are no default viewsets for Permissions, Django will try to look up for them
+        # and will throw error "ImproperlyConfigured"
+        # solution is either add your own Permission viewset as mentioned above
+        # or exclude this field
+        lookup_field = '_id'
