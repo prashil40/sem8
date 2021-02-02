@@ -8,3 +8,5 @@ credbit_backend/api/migrations/__pycache__/
 credbit_backend/api/customer/migrations/__pycache__/
 __pycache__/
 *.pyc
+Pipfile*
+requirements*
