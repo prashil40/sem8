@@ -1,0 +1,259 @@
+:root{
+  --primary: #059237;
+  --secondary: #2D4390;
+  --bg-color: #fdfdfde0;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  background: var(--bg-color);
+}
+
+.section {
+  display: flex;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.form_area {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: -100px;
+
+  min-height: 1000px;
+}
+
+.illustration_area{
+  display: none;
+  background-color: var(--bg-color);
+}
+
+.container_label {
+  font-size: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container_label img{
+  width: 180px;
+  margin-bottom: 50px;
+}
+
+.container_label span{
+  color: var(--primary), rgb(63, 63, 63);
+  text-transform: uppercase;
+}
+
+.container{
+  width: 80%;
+  max-width: 530px;
+  height: 450px;
+  box-shadow: 0 0 7px rgba(104, 103, 103, 0.527);
+  border-radius: 30px;
+}
+
+.form{
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.form_row {
+  width: 70%;
+  margin: 20px 0; /* need some nice spacing here */
+  position: relative; /* this one is important */
+}
+
+
+/* --------------- Password Eye Start-------------------- */
+
+.password__visibleToggle {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	right: 10px;
+	top: 10px;
+	z-index: 1;
+	appearance: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.password__visibleToggle_eye {
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	right: 25px;
+	top: 20px;
+	perspective: 1000px;
+	overflow: hidden;
+}
+
+.password__visibleToggle_eye.close {
+	transition: 0.4s all ease-in-out;
+}
+
+.password__visibleToggle_eye.open {
+	transition: 0.2s 0.2s all ease-out;
+}
+
+.password__visibleToggle_eye img {
+	width: 100%;
+	filter: grayscale(100%);
+}
+
+.password__visibleToggle:checked ~ .password__visibleToggle_eye.close {
+	transform: rotateX(180deg);
+}
+
+.password__visibleToggle:checked ~ .password__visibleToggle_eye.open {
+	opacity: 0;
+}
+
+/* --------------- Password Eye End-------------------- */
+
+.floating_label {
+  font-size: 16px;
+  position: absolute;
+  top: 15px;
+  left: 0;
+  transition: all 0.2s ease-out;
+  cursor: text;
+}
+
+.form_control {
+  padding: 15px 0 10px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #34495e;
+  font-size: 16px;
+  background: var(--bg-color);
+}
+
+.form_control:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.form_control:valid ~ label,
+.form_control:focus ~ label {
+  top: -20px;
+  font-size: 14px;
+  color: rgba(49, 49, 49, 0.938);
+  cursor: auto;
+}
+
+.submit_button {
+  width:100px;
+  padding: 12px 24px;
+  border: 1px solid rgb(95, 95, 95);
+  border-radius: 30px;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.submit_button:hover,
+.submit_button:focus{
+  border: 1px solid var(--primary);
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 1px 1px 7px rgba(34, 167, 34, 0.63);
+}
+
+.after_form_area{
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.after_form_area span {
+  margin-bottom: 10px;
+}
+
+.after_form_area a{
+  transition: all 0.2s ease-in;
+}
+
+.after_form_area a:hover{
+  color: var(--secondary);
+  border-bottom: 1px dotted var(--secondary);
+}
+
+.divider_section{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.divider_section hr{
+  width: 100px;
+  margin: 15px 0;
+}
+
+.divider_section span{
+  position: absolute;
+  top: 5px;
+  width: 40px;
+  text-align: center;
+  background-color: var(--bg-color);
+}
+
+
+@media screen and (min-width: 860px){
+  .container_label{
+    font-size: 35px;
+  }
+  .container_label img{
+    width: 200px;
+    margin-bottom: 50px;
+  }
+}
+
+@media screen and (min-width: 1220px) {
+  .form_area{
+    width:40%;
+
+  }
+
+  .container{
+    width: 480px;
+  }
+
+  .illustration_area{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    background-color: var(--bg-color);
+  }
+
+  .illustration_area img{
+    width: 40%;
+  }
+
+  .blob{
+    position:absolute;
+    z-index: -1;
+  }
+}
