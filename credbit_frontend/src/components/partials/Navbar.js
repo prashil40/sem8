@@ -1,28 +1,41 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import classes from './Navbar.module.css';
 
 const Navbar = () => {
   return (
-    <nav id="mobile-menu">
-      <ul>
-        <li className="active">
-          <Link to="./">How it works</Link>
+    <nav className={classes.Navbar}>
+      <ul className={classes.UnorderedList}>
+        <li className={classes.ListItem}>
+          <Link className={classes.Link} to="./">
+            How it works
+          </Link>
         </li>
-        <li>
-          <Link to="./">Pricing</Link>
+        <li className={classes.ListItem}>
+          <Link className={classes.Link} to="./">
+            Pricing
+          </Link>
         </li>
-        <li>
-          <Link to="./">Letters</Link>
+        <li className={classes.ListItem}>
+          <Link className={classes.Link} to="./">
+            Letters
+          </Link>
         </li>
-        <li>
-          <Link to="./">About Us</Link>
+        <li className={classes.ListItem}>
+          <Link className={classes.Link} to="./">
+            About Us
+          </Link>
         </li>
-        <li>
-          <Link to="./">Contact Us</Link>
+        <li className={classes.ListItem}>
+          <Link className={classes.Link} to="./">
+            Contact Us
+          </Link>
         </li>
 
-        <li className="respLogin">
-          <Link to="login/">Login</Link>
+        <li className={`${classes.ListItem} ${classes.Button}`}>
+          <Link className={classes.Link} to="login/">
+            Login
+          </Link>
         </li>
       </ul>
     </nav>

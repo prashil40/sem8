@@ -1,0 +1,149 @@
+.main_body{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.about_head{
+    text-align: center;
+    letter-spacing: 4px;
+    color: #000;
+    padding-bottom: 50px;
+}
+
+.about_area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    width: 85%;
+    
+}
+
+.box{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: #000;
+}
+
+.box div{
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text_center{
+    text-align: center;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.image1{
+    height: 200px;
+}
+
+.image2{
+    width:100%;
+}
+.image3{
+    width:100%;
+}
+.text_justify{
+    text-align: justify;
+    color: inherit;
+    
+}
+.font_18{
+    font-size:18px;
+}
+
+.box div img{
+    justify-content: center;
+    align-items: center;
+}
+
+
+.blue_btn{
+    background-color: #2D4390;
+    border: 1px solid;
+    border-radius: 4px;
+    border-color: #2D4390;
+    padding: 20px;
+    padding-left: auto;
+    margin-left: 10px;
+    margin-top: 40px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.blue_btn:hover{
+    text-decoration: none;
+    background-color:#0A4390;
+    border-color: #0A4390;
+}
+
+.cta_text{
+    color:#fff;
+    margin-top:20px;
+    font-size:20px;
+}
+.cta_header{
+
+    color:#fff;
+    font-size:60px;
+    color: #ffffff;
+    font-family: "cerebri_sansbold";
+    margin-bottom: 0;
+    margin-top: 11px;
+    font-weight: 500;
+}
+.cta_area{
+    background-color: grey;
+    background:grey;
+}
+
+
+.cta_button{
+    background-color: #1b4584;
+    padding :10px;
+}
+
+.service_area{
+    background-image:url(./bg-1.jpg);
+    padding-top:75px;
+    padding-bottom:75px;
+}
+
+.service_wrapper{
+    background: #ffffff;
+    padding: 60px 40px 60px 41px;
+    border-radius: 10px;
+}
+.service_text .text_justify{
+    margin-bottom: 0px;
+    font-size:18px;
+    line-height:30px;
+    color: #000000;
+
+}
+.service_image{
+    height:135px;
+    padding-bottom:20px;
+}
+.service_image2{
+    width:100%;
+    border-radius:5px;
+}
+.blue_btn span{
+    text-decoration: none;
+    color:#ffffff;
+}

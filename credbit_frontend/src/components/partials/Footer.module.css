@@ -1,0 +1,14 @@
+.color_white{
+    color:white;
+    font-size: 18px;
+}
+
+.text_center{
+    text-align:center;
+}
+
+.footer_bg_bottom{
+    height: 140px;
+    background: grey;
+    padding: 40px 40px;
+}

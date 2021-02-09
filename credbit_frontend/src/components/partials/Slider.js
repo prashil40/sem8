@@ -1,48 +1,45 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import classes from './Slider.module.css';
 
 const Slider = () => (
   <div className="slider-area">
-    <div className="slider-active">
+    <div className={classes.slider_overlay}>
       <div
-        className="single-slider slider-height slider-overlay d-flex align-items-center"
+        className={classes.slider}
         // style="background-image:url(assets/img/slider/slider-1.jpg)"
       >
-        <div className="container">
-          <div className="row ">
-            <div className="col-xl-8 col-lg-8">
-              <div className="slider-content">
-                <h1 data-animation="fadeInLeft" data-delay=".3s">
-                  Perfect IT Solutions For Your Business
+        <div className={classes.container}>
+          <div>
+            <div>
+              <div className={classes.slider_content}>
+                <h1
+                  className={classes.slider_header}
+                  data-animation="fadeInLeft"
+                  data-delay=".3s"
+                >
+                  CREDBIT
                 </h1>
-                <p data-animation="fadeInLeft" data-delay=".5s">
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                  accusantium doloremque
+                <p
+                  className={classes.paragraph}
+                  data-animation="fadeInLeft"
+                  data-delay=".5s"
+                >
+                  Providing you assembled dispute letters to challenge items on
+                  your credit report with all three bureaus. Our letters auto
+                  send every 30 days without you lifting a finger!
                 </p>
                 <div
-                  className="slider-button"
+                  className={classes.slider_button}
                   data-animation="fadeInUp"
                   data-delay=".7s"
                 >
-                  <Link className="btn" to="#">
-                    <span className="btn-text">
+                  <Link className={classes.Link} to="#">
+                    <span className={classes.button_text}>
                       learn more <i className="far fa-long-arrow-right"></i>
-                    </span>{" "}
-                  </Link>
-                  <Link className="text-link" to="#">
-                    How It Works
+                    </span>{' '}
                   </Link>
                 </div>
-              </div>
-            </div>
-            <div className="col-xl-4 col-lg-3 d-none d-lg-block">
-              <div className="slider-video text-md-right">
-                <Link
-                  className="popup-video"
-                  to="https://www.youtube.com/watch?v=LTXD6XZXc3U"
-                >
-                  <i className="fas fa-play"></i>
-                </Link>
               </div>
             </div>
           </div>

@@ -1,10 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import classes from './Logo.module.css';
+import logo from './logo_credbit.png';
 
 const Logo = () => (
-  <div className="logo">
+  <div>
     <Link to="./">
-      <img src="assets/img/logo/logo.png" alt="" />
+      <img className={classes.logo} src={logo} alt="" />
     </Link>
   </div>
 );

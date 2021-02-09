@@ -1,100 +1,122 @@
-import React from "react";
-import Header from "../partials/Header";
+import React from 'react';
+import Header from '../partials/Header';
 // import AboutArea from "../TheAboutArea";
 // import ServiceArea from "../TheServiceArea";
-import Slider from "../partials/Slider";
-import Footer from "../partials/Footer";
+import Slider from '../partials/Slider';
+import Footer from '../partials/Footer';
+import { Link } from 'react-router-dom';
+import '../../Global.css';
+import classes from './Home.module.css';
+import image1 from './person_in_office.jpg';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import image2 from './Credbit table graph996.jpeg';
+import image3 from './Credbit home photo500.png';
+import s_img1 from './service_image1.png';
+import s_img2 from './service_image2.png';
+import s_img3 from './service_image3.png';
+import s_img4 from './service_image4.jpeg';
 
 const Home = () => {
   return (
     <div>
       <Header />
       <main>
-        <Slider />
-        <div>
-          <div className="about-area pt-130 pb-100">
-            <div className="container">
-              <div className="row">
-                <div className="col-xl-4 col-lg-4 mb-30">
-                  <div className="about-text">
-                    <span>who we are</span>
-                    <h1>
-                      More than 23+ years we provide <span>IT solutions </span>
-                    </h1>
-                    <p>
-                      Sedut perspiciatis unde omnis iste natus error sitlupt tem
-                      accusantium doloremque laudantium totam remap eriaeaque
-                      ipsa quae ab illo inventore veritatis{" "}
-                    </p>
-                    <Link to="#">Our Services</Link>
+        <div className={classes.main_body}>
+          <Slider />
+          <div className={`${classes.about_area} pt-30 pb-30 `}>
+            <div className={classes.container}>
+              <div className={classes.row}>
+                <div>
+                  <h2 className={classes.about_head}>
+                    A self service credit solution platform to help you excel!
+                  </h2>
+                </div>
+              </div>
+              <div className={classes.row}>
+                <div className={classes.box}>
+                  <p className={`${classes.text_justify} ${classes.font_18}`}>
+                    Credbit offers a self service credit solution web service
+                    platform built to help you remove inaccurate or unverifiable
+                    items from your credit report. We provide you with the
+                    assembled letters you need to dispute and or challenge items
+                    on your credit report.
+                  </p>
+
+                  <p className={`${classes.text_justify} ${classes.font_18}`}>
+                    Once you select your dispute letter(s), our
+                    software&nbsp;will auto send&nbsp;your selected letter(s)
+                    each month from the date you sign&nbsp;up. You can sit back
+                    and relax while our software does the work for you. So
+                    simple, affordable and saves you time.&nbsp;
+                  </p>
+                </div>
+
+                <div className={classes.box}>
+                  <div>
+                    <img src={image1} className={classes.image1}></img>
                   </div>
                 </div>
-                <div className="col-xl-4 col-lg-4 mb-30">
-                  <div className="about-img">
-                    <img src="assets/img/about/about.jpg" alt="" />
-                  </div>
-                </div>
-                <div className="col-xl-4 col-lg-4 mb-30">
-                  <div className="about-content">
-                    <p>
-                      But I must explain to you how all this mistaken idea of
-                      denouncing pleasure and praising pain was born and I will
-                      give you a complete acount of the system, and expound the
-                      actual teacings of the great explorer of the truth,
-                      titer-builder of human happiness. No one rejects,
-                      dislikes, or avoids pleasure itself, because it is
-                      pleasure, but because those who do not know how to pursue
-                      pleasure rationally encounter
+
+                <div className={classes.box}>
+                  <div>
+                    <p className={`${classes.text_justify} ${classes.font_18}`}>
+                      You choose the letter(s) best for your dispute. You enter
+                      all necessary information needed. You challenge negative
+                      items with creditors and bureaus.&nbsp;Removing one
+                      negative item from your credit score may increase
+                      your&nbsp; credit score&nbsp;30 - 50 points. Removing
+                      multiple items may boost your score 100&nbsp;points.
                     </p>
-                    <div className="about-1-img">
-                      <img src="assets/img/about/01.png" alt="" />
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="about-area">
+          <div className="about-area pt-30 pb-30 ">
             <div className="container">
               <div className="row">
                 <div className="col-md-12">
-                  <h2>The most affordable credit service solution!</h2>
+                  <h2 className={classes.about_head}>
+                    The most affordable credit service solution!
+                  </h2>
                 </div>
               </div>
               <div className="row">
                 <div className="col-xl-4 col-lg-4 mb-30">
                   <div className="about-img">
                     <img
-                      src="page/big_img/Xcel table graph996.jpeg"
-                      alt="Xcel table graph996.jpeg"
+                      src={image2}
+                      className={classes.image2}
+                      alt="Credbit table graph996.jpeg"
                     />
                   </div>
                 </div>
                 <div className="col-xl-4 col-lg-4 mb-30">
                   <div className="about-text">
-                    <p>
+                    <p className={`${classes.text_justify} ${classes.font_18}`}>
                       Your credit score matters. We all deserve to get the
                       things we want and need and we know having
                       good&nbsp;credit helps.
                     </p>
                   </div>
                   <div
-                    className="header-button d-none d-lg-block"
+                    className={` header-button d-none d-lg-block mt-40`}
                     // style="margin-left:0px;"
                   >
-                    <Link className="btn" to="sign-up/">
+                    <Link className={classes.blue_btn} to="sign-up/">
                       <span className="btn-text">
                         Get Started <i className="far fa-long-arrow-right"></i>
-                      </span>{" "}
+                      </span>{' '}
                     </Link>
                   </div>
                 </div>
                 <div className="col-xl-4 col-lg-4 mb-30">
                   <div className="about-img">
                     <img
-                      src="pageF/big_img/Xcel home photo500.png"
-                      alt="Xcel home photo500.png"
+                      src={image3}
+                      className={classes.image3}
+                      alt="Credbit home photo500.png"
                     />
                   </div>
                 </div>
@@ -102,140 +124,115 @@ const Home = () => {
             </div>
           </div>
         </div>
+
         <div
-          className="services-area pt-120 pb-100"
-          // style="background-image:url(assets/img/bg/bg-1.jpg)"
+          className={`cta-area pt-125 pb-95 ${classes.cta_area}`}
+          // style=""
         >
           <div className="container">
             <div className="row">
-              <div className="col-xl-8 col-lg-8 offset-lg-2 offset-xl-2">
-                <div className="section-title text-center ml-50 mr-50 mb-80">
-                  <span className="border-left-1"></span>
-                  <span>what we do</span>
-                  <span className="border-right-1"></span>
-                  <h1>We provide exclusive services for your busainess</h1>
+              <div className="col-xl-8 col-lg-8">
+                <div className="cta-text mb-30">
+                  <h1 className={classes.cta_header}>
+                    Credbit values your time!
+                  </h1>
+                  <p
+                    className={classes.cta_text}
+                    // style="color:#fff;margin-top:20px;font-size:20px;"
+                  >
+                    With Credbit you save time, no upfront fees, no middle
+                    man&nbsp;&amp; we offer the best pricing with real results.
+                  </p>
+                </div>
+              </div>
+              <div className="col-xl-4 col-lg-4 mt-10">
+                <div
+                  className={`$ text-lg-right mb-30 mt-20`}
+                  // style="margin-top:18px;"
+                >
+                  <Link className={`${classes.blue_btn}`} to="sign-up/">
+                    <span className="btn-text">
+                      Sign Up Today! <i className="far fa-long-arrow-right"></i>
+                    </span>{' '}
+                  </Link>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className={classes.service_area}>
+          <div className="container">
             <div className="row">
               <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
-                <div className="services-wrapper text-center">
+                <div className={`${classes.service_wrapper} text-center`}>
                   <div className="services-img">
-                    <img src="assets/img/icon/icon-01.png" alt="" />
+                    <img
+                      src={s_img1}
+                      alt="XcelICON1162.png"
+                      className={classes.service_image}
+                    />
                   </div>
-                  <div className="services-text">
-                    <h3>Web Development</h3>
-                    <p>
-                      It is a long established fact that a reader will be
-                      distracted by the readable content of a page when looking{" "}
+                  <div className={classes.service_text}>
+                    <p className={classes.text_justify}>
+                      We provide you the tools for you to challenge negative
+                      items with all three bureaus.
                     </p>
-                    <Link to="#">
-                      {" "}
-                      <span className="services-button">
-                        read more <i className="far fa-long-arrow-right"></i>
-                      </span>{" "}
-                    </Link>
                   </div>
                 </div>
               </div>
+
               <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
-                <div className="services-wrapper text-center">
+                <div className={`${classes.service_wrapper} text-center`}>
                   <div className="services-img">
-                    <img src="assets/img/icon/icon-2.png" alt="" />
+                    <img
+                      src={s_img2}
+                      alt="XcelICON2798.png"
+                      className={classes.service_image}
+                    />
                   </div>
-                  <div className="services-text">
-                    <h3>Database Analysis</h3>
-                    <p>
-                      It is a long established fact that a reader will be
-                      distracted by the readable content of a page when looking{" "}
+                  <div className={classes.service_text}>
+                    <p className={classes.text_justify}>
+                      Our prepared letters are ready to help you&nbsp;diputes
+                      any item(s)&nbsp;you feel are&nbsp;not accurate.
                     </p>
-                    <Link to="#">
-                      {" "}
-                      <span className="services-button">
-                        read more <i className="far fa-long-arrow-right"></i>
-                      </span>{" "}
-                    </Link>
                   </div>
                 </div>
               </div>
+
               <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
-                <div className="services-wrapper text-center">
+                <div className={`${classes.service_wrapper} text-center`}>
                   <div className="services-img">
-                    <img src="assets/img/icon/icon-3.png" alt="" />
+                    <img
+                      src={s_img3}
+                      alt="XcelICON3465.png"
+                      className={classes.service_image}
+                    />
                   </div>
-                  <div className="services-text">
-                    <h3>Server Security</h3>
-                    <p>
-                      It is a long established fact that a reader will be
-                      distracted by the readable content of a page when looking{" "}
+                  <div className={classes.service_text}>
+                    <p className={classes.text_justify}>No third party.</p>
+                    <p className={classes.text_justify}>
+                      We save you time &amp; Money
                     </p>
-                    <Link to="#">
-                      {" "}
-                      <span className="services-button">
-                        read more <i className="far fa-long-arrow-right"></i>
-                      </span>{" "}
-                    </Link>
+                    <p className={classes.text_justify}>
+                      You build your credit.
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
-                <div className="services-wrapper text-center">
-                  <div className="services-img">
-                    <img src="assets/img/icon/icon-4.png" alt="" />
-                  </div>
-                  <div className="services-text">
-                    <h3>UX/UI Strategy</h3>
-                    <p>
-                      It is a long established fact that a reader will be
-                      distracted by the readable content of a page when looking{" "}
-                    </p>
-                    <Link to="#">
-                      {" "}
-                      <span className="services-button">
-                        read more <i className="far fa-long-arrow-right"></i>
-                      </span>{" "}
-                    </Link>
-                  </div>
-                </div>
+            </div>
+            <div className="row pt-75 pb-100">
+              <div className="col-md-8 col-sm-12 col-xs-12">
+                <img src={s_img4} className={classes.service_image2} />
               </div>
-              <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
-                <div className="services-wrapper text-center">
-                  <div className="services-img">
-                    <img src="assets/img/icon/icon-5.png" alt="" />
-                  </div>
-                  <div className="services-text">
-                    <h3>Analysis For Tools</h3>
-                    <p>
-                      It is a long established fact that a reader will be
-                      distracted by the readable content of a page when looking{" "}
-                    </p>
-                    <Link to="#">
-                      {" "}
-                      <span className="services-button">
-                        read more <i className="far fa-long-arrow-right"></i>
-                      </span>{" "}
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
-                <div className="services-wrapper text-center">
-                  <div className="services-img">
-                    <img src="assets/img/icon/icon-6.png" alt="" />
-                  </div>
-                  <div className="services-text">
-                    <h3>Marketing Strategy</h3>
-                    <p>
-                      It is a long established fact that a reader will be
-                      distracted by the readable content of a page when looking{" "}
-                    </p>
-                    <Link to="#">
-                      {" "}
-                      <span className="services-button">
-                        read more <i className="far fa-long-arrow-right"></i>
-                      </span>{" "}
-                    </Link>
-                  </div>
+
+              <div className={`${classes.text_center} col-4`}>
+                <div className="d-none d-lg-block ml-0 mt-105">
+                  <Link className={` ${classes.blue_btn}`} to="how-it-works/">
+                    <span className="btn-text">
+                      How it works <i className="far fa-long-arrow-right"></i>
+                    </span>{' '}
+                  </Link>
                 </div>
               </div>
             </div>
