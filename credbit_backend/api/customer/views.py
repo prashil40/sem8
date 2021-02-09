@@ -33,7 +33,7 @@ def client_signin(request):
             {"error": "Send a post request with valid parameters"},
             status=status.HTTP_400_BAD_REQUEST,
         )
-    
+
     username = request.POST["email"]
     password = request.POST["password"]
 
@@ -103,11 +103,15 @@ def client_signout(request, id):
     try:
         user = UserModel.objects.get(_id=ObjectId(id))
         if user.session_token == "0":
-            return JsonResponse({"error": "Already logged out"}, status=status.HTTP_409_CONFLICT)
+            return JsonResponse(
+                {"error": "Already logged out"}, status=status.HTTP_409_CONFLICT
+            )
         else:
             user.session_token = "0"
             user.save()
-            return JsonResponse({"success": "Logout success"}, status=status.HTTP_200_OK)
+            return JsonResponse(
+                {"success": "Logout success"}, status=status.HTTP_200_OK
+            )
 
     except UserModel.DoesNotExist:
         return JsonResponse(
@@ -119,13 +123,16 @@ def client_signout(request, id):
         )
 
 
-
 class ClientViewSet(viewsets.ModelViewSet):
-    permission_classes_by_action = {"create": [AllowAny], "update": [AllowAny], "retrieve": [AllowAny]}
+    permission_classes_by_action = {
+        "create": [AllowAny],
+        "update": [AllowAny],
+        "retrieve": [AllowAny],
+    }
 
     queryset = Client.objects.all().exclude(is_superuser=True)
     serializer_class = ClientSerializer
-    lookup_field = '_id'
+    lookup_field = "_id"
 
     def retrieve(self, request, id=None):
         if id is not None:
@@ -144,7 +151,12 @@ class ClientViewSet(viewsets.ModelViewSet):
             # Since this is hyperlinked model serializer, we need to pass request
             client_serializer = ClientSerializer(client, context={"request": request})
 
-            return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
+            if client_serializer.is_valid():
+                return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
+
+            return JsonResponse(
+                client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
         else:
             return JsonResponse(
                 {"error": "Provide proper ID"},
