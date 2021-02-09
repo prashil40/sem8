@@ -33,7 +33,7 @@ const Navbar = () => {
         </li>
 
         <li className={`${classes.ListItem} ${classes.Button}`}>
-          <Link className={classes.Link} to="login/">
+          <Link className={classes.Link} to="signin/">
             Login
           </Link>
         </li>

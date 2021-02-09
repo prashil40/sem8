@@ -1,6 +1,6 @@
 import React from 'react';
-import TheCopyrightSection from './CopyrightSection';
-import SocialMediaLinks from './SocialMediaLinks';
+import TheCopyrightSection from '../CopyrightSection';
+import SocialMediaLinks from '../SocialMediaLinks';
 import { Link } from 'react-router-dom';
 import classes from './Footer.module.css';
 const Footer = () => {

@@ -13,7 +13,7 @@
 }
 
 .slider{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url('slider.jpg') ;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url('../../images/slider.jpg') ;
     width: 1351px;
     position: relative;
     left: 0px;

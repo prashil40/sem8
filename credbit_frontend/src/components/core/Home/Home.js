@@ -1,20 +1,18 @@
 import React from 'react';
-import Header from '../partials/Header';
-// import AboutArea from "../TheAboutArea";
-// import ServiceArea from "../TheServiceArea";
-import Slider from '../partials/Slider';
-import Footer from '../partials/Footer';
+import Header from '../../partials/Header/Header';
+import Slider from '../../partials/Slider/Slider';
+import Footer from '../../partials/Footer/Footer';
 import { Link } from 'react-router-dom';
-import '../../Global.css';
+import '../../../Global.css';
 import classes from './Home.module.css';
-import image1 from './person_in_office.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import image2 from './Credbit table graph996.jpeg';
-import image3 from './Credbit home photo500.png';
-import s_img1 from './service_image1.png';
-import s_img2 from './service_image2.png';
-import s_img3 from './service_image3.png';
-import s_img4 from './service_image4.jpeg';
+import image1 from '../../images/person_in_office.jpg';
+import image2 from '../../images/Credbit table graph996.jpeg';
+import image3 from '../../images/Credbit home photo500.png';
+import s_img1 from '../../images/service_image1.png';
+import s_img2 from '../../images/service_image2.png';
+import s_img3 from '../../images/service_image3.png';
+import s_img4 from '../../images/service_image4.jpeg';
 
 const Home = () => {
   return (
