@@ -32,16 +32,16 @@ export const isAuthenticated = () => {
 	} else {
 		return false;
 	}
-}
+};
 
-export const signup = (user) => {
+export const signup = async (user) => {
 	delete user.confirm_password;
 	delete user.error;
 	delete user.allValid;
 	delete user.success;
 	delete user.match;
 
-	console.log("USER", JSON.stringify(user));
+	console.log('USER', JSON.stringify(user));
 	const body = JSON.stringify(user);
 	return fetch(`${API}auth/client/`, {
 		method: 'POST',
@@ -54,5 +54,23 @@ export const signup = (user) => {
 		.then((response) => {
 			return response.json();
 		})
+		.catch((err) => console.log(err));
+};
+
+export const checkEmailValidity = async (email) => {
+	return fetch(`${API}auth/client/email/${email}/`)
+		.then((response) => response.json())
+		.catch((err) => console.log(err));
+};
+
+export const updateClientInfo = async (user, url) => {
+	const body = JSON.stringify(user);
+	// console.log(body);
+
+	return fetch(url, {
+		method: 'PUT',
+		body: body,
+	})
+		.then((response) => response.json())
 		.catch((err) => console.log(err));
 };

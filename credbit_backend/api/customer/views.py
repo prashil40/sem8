@@ -122,6 +122,25 @@ def client_signout(request, id):
             {"error": "Provide proper ID"}, status=status.HTTP_406_NOT_ACCEPTABLE
         )
 
+@csrf_exempt
+def get_client(request, email=None):
+    if email is not None:
+        try:
+            client = Client.objects.get(email=email)
+        except Client.DoesNotExist:
+            return JsonResponse(
+                {"error": "Client does not exist"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        client_serializer = ClientSerializer(client, context={"request": request})
+
+        return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
+    else:
+        return JsonResponse(
+            {"error": "Provide an Email ID"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
 
 class ClientViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {
@@ -151,12 +170,7 @@ class ClientViewSet(viewsets.ModelViewSet):
             # Since this is hyperlinked model serializer, we need to pass request
             client_serializer = ClientSerializer(client, context={"request": request})
 
-            if client_serializer.is_valid():
-                return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
-
-            return JsonResponse(
-                client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
-            )
+            return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
         else:
             return JsonResponse(
                 {"error": "Provide proper ID"},
@@ -177,12 +191,10 @@ class ClientViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        client_serializer = ClientSerializer(client, data=data, partial=True)
-
+        client_serializer = ClientSerializer(client, data=data, partial=True, context={"request": request})
         if client_serializer.is_valid():
             client_serializer.save()
             return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
-
         return JsonResponse(
             client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
         )

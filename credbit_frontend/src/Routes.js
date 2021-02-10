@@ -14,7 +14,7 @@ const Routes = () => {
 				<Route path='/signin' exact component={Signin}></Route>
 				<Route path='/signup' exact component={Signup}></Route>
 				<Route path='/forgot' exact component={ForgotPassword}></Route>
-				<Route path='/reset' exact component={ResetPassword}></Route>
+				<Route path='/reset/:token' exact component={ResetPassword}></Route>
 			</Switch>
 		</Router>
 	);
