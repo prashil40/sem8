@@ -1,0 +1,98 @@
+@import url(//db.onlinewebfonts.com/c/ad775834db281065fc17e86ad857bf63?family=Cerebri+Sans);
+
+.paragraph{
+    font-size: 30px;
+    line-height: 32px;
+    color: #ffffff;
+    margin-right: 232px;
+    margin-top:0px;
+    margin-bottom: 38px;
+    font-family: "cerebri_sansregular";
+    font-style: normal;
+
+}
+
+.slider{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url('../../images/slider.jpg') ;
+    width: 1351px;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    z-index: 999;
+    opacity: 1;
+    background-size: cover;
+    background-position: center center;
+    min-height: 800px;
+    float: left;
+    height: 100%;
+    display: flex!important;
+    align-items: center!important;
+}
+
+.slider_header{
+    font-family: "cerebri_sansbold";
+    font-size: 95px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 38px;
+    letter-spacing: -3px;
+    line-height: 1;
+}
+
+.container{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: 0px 100px;
+}
+.slider_button_area{
+    margin-top: 50px;
+    box-sizing: border-box;
+
+}
+
+.slider_button{
+    background: #159046;
+    cursor: pointer;
+    border: medium none;
+    display: inline-block;
+    font-size: 14px;
+    margin-top:20px;
+    margin-bottom: 0;
+    padding: 20px 40px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transition: all 0.3s ease 0s;
+    vertical-align: middle;
+    white-space: nowrap;
+    border-radius: 5px;
+    position: relative;
+    font-family: "cerebri_sansbold";
+}
+.button_text{
+    color: #ffffff;
+    position: relative;
+    transition: 0.3s;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.Link{
+    text-decoration: none;
+}
+
+/* .slider_overlay{
+    position: absolute;
+      height: 100%;
+      width: 100%;
+      content: "";
+      left: 0;
+      top:0;
+      background: #000000;
+      opacity: .6;
+} */
