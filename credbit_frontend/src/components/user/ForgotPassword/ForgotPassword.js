@@ -14,7 +14,6 @@ import blob from '../../images/blob-3.svg';
 import illustration from '../../images/undraw_my_password_d6kg.svg';
 import logo from '../../images/logo_credbit.png';
 
-
 const options = {
 	position: 'bottom-right',
 	autoClose: 5000,
@@ -96,6 +95,10 @@ const ForgotPassword = () => {
 					showError(data.error);
 				} else if (data.email === email) {
 					// -----------------If Email is verified------------------
+
+					if (typeof window !== undefined) {
+						localStorage.setItem('email', email);
+					}
 
 					// Generate a 6 alphanumeric digits code
 					const code = (

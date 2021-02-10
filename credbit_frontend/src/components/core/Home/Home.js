@@ -5,7 +5,7 @@ import Footer from '../../partials/Footer/Footer';
 import { Link } from 'react-router-dom';
 import '../../../Global.css';
 import classes from './Home.module.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import image1 from '../../images/person_in_office.jpg';
 import image2 from '../../images/Credbit table graph996.jpeg';
 import image3 from '../../images/Credbit home photo500.png';
