@@ -1733,3 +1733,19 @@ label {
     background: #fff;
     z-index: 999;
   }  
+
+  .text_justify{
+    text-align: justify;
+  }
+
+  .text_center{
+    text-align: center;
+  }
+
+  .color_black{
+    color: black;
+  }
+
+  *{
+    box-sizing: border-box;
+  }

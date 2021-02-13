@@ -9,6 +9,11 @@
     letter-spacing: 4px;
     color: #000;
     padding-bottom: 50px;
+    font-size: 2rem;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-top: 0;
 }
 
 .about_area{
@@ -16,10 +21,11 @@
     justify-content: center;
     align-items: center;
 }
-.container{
+.container1{
     width: 85%;
     
 }
+
 
 .box{
     position: relative;
@@ -41,7 +47,7 @@
 .text_center{
     text-align: center;
 }
-.row{
+.row1{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -54,9 +60,13 @@
 
 .image2{
     width:100%;
+    vertical-align: middle;
+    border-style: none;
 }
 .image3{
     width:100%;
+    vertical-align: middle;
+    border-style: none;
 }
 .text_justify{
     text-align: justify;
@@ -105,6 +115,7 @@
     margin-bottom: 0;
     margin-top: 11px;
     font-weight: 500;
+    line-height: 1.2;
 }
 .cta_area{
     background-color: grey;
@@ -138,12 +149,100 @@
 .service_image{
     height:135px;
     padding-bottom:20px;
+    vertical-align: middle;
+    border-style: none;
 }
 .service_image2{
     width:100%;
     border-radius:5px;
+    vertical-align: middle;
+    border-style: none;
 }
 .blue_btn span{
     text-decoration: none;
     color:#ffffff;
 }
+
+.container{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1140px;
+}
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col_md_12{
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+
+.col_4{
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.col_xl_4{
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.p{
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.col_xl_8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px
+}
+
+.text_lg_right {
+    text-align: right!important;
+}
+
+.col_md_8{
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col_4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.ml_0{
+    margin-left: 0!important;
+}
+

@@ -5,7 +5,7 @@ import Footer from '../../partials/Footer/Footer';
 import { Link } from 'react-router-dom';
 import '../../../Global.css';
 import classes from './Home.module.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import image1 from '../../images/person_in_office.jpg';
 import image2 from '../../images/Credbit table graph996.jpeg';
 import image3 from '../../images/Credbit home photo500.png';
@@ -22,17 +22,19 @@ const Home = () => {
         <div className={classes.main_body}>
           <Slider />
           <div className={`${classes.about_area} pt-30 pb-30 `}>
-            <div className={classes.container}>
-              <div className={classes.row}>
+            <div className={classes.container1}>
+              <div className={classes.row1}>
                 <div>
                   <h2 className={classes.about_head}>
                     A self service credit solution platform to help you excel!
                   </h2>
                 </div>
               </div>
-              <div className={classes.row}>
+              <div className={classes.row1}>
                 <div className={classes.box}>
-                  <p className={`${classes.text_justify} ${classes.font_18}`}>
+                  <p
+                    className={`${classes.text_justify} ${classes.font_18} ${classes.p}`}
+                  >
                     Credbit offers a self service credit solution web service
                     platform built to help you remove inaccurate or unverifiable
                     items from your credit report. We provide you with the
@@ -40,7 +42,9 @@ const Home = () => {
                     on your credit report.
                   </p>
 
-                  <p className={`${classes.text_justify} ${classes.font_18}`}>
+                  <p
+                    className={`${classes.text_justify} ${classes.font_18} ${classes.p}`}
+                  >
                     Once you select your dispute letter(s), our
                     software&nbsp;will auto send&nbsp;your selected letter(s)
                     each month from the date you sign&nbsp;up. You can sit back
@@ -57,7 +61,9 @@ const Home = () => {
 
                 <div className={classes.box}>
                   <div>
-                    <p className={`${classes.text_justify} ${classes.font_18}`}>
+                    <p
+                      className={`${classes.text_justify} ${classes.font_18} ${classes.p}`}
+                    >
                       You choose the letter(s) best for your dispute. You enter
                       all necessary information needed. You challenge negative
                       items with creditors and bureaus.&nbsp;Removing one
@@ -72,16 +78,16 @@ const Home = () => {
           </div>
 
           <div className="about-area pt-30 pb-30 ">
-            <div className="container">
+            <div className={classes.container}>
               <div className="row">
-                <div className="col-md-12">
+                <div className={classes.col_md_12}>
                   <h2 className={classes.about_head}>
                     The most affordable credit service solution!
                   </h2>
                 </div>
               </div>
               <div className="row">
-                <div className="col-xl-4 col-lg-4 mb-30">
+                <div className={`${classes.col_xl_4} mb-30`}>
                   <div className="about-img">
                     <img
                       src={image2}
@@ -90,16 +96,18 @@ const Home = () => {
                     />
                   </div>
                 </div>
-                <div className="col-xl-4 col-lg-4 mb-30">
+                <div className={`${classes.col_xl_4} mb-30`}>
                   <div className="about-text">
-                    <p className={`${classes.text_justify} ${classes.font_18}`}>
+                    <p
+                      className={`${classes.text_justify} ${classes.font_18} ${classes.p}`}
+                    >
                       Your credit score matters. We all deserve to get the
                       things we want and need and we know having
                       good&nbsp;credit helps.
                     </p>
                   </div>
                   <div
-                    className={` header-button d-none d-lg-block mt-40`}
+                    className={` header-button mt-40`}
                     // style="margin-left:0px;"
                   >
                     <Link className={classes.blue_btn} to="sign-up/">
@@ -109,7 +117,7 @@ const Home = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="col-xl-4 col-lg-4 mb-30">
+                <div className={`${classes.col_xl_4} mb-30`}>
                   <div className="about-img">
                     <img
                       src={image3}
@@ -127,15 +135,15 @@ const Home = () => {
           className={`cta-area pt-125 pb-95 ${classes.cta_area}`}
           // style=""
         >
-          <div className="container">
+          <div className={classes.container}>
             <div className="row">
-              <div className="col-xl-8 col-lg-8">
+              <div className={classes.col_xl_8}>
                 <div className="cta-text mb-30">
                   <h1 className={classes.cta_header}>
                     Credbit values your time!
                   </h1>
                   <p
-                    className={classes.cta_text}
+                    className={`${classes.cta_text} ${classes.p}`}
                     // style="color:#fff;margin-top:20px;font-size:20px;"
                   >
                     With Credbit you save time, no upfront fees, no middle
@@ -143,9 +151,9 @@ const Home = () => {
                   </p>
                 </div>
               </div>
-              <div className="col-xl-4 col-lg-4 mt-10">
+              <div className={`${classes.col_xl_4} mt-10`}>
                 <div
-                  className={`$ text-lg-right mb-30 mt-20`}
+                  className={`${classes.text_lg_right} mb-30 mt-20`}
                   // style="margin-top:18px;"
                 >
                   <Link className={`${classes.blue_btn}`} to="sign-up/">
@@ -160,9 +168,9 @@ const Home = () => {
         </div>
 
         <div className={classes.service_area}>
-          <div className="container">
+          <div className={classes.container}>
             <div className="row">
-              <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
+              <div className={`${classes.col_xl_4} mb-30`}>
                 <div className={`${classes.service_wrapper} text-center`}>
                   <div className="services-img">
                     <img
@@ -172,7 +180,7 @@ const Home = () => {
                     />
                   </div>
                   <div className={classes.service_text}>
-                    <p className={classes.text_justify}>
+                    <p className={`${classes.text_justify} ${classes.p}`}>
                       We provide you the tools for you to challenge negative
                       items with all three bureaus.
                     </p>
@@ -180,7 +188,7 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
+              <div className={`${classes.col_xl_4} mb-30`}>
                 <div className={`${classes.service_wrapper} text-center`}>
                   <div className="services-img">
                     <img
@@ -190,7 +198,7 @@ const Home = () => {
                     />
                   </div>
                   <div className={classes.service_text}>
-                    <p className={classes.text_justify}>
+                    <p className={`${classes.text_justify} ${classes.p}`}>
                       Our prepared letters are ready to help you&nbsp;diputes
                       any item(s)&nbsp;you feel are&nbsp;not accurate.
                     </p>
@@ -198,7 +206,7 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="col-xl-4 col-lg-4 col-md-6 mb-30">
+              <div className={`${classes.col_xl_4} mb-30`}>
                 <div className={`${classes.service_wrapper} text-center`}>
                   <div className="services-img">
                     <img
@@ -208,11 +216,13 @@ const Home = () => {
                     />
                   </div>
                   <div className={classes.service_text}>
-                    <p className={classes.text_justify}>No third party.</p>
-                    <p className={classes.text_justify}>
+                    <p className={`${classes.text_justify} ${classes.p}`}>
+                      No third party.
+                    </p>
+                    <p className={`${classes.text_justify} ${classes.p}`}>
                       We save you time &amp; Money
                     </p>
-                    <p className={classes.text_justify}>
+                    <p className={`${classes.text_justify} ${classes.p}`}>
                       You build your credit.
                     </p>
                   </div>
@@ -220,12 +230,12 @@ const Home = () => {
               </div>
             </div>
             <div className="row pt-75 pb-100">
-              <div className="col-md-8 col-sm-12 col-xs-12">
+              <div className={classes.col_md_8}>
                 <img src={s_img4} className={classes.service_image2} />
               </div>
 
-              <div className={`${classes.text_center} col-4`}>
-                <div className="d-none d-lg-block ml-0 mt-105">
+              <div className={`${classes.text_center} ${classes.col_4}`}>
+                <div className={`${classes.ml_0} mt-105`}>
                   <Link className={` ${classes.blue_btn}`} to="how-it-works/">
                     <span className="btn-text">
                       How it works <i className="far fa-long-arrow-right"></i>

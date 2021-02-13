@@ -8,16 +8,16 @@ const Footer = () => {
     <footer>
       <div className={classes.footer_bg_bottom}>
         <div className="row">
-          <div className="col-xl-4 col-lg-4 col-md-4">
+          <div className={classes.col_xl_4}>
             <div className="copyright">
-              <p className={classes.color_white}>
+              <p className={`${classes.color_white} ${classes.p}`}>
                 <i className="far fa-copyright"></i>{' '}
                 Copyright&nbsp;2020&nbsp;Xcel Credit One.
               </p>
             </div>
           </div>
-          <div className={`${classes.text_center} col-xl-4 col-lg-4 col-md-4`}>
-            <div className="footer-icon mt-0">
+          <div className={`${classes.text_center} ${classes.col_xl_4}`}>
+            <div className={`footer-icon ${classes.mt_0}`}>
               {/* <Link to="#" style="color:white;border:none;">
                 {' '}
                 <img
@@ -34,9 +34,9 @@ const Footer = () => {
               </Link> */}
             </div>
           </div>
-          <div className="col-xl-4 col-lg-4 col-md-4">
-            <div className="footer-bottem-text text-md-right">
-              <p className={classes.color_white}>
+          <div className={classes.col_xl_4}>
+            <div className={`footer-bottem-text ${classes.text_lg_right}`}>
+              <p className={`${classes.color_white} ${classes.p}`}>
                 <Link
                   to="terms-and-conditions/"
                   className={classes.color_white}
