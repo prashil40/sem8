@@ -16,5 +16,6 @@ urlpatterns = [
         views.ClientViewSet.as_view({'put': 'update', 'get': 'retrieve'}),
         name='client_update',
     ),
+    path('client/email/<str:email>/', views.get_client, name='get_client'),
     path('', include(router.urls)),
 ]
