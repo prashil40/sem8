@@ -144,31 +144,34 @@ const Signup = () => {
 			return;
 		} else if (field.id === 'pass' || field.id === 'conf_pass') {
 			validatePassword(true);
-			/*
-			if (!regex.test(field.value) || password !== confirm_password) {
-				form['pass'].className = classes.invalid_control;
-				form['conf_pass'].className = classes.invalid_control;
-				if (password !== confirm_password)
-					setValues({
-						...values,
-						error: true,
-						match: false,
-					});
-				else
-					setValues({
-						...values,
-						error: true,
-						match: true,
-					});
+		} else if (field.id === 'phone') {
+			if (field.value.length !== 10) {
+				field.className = classes.invalid_control;
+				setValues({
+					...values,
+					error: true,
+				});
 			} else {
-				form['pass'].className = classes.form_control;
-				form['conf_pass'].className = classes.form_control;
+				field.className = classes.form_control;
 				setValues({
 					...values,
 					error: false,
-					match: true,
 				});
-			}*/
+			}
+		} else if (field.id === 'zip') {
+			if (field.value.length !== 6) {
+				field.className = classes.invalid_control;
+				setValues({
+					...values,
+					error: true,
+				});
+			} else {
+				field.className = classes.form_control;
+				setValues({
+					...values,
+					error: false,
+				});
+			}
 		} else {
 			if (field.value === '') {
 				if (field.id === 'state') {
@@ -198,11 +201,12 @@ const Signup = () => {
 			validateField(element);
 		});
 
-		// if (error === '') toast.error('Please fill up mandatory fields', options);
-		if (match === false) toast.error('Password and confirm password should be same', options);
-		if (!regex.test(password)) toast.error('Password should match the criteria', options);
-		if(phone.length !== 10) toast.error('Phone number should contain exactly 10 digits', options);
-		if(zip_code.length !== 6) toast.error('Zipcode should contain exactly 6 digits', options);
+		if (error === '') toast.error('Please fill up mandatory fields', options);
+		else if (phone.length !== 10)
+			toast.error('Phone number should contain exactly 10 digits', options);
+		else if (zip_code.length !== 6) toast.error('Zipcode should contain exactly 6 digits', options);
+		else if (match === false) toast.error('Password and confirm password should be same', options);
+		else if (!regex.test(password)) toast.error('Password should match the criteria', options);
 		else if (error === false && error !== '' && match === true) {
 			// toast.success('All field are valid', options);
 			signup(values)
