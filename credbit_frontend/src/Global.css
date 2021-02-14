@@ -1,5 +1,6 @@
 *{
   box-sizing: border-box;
+  font-family: 'Lato';
 }
 
 div {
@@ -89,7 +90,7 @@ div {
   h4,
   h5,
   h6 {
-    font-family: "cerebri_sansbold";
+    /* font-family: "cerebri_sansbold"; */
     color: #333333;
     margin-top: 0px;
     font-style: normal;

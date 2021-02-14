@@ -16,6 +16,24 @@ export const signin = async (user) => {
 		.catch((err) => console.log(err));
 };
 
+export const signout = async (next) => {
+	const userId = isAuthenticated() && isAuthenticated().user._id;
+	if (typeof window !== undefined) {
+		localStorage.removeItem('token');
+
+		return fetch(`${API}auth/client/logout/${userId}/`, {
+			method: 'GET',
+		})
+			.then((_response) => {
+				console.log('Signout success');
+				next();
+			})
+			.catch((err) => {
+				throw new Error(err);
+			});
+	}
+};
+
 export const authenticate = (data, next) => {
 	if (typeof window !== undefined) {
 		localStorage.setItem('token', JSON.stringify(data));

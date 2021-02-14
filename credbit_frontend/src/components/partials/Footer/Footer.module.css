@@ -1,66 +1,88 @@
-.color_white{
-    color:white;
-    font-size: 18px;
+a.color_white {
+	position: relative;
 }
 
-.text_center{
-    text-align:center;
+a.color_white::after {
+	content: '';
+	position: absolute;
+	border-radius: 1em;
+	border-top: 1px solid #fff;
+	height: 0.113em;
+	background: #fff;
+	left: 0;
+	right: 100%;
+	top: 110%;
+	bottom: 0.24em;
+	transition: 0.6s cubic-bezier(0, 0.5, 0, 1);
 }
 
-.footer_bg_bottom{
-    height: 140px;
-    background: grey;
-    padding: 40px 40px;
+a.color_white:hover::after {
+	right: 0;
 }
 
-.col_xl_4{
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+.color_white {
+	color: white;
+	font-size: 18px;
 }
 
-.p{
-    margin-top: 0;
-    margin-bottom: 1rem;
+.text_center {
+	text-align: center;
+}
+
+.footer_bg_bottom {
+	height: 140px;
+	background: grey;
+	padding: 40px 40px;
+}
+
+.col_xl_4 {
+	flex: 0 0 33.333333%;
+	max-width: 33.333333%;
+	position: relative;
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.p {
+	margin-top: 0;
+	margin-bottom: 1rem;
 }
 
 .col_xl_8 {
-    flex: 0 0 66.666667%;
-    max-width: 66.666667%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px
+	flex: 0 0 66.666667%;
+	max-width: 66.666667%;
+	position: relative;
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
 }
 
 .text_lg_right {
-    text-align: right!important;
+	text-align: right !important;
 }
 
-.col_md_8{
-    flex: 0 0 66.666667%;
-    max-width: 66.666667%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+.col_md_8 {
+	flex: 0 0 66.666667%;
+	max-width: 66.666667%;
+	position: relative;
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
 }
 
 .col_4 {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+	flex: 0 0 33.333333%;
+	max-width: 33.333333%;
+	position: relative;
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
 }
 
-.ml_0{
-    margin-left: 0!important;
+.ml_0 {
+	margin-left: 0 !important;
 }
 .mt_0 {
-    margin-top: 0!important;
+	margin-top: 0 !important;
 }

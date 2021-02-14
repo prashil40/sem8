@@ -36,7 +36,7 @@ const Slider = () => (
                 >
                   <Link className={classes.Link} to="#">
                     <span className={classes.button_text}>
-                      learn more <i className="far fa-long-arrow-right"></i>
+                      learn more
                     </span>{' '}
                   </Link>
                 </div>

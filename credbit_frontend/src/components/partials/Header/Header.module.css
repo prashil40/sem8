@@ -3,5 +3,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 50px;
+    padding: 10px 100px;
+}
+
+@media screen and (max-width: 1400px) {
+    .row{
+        padding: 5px 50px;
+    }
 }

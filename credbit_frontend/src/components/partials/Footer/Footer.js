@@ -12,7 +12,7 @@ const Footer = () => {
             <div className="copyright">
               <p className={`${classes.color_white} ${classes.p}`}>
                 <i className="far fa-copyright"></i>{' '}
-                Copyright&nbsp;2020&nbsp;Xcel Credit One.
+                Copyright 2020 Credbit.
               </p>
             </div>
           </div>

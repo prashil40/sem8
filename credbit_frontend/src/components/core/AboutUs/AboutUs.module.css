@@ -1,5 +1,5 @@
 .about_area{
-    font-family: "cerebri_sansregular";
+    /* font-family: "cerebri_sansregular"; */
     font-style: normal;
 }
 
@@ -21,7 +21,7 @@
     margin-bottom: 20px;
     text-transform: capitalize;
     line-height: 1;
-    font-family: "cerebri_sansbold";
+    /* font-family: "cerebri_sansbold"; */
     color: #ffffff;
 }
 
@@ -35,7 +35,7 @@
 .breadcrumb_menu li a{
     color: #159046;
     font-size: 20px;
-    font-family: "cerebri_sansregular";
+    /* font-family: "cerebri_sansregular"; */
     text-transform: capitalize;
     transition: all 0.3s ease 0s;
     text-decoration: none;
@@ -46,7 +46,7 @@
 .breadcrumb_menu span{
     color: #ffffff;
     font-size: 20px;
-    font-family: "cerebri_sansregular";
+    /* font-family: "cerebri_sansregular"; */
     text-transform: capitalize;
 }
 

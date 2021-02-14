@@ -7,8 +7,8 @@ import Navbar from '../Navbar/Navbar';
 // import { Link } from "react-router-dom";
 
 const Header = () => (
-  <header className="sticky/">
-    <div className={` ${classes.row} `}>
+  <header>
+    <div className={classes.row}>
       <div>
         <Logo />
       </div>
