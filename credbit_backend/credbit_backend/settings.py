@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     
     # Custom Apps
     'api',
-    'api.customer'
+    'api.customer',
+    'api.letter',
 ]
 
 MIDDLEWARE = [

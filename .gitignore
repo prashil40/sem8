@@ -4,8 +4,10 @@ credbit_frontend/.eslintcache
 credbit_backend/credbit_backend/__pycache__/
 credbit_backend/api/__pycache__/
 credbit_backend/api/customer/__pycache__/
+credbit_backend/api/letter/__pycache__/
 credbit_backend/api/migrations/__pycache__/
 credbit_backend/api/customer/migrations/__pycache__/
+credbit_backend/api/letter/migrations/__pycache__/
 __pycache__/
 *.pyc
 Pipfile*

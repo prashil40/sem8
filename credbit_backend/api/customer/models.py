@@ -5,11 +5,11 @@ from django.contrib.auth.models import AbstractUser
 class Client(AbstractUser):
   _id = models.ObjectIdField()
   first_name = models.CharField(max_length=20, default='Anonymous')
-  middle_name = models.CharField(max_length=20, blank=True, null=True, default='')
+  middle_name = models.CharField(max_length=20, blank=True, default='')
   last_name = models.CharField(max_length=20, default='')
   
   email = models.EmailField(verbose_name='email', max_length=70, unique=True, blank=False)
-  phone = models.CharField(max_length=10, blank=True, null=True)
+  phone = models.CharField(max_length=10, blank=True, default='')
   security_code = models.CharField(max_length=6, blank=True)
   
   street = models.CharField(max_length=150, blank=True, default='')
