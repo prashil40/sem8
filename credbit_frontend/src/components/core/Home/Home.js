@@ -110,7 +110,7 @@ const Home = () => {
                     className={` header-button mt-40`}
                     // style="margin-left:0px;"
                   >
-                    <Link className={classes.blue_btn} to="sign-up/">
+                    <Link className={classes.blue_btn} to="signup/">
                       <span className="btn-text">
                         Get Started <i className="far fa-long-arrow-right"></i>
                       </span>{' '}
@@ -156,7 +156,7 @@ const Home = () => {
                   className={`${classes.text_lg_right} mb-30 mt-20`}
                   // style="margin-top:18px;"
                 >
-                  <Link className={`${classes.blue_btn}`} to="sign-up/">
+                  <Link className={`${classes.blue_btn}`} to="signup/">
                     <span className="btn-text">
                       Sign Up Today! <i className="far fa-long-arrow-right"></i>
                     </span>{' '}
@@ -236,7 +236,7 @@ const Home = () => {
 
               <div className={`${classes.text_center} ${classes.col_4}`}>
                 <div className={`${classes.ml_0} mt-105`}>
-                  <Link className={` ${classes.blue_btn}`} to="how-it-works/">
+                  <Link className={` ${classes.blue_btn}`} to="working/">
                     <span className="btn-text">
                       How it works <i className="far fa-long-arrow-right"></i>
                     </span>{' '}

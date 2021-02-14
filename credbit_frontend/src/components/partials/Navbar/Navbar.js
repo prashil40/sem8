@@ -53,27 +53,27 @@ const Navbar = ({ history, path }) => {
 			<nav className={classes.navbar}>
 				<ul className={classes.unordered_list}>
 					<li className={`${classes.list_item} ${classes.nav_item}`}>
-						<Link className={currentTab(history, '/working')} to='/'>
+						<Link className={currentTab(history, '/working')} to='/working'>
 							How it works
 						</Link>
 					</li>
 					<li className={`${classes.list_item} ${classes.nav_item}`}>
-						<Link className={currentTab(history, '/pricing')} to='/'>
+						<Link className={currentTab(history, '/pricing')} to='/pricing'>
 							Pricing
 						</Link>
 					</li>
 					<li className={`${classes.list_item} ${classes.nav_item}`}>
-						<Link className={currentTab(history, '/letters')} to='/'>
+						<Link className={currentTab(history, '/letters')} to='/letters'>
 							Letters
 						</Link>
 					</li>
 					<li className={`${classes.list_item} ${classes.nav_item}`}>
-						<Link className={currentTab(history, '/about')} to='/'>
+						<Link className={currentTab(history, '/about')} to='/about'>
 							About Us
 						</Link>
 					</li>
 					<li className={`${classes.list_item} ${classes.nav_item}`}>
-						<Link className={currentTab(history, '/contact')} to='/'>
+						<Link className={currentTab(history, '/contact')} to='/contact'>
 							Contact Us
 						</Link>
 					</li>

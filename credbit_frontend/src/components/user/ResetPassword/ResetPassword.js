@@ -33,6 +33,7 @@ const ResetPassword = (props) => {
 		confirm_password: '',
 		match: '',
 		error: '',
+		isHardError: false,
 		success: false,
 		loading: '',
 	});
@@ -42,11 +43,17 @@ const ResetPassword = (props) => {
 	useEffect(() => {
 		if (typeof window !== undefined) {
 			email = localStorage.getItem('email');
-			if (!email) showError('Link is broken! Try again');
+			if (!email) {
+				showError('Link is broken! Try again');
+				setValues({
+					...values,
+					isHardError: true,
+				});
+			}
 		}
 	}, []);
 
-	const { password, confirm_password, match, error, success, loading } = values;
+	const { password, confirm_password, match, error, isHardError, success, loading } = values;
 
 	const token = props.match.params.token;
 
@@ -59,7 +66,7 @@ const ResetPassword = (props) => {
 					<ButtonPreloader />
 				</div>
 			);
-		else if (!loading && error) {
+		else if (isHardError) {
 			return <div className={classes.failure_button}>Some error occurred</div>;
 		} else
 			return (
@@ -76,6 +83,7 @@ const ResetPassword = (props) => {
 		setValues({
 			...values,
 			match: true,
+			error: false,
 		});
 	};
 
@@ -88,6 +96,8 @@ const ResetPassword = (props) => {
 			setValues({
 				...values,
 				match: false,
+				loading: false,
+				error: false,
 			});
 		else if (!regex.test(password))
 			setValues({
@@ -102,6 +112,7 @@ const ResetPassword = (props) => {
 			loading: false,
 			error: true,
 		});
+
 		console.log('ERR', err);
 		toast.error(err, options);
 	};
@@ -132,7 +143,14 @@ const ResetPassword = (props) => {
 
 		if (typeof window !== undefined) {
 			email = localStorage.getItem('email');
-			if (!email) showError('Link is broken! Try again');
+			if (!email) {
+				showError('Link is broken! Try again');
+				setValues({
+					...values,
+					isHardError: true,
+				});
+				return;
+			}
 		}
 
 		setValues({
@@ -141,9 +159,16 @@ const ResetPassword = (props) => {
 			error: false,
 		});
 
-		if (match === false) showError('Password and confirm password should be same');
-		if (!regex.test(password)) showError('Password should match the criteria');
+		validatePassword(true);
+		if (password !== confirm_password) showError('Password and confirm password should be same');
+		else if (!regex.test(password)) showError('Password should match the criteria');
 		else if (error === false && error !== '' && match === true) {
+			setValues({
+				...values,
+				loading: true,
+				error: false,
+			});
+
 			checkEmailValidity(email)
 				.then((data) => {
 					if (data.error) {
@@ -152,11 +177,11 @@ const ResetPassword = (props) => {
 						if (data.email !== email || data.security_code !== token) {
 							showError('Link is broken! Try again');
 						}
-
 						// -----------------Remove email from local storage and Reset the security code so user cannot reuse the link again ---------------------
 						localStorage.removeItem('email');
 						updateClientInfo({ password, security_code: '' }, data.url)
 							.then((data) => {
+								console.log(data);
 								if (data.error) {
 									showError(data.error);
 								} else {
@@ -172,12 +197,6 @@ const ResetPassword = (props) => {
 					}
 				})
 				.catch((err) => showError(err));
-
-			// setValues({
-			// 	...values,
-			// 	loading: false,
-			// 	error: false,
-			// });
 		}
 	};
 
@@ -245,6 +264,7 @@ const ResetPassword = (props) => {
 				</div>
 				<div className={classes.form_row}>{loadAButton()}</div>
 			</form>
+			{JSON.stringify(values, null, '\t')}
 			<ToastContainer />
 		</AuthBase>
 	);
