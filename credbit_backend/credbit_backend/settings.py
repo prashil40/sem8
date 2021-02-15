@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'api',
     'api.customer',
     'api.letter',
+    'api.bureau',
 ]
 
 MIDDLEWARE = [
