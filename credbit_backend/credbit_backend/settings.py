@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'api.pricing',
     'api.cms',
     'api.cms.logo',
+    'api.cms.page',
 ]
 
 MIDDLEWARE = [

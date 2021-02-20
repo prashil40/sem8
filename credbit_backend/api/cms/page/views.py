@@ -5,11 +5,11 @@ from rest_framework.permissions import AllowAny
 
 from bson import ObjectId, errors
 
-from .serializers import LogoSerializer
-from .models import Logo
+from .serializers import PageSerializer
+from .models import Page
 
 
-class LogoViewSet(viewsets.ModelViewSet):
+class PageViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {
         "create": [AllowAny],
         "update": [AllowAny],
@@ -17,28 +17,28 @@ class LogoViewSet(viewsets.ModelViewSet):
         "destroy": [AllowAny],
     }
 
-    queryset = Logo.objects.all()
-    serializer_class = LogoSerializer
+    queryset = Page.objects.all()
+    serializer_class = PageSerializer
     lookup_field = "_id"
 
     def retrieve(self, request, id=None):
         if id is not None:
             try:
-                logo = Logo.objects.get(_id=ObjectId(id))
+                page = Page.objects.get(_id=ObjectId(id))
             except errors.InvalidId:
                 return JsonResponse(
                     {"error": "Provide proper ID"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            except Logo.DoesNotExist:
+            except Page.DoesNotExist:
                 return JsonResponse(
-                    {"error": "Logo does not exist"},
+                    {"error": "Page does not exist"},
                     status=status.HTTP_404_NOT_FOUND,
                 )
-            logo_serializer = LogoSerializer(
-                logo, context={"request": request})
+            page_serializer = PageSerializer(
+                page, context={"request": request})
 
-            return JsonResponse(logo_serializer.data, status=status.HTTP_200_OK)
+            return JsonResponse(page_serializer.data, status=status.HTTP_200_OK)
         else:
             return JsonResponse(
                 {"error": "Provide proper ID"},
@@ -49,28 +49,28 @@ class LogoViewSet(viewsets.ModelViewSet):
         data = JSONParser().parse(request)
         if id is not None:
             try:
-                logo = Logo.objects.get(_id=ObjectId(id))
+                page = Page.objects.get(_id=ObjectId(id))
             except errors.InvalidId:
                 return JsonResponse(
                     {"error": "Provide proper ID"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            except Logo.DoesNotExist:
+            except Page.DoesNotExist:
                 return JsonResponse(
-                    {"error": "Logo does not exist"},
+                    {"error": "Page does not exist"},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            logo_serializer = LogoSerializer(
-                logo, data=data, partial=True, context={"request": request}
+            page_serializer = PageSerializer(
+                page, data=data, partial=True, context={"request": request}
             )
 
-            if logo_serializer.is_valid():
-                logo_serializer.save()
-                return JsonResponse(logo_serializer.data, status=status.HTTP_200_OK)
+            if page_serializer.is_valid():
+                page_serializer.save()
+                return JsonResponse(page_serializer.data, status=status.HTTP_200_OK)
 
             return JsonResponse(
-                logo_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+                page_serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
         else:
             return JsonResponse(
@@ -81,8 +81,8 @@ class LogoViewSet(viewsets.ModelViewSet):
     def destroy(self, request, id=None):
         if id is not None:
             try:
-                logo = Logo.objects.get(_id=ObjectId(id))
-                logo.delete()
+                page = Page.objects.get(_id=ObjectId(id))
+                page.delete()
             except errors.InvalidId:
                 return JsonResponse(
                     {"error": "Provide proper ID"},
