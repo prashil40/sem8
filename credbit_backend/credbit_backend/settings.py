@@ -37,16 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'corsheaders',
     'rest_framework',  # For throwing json format to React
     'rest_framework.authtoken',  # For custom sign-up
-    
+
     # Custom Apps
     'api',
     'api.customer',
     'api.letter',
     'api.bureau',
+    'api.cms',
+    'api.cms.logo',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +130,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL= 'customer.Client'
+AUTH_USER_MODEL = 'customer.Client'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
