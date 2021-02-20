@@ -153,6 +153,13 @@ class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     lookup_field = "_id"
 
+    # def create(self, request):
+    #     data = JSONParser().parse(request)
+    #     print(data)
+    #     client_serializer = ClientSerializer(data, context={"request": request})
+    #     print(client_serializer)
+    #     return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
+
     def retrieve(self, request, id=None):
         if id is not None:
             try:

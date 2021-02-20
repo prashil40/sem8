@@ -15,6 +15,11 @@ class Letter(models.Model):
       return self.title
 
 
-# class LetterSubscription():
-#   _id = models.ObjectIdField()
-#   client_id = models
+class LetterSubscription(models.Model):
+  _id = models.ObjectIdField()
+  letters_count = models.IntegerField(blank=False)
+  bureaus_count = models.IntegerField(blank=True, default=1)
+  status = models.BooleanField(blank=True, default=True)
+
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)

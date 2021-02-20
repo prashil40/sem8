@@ -4,6 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register("letter", views.LetterViewSet)
+router.register("letter_sub", views.LetterSubscriptionViewSet, basename='letter_sub')
 
 urlpatterns = [
     path(
@@ -12,6 +13,13 @@ urlpatterns = [
             {"put": "update", "get": "retrieve", "delete": "destroy"}
         ),
         name="single_letter",
+    ),
+    path(
+        "letter_sub/<str:id>/",
+        views.LetterSubscriptionViewSet.as_view(
+            {"put": "update", "get": "retrieve", "delete": "destroy"}
+        ),
+        name="single_letter_sub",
     ),
     path("", include(router.urls)),
 ]
