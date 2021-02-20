@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'api.cms.logo',
     'api.cms.page',
     'api.cms.contact',
+    'api.cms.slider',
 ]
 
 MIDDLEWARE = [
