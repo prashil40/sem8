@@ -8,4 +8,5 @@ urlpatterns = [
     path('contact/', include('api.cms.contact.urls')),
     path('slider/', include('api.cms.slider.urls')),
     path('favicon/', include('api.cms.favicon.urls')),
+    path('social_media/', include('api.cms.social_media.urls')),
 ]
