@@ -8,7 +8,9 @@ credbit_backend/api/letter/__pycache__/
 credbit_backend/api/migrations/__pycache__/
 credbit_backend/api/customer/migrations/__pycache__/
 credbit_backend/api/letter/migrations/__pycache__/
+credbit_backend/api/cms/logo/migrations/__pycache__/
 __pycache__/
 *.pyc
 Pipfile*
 requirements*
+logo-images/
