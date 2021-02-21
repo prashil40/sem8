@@ -3,8 +3,10 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from .models import Client
+from api.letter.models import LetterSubscription
 import re
 
+from api.letter.serializers import LetterSubscriptionSerializer
 
 # From https://github.com/encode/django-rest-framework/issues/1249
 
@@ -15,6 +17,8 @@ import re
 
 
 class ClientSerializer(serializers.HyperlinkedModelSerializer):
+    # letter_sub = LetterSubscriptionSerializer(allow_null=True, required=False)
+    # letter_sub = serializers.SerializerMethodField()
     email = serializers.EmailField(
         validators=[
             UniqueValidator(
@@ -26,6 +30,28 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name="client-detail", lookup_field="_id"
     )
+
+    # def get_letter_sub(self, obj):
+    #     return_data = None
+    #     print(obj.letter_sub)
+    #     if obj.letter_sub is None:
+    #         return None
+    #     if type(obj.letter_sub) == list:
+    #         embedded_list = []
+    #         for item in obj.letter_sub:
+    #             embedded_dict = item.__dict__
+    #             for key in list(embedded_dict.keys()):
+    #                 if key.startswith('_'):
+    #                     embedded_dict.pop(key)
+    #             embedded_list.append(embedded_dict)
+    #         return_data = embedded_list
+    #     else:
+    #         embedded_dict = obj.letter_sub.__dict__
+    #         for key in list(embedded_dict.keys()):
+    #             if key.startswith('_'):
+    #                 embedded_dict.pop(key)
+    #         return_data = embedded_dict
+    #     return return_data
 
     @transaction.atomic()
     def create(self, validated_data):
@@ -46,7 +72,9 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
         instance = Client.objects.create(**validated_data)
         if password is not None:
             instance.set_password(password)
+
         instance.save()
+        print(instance)
         return instance
 
     @transaction.atomic()
@@ -56,6 +84,7 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
                 instance.set_password(value)
             else:
                 setattr(instance, attr, value)
+        
         instance.save()
         return instance
 
