@@ -13,7 +13,7 @@ urlpatterns = [
     path('client/logout/<str:id>/', views.client_signout, name='client_signout'),
     path(
         'client/<str:id>/',
-        views.ClientViewSet.as_view({'put': 'update', 'get': 'retrieve', 'post': 'create'}),
+        views.ClientViewSet.as_view({'put': 'update', 'get': 'retrieve'}),
         name='single_client',
     ),
     path('client/email/<str:email>/', views.get_client, name='get_client'),
