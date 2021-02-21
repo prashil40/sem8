@@ -3,10 +3,8 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from .models import Client
-from api.letter.models import LetterSubscription
 import re
 
-from api.letter.serializers import LetterSubscriptionSerializer
 
 # From https://github.com/encode/django-rest-framework/issues/1249
 

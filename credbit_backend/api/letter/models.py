@@ -4,7 +4,7 @@ import datetime
 
 class Letter(models.Model):
   _id = models.ObjectIdField()
-  title = models.CharField(max_length=50, blank=False)
+  title = models.CharField(max_length=50, blank=False, unique=True)
   short_desc = models.CharField(max_length=500, blank=True, default='')
   content = models.TextField(blank=False)
   status = models.BooleanField(default=True)
@@ -46,3 +46,12 @@ class LetterClient(models.Model):
 
   def __str__(self):
     return self.pdf_file
+
+
+class LetterBureau(models.Model):
+  _id = models.ObjectIdField()
+  letter_client_url = models.URLField(max_length=500, blank=True, default='')
+  bureau_url = models.URLField(max_length=500, blank=True, default='')
+
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
