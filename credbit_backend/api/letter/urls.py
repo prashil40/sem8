@@ -17,7 +17,7 @@ urlpatterns = [
     path(
         "letter_sub/<str:id>/",
         views.LetterSubscriptionViewSet.as_view(
-            {"put": "update", "get": "retrieve", "delete": "destroy"}
+            {"put": "update", "get": "retrieve", "delete": "destroy", "post": "create"}
         ),
         name="single_letter_sub",
     ),

@@ -129,6 +129,35 @@ class LetterSubscriptionViewSet(viewsets.ModelViewSet):
     serializer_class = LetterSubscriptionSerializer
     lookup_field = "_id"
 
+    def create(self, request):
+        data = JSONParser().parse(request)
+        try:
+            email = data.pop('email', '')
+            client = Client.objects.get(email=email)
+        except Client.DoesNotExist:
+            return JsonResponse(
+                    {"error": "Client does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        letter_sub_serializer = LetterSubscriptionSerializer(data=data, context={"request": request})
+        if letter_sub_serializer.is_valid():
+            letter_sub_serializer.save()
+            letter_sub_url = letter_sub_serializer.data['url']
+            if client.letter_sub_url != '':
+                return JsonResponse(
+                    {"error": "Client already has a subscription."}, status=status.HTTP_400_BAD_REQUEST
+                )
+            client.letter_sub_url = letter_sub_url
+            client.save()
+            return JsonResponse(
+                    letter_sub_serializer.data, status=status.HTTP_200_OK
+                )
+        else:
+            return JsonResponse(
+                letter_sub_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+
+
     def retrieve(self, request, id=None):
         if id is not None:
             try:
