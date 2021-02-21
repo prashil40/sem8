@@ -6,6 +6,7 @@ router = routers.DefaultRouter()
 router.register("letter", views.LetterViewSet)
 router.register("letter_sub", views.LetterSubscriptionViewSet, basename='letter_sub')
 router.register("letter_client", views.LetterClientViewSet, basename='letter_client')
+router.register("letter_bureau", views.LetterBureauViewSet, basename='letter_bureau')
 
 urlpatterns = [
     path(
@@ -28,6 +29,13 @@ urlpatterns = [
             {"put": "update", "get": "retrieve", "delete": "destroy"}
         ),
         name="single_letter_client",
+    ),
+    path(
+        "letter_bureau/<str:id>/",
+        views.LetterBureauViewSet.as_view(
+            {"put": "update", "get": "retrieve", "delete": "destroy"}
+        ),
+        name="single_letter_bureau",
     ),
     path("", include(router.urls)),
 ]

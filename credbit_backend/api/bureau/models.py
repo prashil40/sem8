@@ -4,7 +4,7 @@ from djongo import models
 class Bureau(models.Model):
   _id = models.ObjectIdField()
   title = models.CharField(max_length=100, blank=False)
-  email = models.EmailField(blank=False)
+  email = models.EmailField(blank=False, unique=True)
   desc = models.TextField(blank=True, default='')
 
   created_at = models.DateTimeField(auto_now_add=True)

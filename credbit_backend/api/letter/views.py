@@ -9,8 +9,9 @@ from .serializers import (
     LetterSerializer,
     LetterSubscriptionSerializer,
     LetterClientSerializer,
+    LetterBureauSerializer,
 )
-from .models import Letter, LetterClient, LetterSubscription
+from .models import Letter, LetterClient, LetterSubscription, LetterBureau
 
 from api.customer.models import Client
 
@@ -276,23 +277,6 @@ class LetterClientViewSet(viewsets.ModelViewSet):
     queryset = LetterClient.objects.all()
     serializer_class = LetterClientSerializer
     lookup_field = "_id"
-
-    def create(self, request):
-        data = JSONParser().parse(request)
-
-        letter_client_serializer = LetterClientSerializer(
-            data=data, context={"request": request}
-        )
-
-        if letter_client_serializer.is_valid():
-            letter_client_serializer.save()
-            return JsonResponse(
-                letter_client_serializer.data, status=status.HTTP_200_OK
-            )
-        else:
-            return JsonResponse(
-                letter_client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
-            )
     
     def retrieve(self, request, id=None):
         if id is not None:
@@ -324,7 +308,7 @@ class LetterClientViewSet(viewsets.ModelViewSet):
         data = JSONParser().parse(request)
         if id is not None:
             try:
-                letter_sub = LetterClient.objects.get(_id=ObjectId(id))
+                letter_client = LetterClient.objects.get(_id=ObjectId(id))
             except errors.InvalidId:
                 return JsonResponse(
                     {"error": "Provide proper ID"},
@@ -337,7 +321,7 @@ class LetterClientViewSet(viewsets.ModelViewSet):
                 )
 
             letter_client_serializer = LetterClientSerializer(
-                letter_sub, data=data, partial=True, context={"request": request}
+                letter_client, data=data, partial=True, context={"request": request}
             )
 
             if letter_client_serializer.is_valid():
@@ -367,6 +351,113 @@ class LetterClientViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
             except LetterClient.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Client does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            return JsonResponse({"msg": "Record deleted"}, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def get_permissions(self):
+        try:
+            return [
+                permission()
+                for permission in self.permission_classes_by_action[self.action]
+            ]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
+
+
+class LetterBureauViewSet(viewsets.ModelViewSet):
+    permission_classes_by_action = {
+        "create": [AllowAny],
+        "update": [AllowAny],
+        "retrieve": [AllowAny],
+        "destroy": [AllowAny],
+    }
+
+    queryset = LetterBureau.objects.all()
+    serializer_class = LetterBureauSerializer
+    lookup_field = "_id"
+    
+    def retrieve(self, request, id=None):
+        if id is not None:
+            try:
+                letter_bureau = LetterBureau.objects.get(_id=ObjectId(id))
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterBureau.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Bureau does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            letter_bureau_serializer = LetterBureauSerializer(
+                letter_bureau, context={"request": request}
+            )
+
+            return JsonResponse(letter_bureau_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def update(self, request, id=None):
+        data = JSONParser().parse(request)
+        if id is not None:
+            try:
+                letter_bureau = LetterBureau.objects.get(_id=ObjectId(id))
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterBureau.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Bureau does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            letter_bureau_serializer = LetterBureauSerializer(
+                letter_bureau, data=data, partial=True, context={"request": request}
+            )
+
+            if letter_bureau_serializer.is_valid():
+                letter_bureau_serializer.save()
+                return JsonResponse(
+                    letter_bureau_serializer.data, status=status.HTTP_200_OK
+                )
+
+            return JsonResponse(
+                letter_bureau_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def destroy(self, request, id=None):
+        if id is not None:
+            try:
+                letter_bureau = LetterBureau.objects.get(_id=ObjectId(id))
+
+                letter_bureau.delete()
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterBureau.DoesNotExist:
                 return JsonResponse(
                     {"error": "Letter Client does not exist"},
                     status=status.HTTP_404_NOT_FOUND,
