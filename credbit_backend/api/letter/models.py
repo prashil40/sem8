@@ -1,4 +1,5 @@
 from djongo import models
+import datetime
 # from api.customer.models import Client
 
 class Letter(models.Model):
@@ -32,8 +33,8 @@ class LetterClient(models.Model):
   _id = models.ObjectIdField()
   account_no = models.CharField(max_length=50, blank=False)
   creditor_name = models.CharField(max_length=100, blank=False)
-  mention_date = models.DateTimeField()
-  pdf_file = models.FileField(upload_to='letters_client/')
+  mention_date = models.DateField(blank=True, default=datetime.date.today)
+  pdf_file = models.FileField(upload_to='letters_client/', blank=True, null=True)
   status = models.BooleanField(blank=True, default=True)
 
   created_at = models.DateTimeField(auto_now_add=True)
