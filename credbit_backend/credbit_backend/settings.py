@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'api.letter',
     'api.bureau',
     'api.pricing',
+    'api.subscription',
     'api.cms',
     'api.cms.logo',
     'api.cms.page',

@@ -7,9 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from api.bureau.models import Bureau
 
 from .models import Letter, LetterBureau, LetterClient, LetterSubscription
-
-def get_id_from_url(url):
-  return url[-25:-1]
+from api.utils.field_utils import get_id_from_url
 
 class LetterSerializer(serializers.HyperlinkedModelSerializer):
   url = serializers.HyperlinkedIdentityField(
