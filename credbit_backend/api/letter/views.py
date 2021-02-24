@@ -5,8 +5,14 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 
 from bson import ObjectId, errors
 
-from .serializers import LetterSerializer
-from .models import Letter
+from .serializers import (
+    LetterSerializer,
+    LetterSubscriptionSerializer,
+    LetterClientSerializer,
+)
+from .models import Letter, LetterClient, LetterSubscription
+
+from api.customer.models import Client
 
 
 class LetterViewSet(viewsets.ModelViewSet):
@@ -36,9 +42,11 @@ class LetterViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            letter_serializer = LetterSerializer(letter, context={"request": request})
+            letter_sub_serializer = LetterSerializer(
+                letter, context={"request": request}
+            )
 
-            return JsonResponse(letter_serializer.data, status=status.HTTP_200_OK)
+            return JsonResponse(letter_sub_serializer.data, status=status.HTTP_200_OK)
         else:
             return JsonResponse(
                 {"error": "Provide proper ID"},
@@ -61,16 +69,18 @@ class LetterViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            letter_serializer = LetterSerializer(
+            letter_sub_serializer = LetterSerializer(
                 letter, data=data, partial=True, context={"request": request}
             )
 
-            if letter_serializer.is_valid():
-                letter_serializer.save()
-                return JsonResponse(letter_serializer.data, status=status.HTTP_200_OK)
+            if letter_sub_serializer.is_valid():
+                letter_sub_serializer.save()
+                return JsonResponse(
+                    letter_sub_serializer.data, status=status.HTTP_200_OK
+                )
 
             return JsonResponse(
-                letter_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+                letter_sub_serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
         else:
             return JsonResponse(
@@ -91,6 +101,274 @@ class LetterViewSet(viewsets.ModelViewSet):
             except Letter.DoesNotExist:
                 return JsonResponse(
                     {"error": "Letter does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            return JsonResponse({"msg": "Record deleted"}, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def get_permissions(self):
+        try:
+            return [
+                permission()
+                for permission in self.permission_classes_by_action[self.action]
+            ]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
+
+
+class LetterSubscriptionViewSet(viewsets.ModelViewSet):
+    permission_classes_by_action = {
+        "create": [AllowAny],
+        "update": [AllowAny],
+        "retrieve": [AllowAny],
+        "destroy": [AllowAny],
+    }
+
+    queryset = LetterSubscription.objects.all()
+    serializer_class = LetterSubscriptionSerializer
+    lookup_field = "_id"
+
+    def create(self, request):
+        data = JSONParser().parse(request)
+        try:
+            email = data.pop("email", "")
+            client = Client.objects.get(email=email)
+        except Client.DoesNotExist:
+            return JsonResponse(
+                {"error": "Client does not exist"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        letter_sub_serializer = LetterSubscriptionSerializer(
+            data=data, context={"request": request}
+        )
+        if letter_sub_serializer.is_valid():
+            letter_sub_serializer.save()
+            letter_sub_url = letter_sub_serializer.data["url"]
+            if client.letter_sub_url != "":
+                return JsonResponse(
+                    {"error": "Client already has a subscription."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            client.letter_sub_url = letter_sub_url
+            client.save()
+            return JsonResponse(letter_sub_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(
+                letter_sub_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+
+    def retrieve(self, request, id=None):
+        if id is not None:
+            try:
+                letter_sub = LetterSubscription.objects.get(_id=ObjectId(id))
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterSubscription.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Subscription does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            letter_sub_serializer = LetterSubscriptionSerializer(
+                letter_sub, context={"request": request}
+            )
+
+            return JsonResponse(letter_sub_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def update(self, request, id=None):
+        data = JSONParser().parse(request)
+        if id is not None:
+            try:
+                letter_sub = LetterSubscription.objects.get(_id=ObjectId(id))
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterSubscription.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Subscription does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            letter_sub_serializer = LetterSubscriptionSerializer(
+                letter_sub, data=data, partial=True, context={"request": request}
+            )
+
+            if letter_sub_serializer.is_valid():
+                letter_sub_serializer.save()
+                return JsonResponse(
+                    letter_sub_serializer.data, status=status.HTTP_200_OK
+                )
+
+            return JsonResponse(
+                letter_sub_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def destroy(self, request, id=None):
+        if id is not None:
+            try:
+                letter_sub = LetterSubscription.objects.get(_id=ObjectId(id))
+                letter_sub_serializer = LetterSubscriptionSerializer(
+                    letter_sub, context={"request": request}
+                )
+                letter_sub_url = letter_sub_serializer.data["url"]
+
+                client = Client.objects.get(letter_sub_url=letter_sub_url)
+                client.letter_sub_url = ""
+                client.save()
+
+                letter_sub.delete()
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterSubscription.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Subscription does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            return JsonResponse({"msg": "Record deleted"}, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def get_permissions(self):
+        try:
+            return [
+                permission()
+                for permission in self.permission_classes_by_action[self.action]
+            ]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
+
+
+class LetterClientViewSet(viewsets.ModelViewSet):
+    permission_classes_by_action = {
+        "create": [AllowAny],
+        "update": [AllowAny],
+        "retrieve": [AllowAny],
+        "destroy": [AllowAny],
+    }
+
+    queryset = LetterClient.objects.all()
+    serializer_class = LetterClientSerializer
+    lookup_field = "_id"
+
+    def create(self, request):
+        data = JSONParser().parse(request)
+
+        letter_client_serializer = LetterClientSerializer(
+            data=data, context={"request": request}
+        )
+
+        if letter_client_serializer.is_valid():
+            letter_client_serializer.save()
+            return JsonResponse(
+                letter_client_serializer.data, status=status.HTTP_200_OK
+            )
+        else:
+            return JsonResponse(
+                letter_client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    def retrieve(self, request, id=None):
+        if id is not None:
+            try:
+                letter_client = LetterClient.objects.get(_id=ObjectId(id))
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterClient.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Client does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            letter_client_serializer = LetterClientSerializer(
+                letter_client, context={"request": request}
+            )
+
+            return JsonResponse(letter_client_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def update(self, request, id=None):
+        data = JSONParser().parse(request)
+        if id is not None:
+            try:
+                letter_sub = LetterClient.objects.get(_id=ObjectId(id))
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterClient.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Client does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            letter_client_serializer = LetterClientSerializer(
+                letter_sub, data=data, partial=True, context={"request": request}
+            )
+
+            if letter_client_serializer.is_valid():
+                letter_client_serializer.save()
+                return JsonResponse(
+                    letter_client_serializer.data, status=status.HTTP_200_OK
+                )
+
+            return JsonResponse(
+                letter_client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+        else:
+            return JsonResponse(
+                {"error": "Provide proper ID"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def destroy(self, request, id=None):
+        if id is not None:
+            try:
+                letter_client = LetterClient.objects.get(_id=ObjectId(id))
+
+                letter_client.delete()
+            except errors.InvalidId:
+                return JsonResponse(
+                    {"error": "Provide proper ID"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            except LetterClient.DoesNotExist:
+                return JsonResponse(
+                    {"error": "Letter Client does not exist"},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
