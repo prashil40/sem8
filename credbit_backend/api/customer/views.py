@@ -14,6 +14,7 @@ from bson import ObjectId, errors
 import re
 import random
 
+from api.permissions.custom_perm import IsAuthenticated, IsAdminUser
 
 def generate_session_tokens(length=10):
     token_chars_list = (
@@ -146,7 +147,8 @@ class ClientViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {
         "create": [AllowAny],
         "update": [AllowAny],
-        "retrieve": [AllowAny],
+        "retrieve": [IsAuthenticated],
+        "list": [IsAdminUser],
     }
 
     queryset = Client.objects.all().exclude(is_superuser=True)

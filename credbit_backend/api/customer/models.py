@@ -31,7 +31,6 @@ class Client(AbstractUser):
 
     letter_sub_url = models.URLField(max_length=500, blank=True, default='')
 
-    objects = models.DjongoManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
