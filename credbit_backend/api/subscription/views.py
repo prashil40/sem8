@@ -22,9 +22,9 @@ def get_specifc_subscriptions(request, type):
         )
     try:
         if type == "pricing":
-            subscription = Subscription.objects.get(pricing_url=url)
+            specific_subscriptions = Subscription.objects.filter(pricing_url=url)
         elif type == "client":
-            subscription = Subscription.objects.get(client_url=url)
+            specific_subscriptions = Subscription.objects.filter(client_url=url)
         else:
             return JsonResponse(
                 {"error": "Provide proper type (pricing, client)"},
@@ -41,11 +41,14 @@ def get_specifc_subscriptions(request, type):
             status=status.HTTP_404_NOT_FOUND,
         )
 
-    subscription_serializer = SubscriptionSerializer(
-        subscription, context={"request": request}
-    )
+    subscriptions = []
+    for subscription in specific_subscriptions:
+        subscription_serializer = SubscriptionSerializer(
+            subscription, context={"request": request}
+        )
+        subscriptions.append(subscription_serializer.data)
 
-    return JsonResponse(subscription_serializer.data, status=status.HTTP_200_OK)
+    return JsonResponse(subscriptions, safe=False, status=status.HTTP_200_OK)
 
 
 class SubscriptionViewSet(viewsets.ModelViewSet):
