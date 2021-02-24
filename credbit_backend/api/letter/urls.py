@@ -9,6 +9,8 @@ router.register("letter_client", views.LetterClientViewSet, basename='letter_cli
 router.register("letter_bureau", views.LetterBureauViewSet, basename='letter_bureau')
 
 urlpatterns = [
+    path("letter/client/", views.get_client_letters, name="client_letters"),
+    path("letter/bureau/", views.get_bureau_letters, name="bureau_letters"),
     path(
         "letter/<str:id>/",
         views.LetterViewSet.as_view(
