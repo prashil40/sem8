@@ -39,7 +39,7 @@ class LetterClientSerializer(serializers.HyperlinkedModelSerializer):
   url = serializers.HyperlinkedIdentityField(
         view_name="letter_client-detail", lookup_field="_id"
     )
-  # pdf_file = serializers.FileField(required=False)
+  pdf_file = serializers.FileField(required=False)
 
   def validate_letter_sub_url(self, letter_sub_url):
     letter_sub_id = get_id_from_url(letter_sub_url)
@@ -59,19 +59,19 @@ class LetterClientSerializer(serializers.HyperlinkedModelSerializer):
     except errors.InvalidId:
       raise serializers.ValidationError('Provide proper ID')
     except Letter.DoesNotExist:
-      raise serializers.ValidationError('Letter Subscription does not exist')
+      raise serializers.ValidationError('Letter does not exist')
 
     return letter_url
   
   class Meta:
     model = LetterClient
-    # fields = '__all__'
-    exclude = ('pdf_file', )
+    fields = '__all__'
+    # exclude = ('pdf_file', )
     validators = [
       serializers.UniqueTogetherValidator(
         queryset=LetterClient.objects.all(),
-        fields=('letter_sub_url', 'letter_url'),
-        message=_("This bureau letter already exists")
+        fields=('letter_sub_url', 'letter_url', 'pdf_file'),
+        message=_("This client letter already exists")
       )
     ]
 

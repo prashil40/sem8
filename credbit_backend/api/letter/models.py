@@ -18,7 +18,8 @@ class Letter(models.Model):
 
 class LetterSubscription(models.Model):
   _id = models.ObjectIdField()
-  letters_count = models.IntegerField(blank=False)
+  letters_count = models.IntegerField(blank=False, null=False, default=1)
+  initial_letters_count = models.IntegerField(blank=False, null=False, default=1)
   bureaus_count = models.IntegerField(blank=True, default=1)
   status = models.BooleanField(blank=True, default=True)
 
