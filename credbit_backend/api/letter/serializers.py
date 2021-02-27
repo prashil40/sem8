@@ -39,7 +39,6 @@ class LetterClientSerializer(serializers.HyperlinkedModelSerializer):
   url = serializers.HyperlinkedIdentityField(
         view_name="letter_client-detail", lookup_field="_id"
     )
-  pdf_file = serializers.FileField(required=False)
 
   def validate_letter_sub_url(self, letter_sub_url):
     letter_sub_id = get_id_from_url(letter_sub_url)
@@ -70,7 +69,7 @@ class LetterClientSerializer(serializers.HyperlinkedModelSerializer):
     validators = [
       serializers.UniqueTogetherValidator(
         queryset=LetterClient.objects.all(),
-        fields=('letter_sub_url', 'letter_url', 'pdf_file'),
+        fields=('letter_sub_url', 'letter_url'),
         message=_("This client letter already exists")
       )
     ]
@@ -80,6 +79,7 @@ class LetterBureauSerializer(serializers.HyperlinkedModelSerializer):
   url = serializers.HyperlinkedIdentityField(
         view_name="letter_bureau-detail", lookup_field="_id"
     )
+  pdf_file = serializers.FileField(required=False)
 
   def validate_letter_client_url(self, letter_client_url):
     letter_client_id = get_id_from_url(letter_client_url)

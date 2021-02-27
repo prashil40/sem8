@@ -35,7 +35,6 @@ class LetterClient(models.Model):
   account_no = models.CharField(max_length=50, blank=False)
   creditor_name = models.CharField(max_length=100, blank=False)
   mention_date = models.DateField(blank=True, default=datetime.date.today)
-  pdf_file = models.FileField(upload_to='letters_client/', blank=True, null=True)
   status = models.BooleanField(blank=True, default=True)
 
   created_at = models.DateTimeField(auto_now_add=True)
@@ -53,6 +52,7 @@ class LetterBureau(models.Model):
   _id = models.ObjectIdField()
   letter_client_url = models.URLField(max_length=500, blank=True, default='')
   bureau_url = models.URLField(max_length=500, blank=True, default='')
+  pdf_file = models.FileField(upload_to='letters/', blank=True, null=True)
 
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)

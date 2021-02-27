@@ -39,5 +39,10 @@ urlpatterns = [
         ),
         name="single_letter_bureau",
     ),
+    path(
+        "create/",
+        views.post_letters,
+        name="create_letters"
+    ),
     path("", include(router.urls)),
 ]
