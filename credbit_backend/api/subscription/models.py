@@ -11,17 +11,19 @@ from api.letter.models import LetterSubscription
 from api.pricing.models import Pricing
 from api.utils.field_utils import get_id_from_url
 
+def get_default_date():
+    timezone.now() + timedelta(days=30)
 
 class Subscription(models.Model):
     _id = models.ObjectIdField()
     sub_status = models.BooleanField(default=True)
     period_start = models.DateTimeField(auto_now_add=True)
     period_end = models.DateTimeField(
-        blank=True, default=timezone.now() + timedelta(days=30)
+        blank=True, default=get_default_date
     )
     billing_address = models.TextField(default="")
     unsubscribe_date = models.DateTimeField(
-        blank=True, default=timezone.now() + timedelta(days=30)
+        blank=True, default=get_default_date
     )
 
     created_at = models.DateTimeField(auto_now_add=True)

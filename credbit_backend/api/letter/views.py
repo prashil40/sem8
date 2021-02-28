@@ -1,6 +1,6 @@
 from api.utils.field_utils import get_id_from_url, get_url_from_id
 from api.utils.list_utils import get_letter_client_id
-from api.utils.letter_utils import create_letter
+from api.utils.letter_utils import create_letter, validate_sub_count, reduce_sub_count
 from django.http.response import JsonResponse
 from django.core import serializers
 from rest_framework import status, viewsets
@@ -594,7 +594,7 @@ def post_letters(request):
         return JsonResponse({"error": "Provide proper ID"}, status=bad_req)
 
     letter_sub_url = client.letter_sub_url
-
+    letter_sub_id = get_id_from_url(letter_sub_url)
     if letter_sub_url == "":
         return JsonResponse(
             {"error": "Client does not have any subscription"},
@@ -654,8 +654,21 @@ def post_letters(request):
                     status=bad_req,
                 )
 
+        unique_bureau_ids = list(set(bureau_ids))
+        unique_letter_ids = list(set(letter_ids))
+
+        letter_sub = LetterSubscription.objects.filter(_id=ObjectId(letter_sub_id))
+        can_proceed, msg = validate_sub_count(
+            letter_sub,
+            len(unique_bureau_ids),
+            len(unique_letter_ids),
+        )
+
+        if not can_proceed:
+            return JsonResponse({'error': msg}, status=bad_req)
+
         letter_client_mappings = []
-        for letter_id in list(set(letter_ids)):
+        for letter_id in unique_letter_ids:
             letter_url = get_url_from_id(letter_id, "single_letter", request)
             letter_client = LetterClient.objects.create(
                 letter_sub_url=letter_sub_url,
@@ -687,6 +700,12 @@ def post_letters(request):
                 mention_date=mention_date,
             )
             letter_bureau.save()
+
+        reduce_sub_count(
+            letter_sub,
+            len(unique_bureau_ids),
+            len(unique_letter_ids),
+        )
     else:
         JsonResponse(
             {"error": "Please provide atleast one letter and bureau"}, status=bad_req

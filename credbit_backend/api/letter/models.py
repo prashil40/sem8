@@ -27,7 +27,7 @@ class LetterSubscription(models.Model):
   updated_at = models.DateTimeField(auto_now=True)
 
   def __str__(self):
-    return self.letters_count
+    return str(self.letters_count)
 
 
 class LetterClient(models.Model):
