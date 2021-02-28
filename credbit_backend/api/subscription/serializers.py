@@ -46,7 +46,7 @@ class SubscriptionSerializer(serializers.HyperlinkedModelSerializer):
       serializers.UniqueTogetherValidator(
         queryset=Subscription.objects.all(),
         fields=('client_url', 'pricing_url'),
-        message=_("Client already has one subscription")
+        message=_("Client already has this subscription")
       )
     ]
 
