@@ -9,21 +9,30 @@ from bson import ObjectId, errors
 from .models import Subscription
 from .serializers import SubscriptionSerializer
 
+from api.utils.field_utils import get_url_from_id
 
 @api_view(["GET"])
 @permission_classes((AllowAny,))
 def get_specifc_subscriptions(request, type):
+    is_url = True
     if 'url' in request.headers:
       url = request.headers['url']
+    elif 'id' in request.headers:
+        id = request.headers['id']
+        is_url = False
     else:
       return JsonResponse(
-            {"error": "Provide proper URL in header"},
+            {"error": "Provide proper URL / ID in header"},
             status=status.HTTP_400_BAD_REQUEST,
         )
     try:
         if type == "pricing":
+            if not is_url:
+                url = get_url_from_id(id, 'single_pricing', request)
             specific_subscriptions = Subscription.objects.filter(pricing_url=url)
         elif type == "client":
+            if not is_url:
+                url = get_url_from_id(id, 'single_client', request)
             specific_subscriptions = Subscription.objects.filter(client_url=url)
         else:
             return JsonResponse(
@@ -41,14 +50,14 @@ def get_specifc_subscriptions(request, type):
             status=status.HTTP_404_NOT_FOUND,
         )
 
-    subscriptions = []
-    for subscription in specific_subscriptions:
-        subscription_serializer = SubscriptionSerializer(
-            subscription, context={"request": request}
-        )
-        subscriptions.append(subscription_serializer.data)
+    subscriptions = SubscriptionSerializer(specific_subscriptions, context={"request": request}, many=True)
+    # for subscription in specific_subscriptions:
+    #     subscription_serializer = SubscriptionSerializer(
+    #         subscription, context={"request": request}
+    #     )
+    #     subscriptions.append(subscription_serializer.data)
 
-    return JsonResponse(subscriptions, safe=False, status=status.HTTP_200_OK)
+    return JsonResponse(subscriptions.data, safe=False, status=status.HTTP_200_OK)
 
 
 class SubscriptionViewSet(viewsets.ModelViewSet):

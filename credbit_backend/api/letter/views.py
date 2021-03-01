@@ -498,26 +498,28 @@ class LetterBureauViewSet(viewsets.ModelViewSet):
 def get_client_letters(request):
     if "url" in request.headers:
         url = request.headers["url"]
+        client_id = get_id_from_url(url)
+    elif "id" in request.headers:
+        client_id = request.headers["id"]
     else:
         return JsonResponse(
-            {"error": "Provide proper URL in header"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+                {"error": "Provide proper URL / ID in header"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     try:
-        client_id = get_id_from_url(url)
         client_sub_url = Client.objects.values_list("letter_sub_url", flat=True).get(
             _id=ObjectId(client_id)
         )
         letters_client = LetterClient.objects.filter(letter_sub_url=client_sub_url)
-        letters = []
-        for letter_client in letters_client:
-            letter_serializer = LetterClientSerializer(
-                letter_client, context={"request": request}
-            )
-            letters.append(letter_serializer.data)
+        letters = LetterClientSerializer(letters_client, context={'request': request}, many=True)
+        # for letter_client in letters_client:
+        #     letter_serializer = LetterClientSerializer(
+        #         letter_client, context={"request": request}
+        #     )
+        #     letters.append(letter_serializer.data)
 
-        return JsonResponse(letters, safe=False)
+        return JsonResponse(letters.data, safe=False)
     except Client.DoesNotExist:
         return JsonResponse(
             {"error": "Client does not exist"},
@@ -530,25 +532,27 @@ def get_client_letters(request):
 def get_bureau_letters(request):
     if "url" in request.headers:
         url = request.headers["url"]
+    elif "id" in request.headers:
+        url = get_url_from_id(request.headers['id'], 'single_bureau', request)
     else:
         return JsonResponse(
-            {"error": "Provide proper URL in header"},
+            {"error": "Provide proper URL / ID in header"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
+    letters_bureau = LetterBureau.objects.filter(bureau_url=url)
     try:
-        letters_bureau = LetterBureau.objects.filter(bureau_url=url)
-
-        letters = []
+        letters_client_ids = []
         for letter_bureau in letters_bureau:
             letter_client_id = get_id_from_url(letter_bureau.letter_client_url)
-            letter_client = LetterClient.objects.get(_id=ObjectId(letter_client_id))
-            letter_serializer = LetterClientSerializer(
-                letter_client, context={"request": request}
+            letters_client_ids.append(ObjectId(letter_client_id))
+        letter_client = LetterClient.objects.filter(_id__in=letters_client_ids)
+        print(letter_client)
+        letters= LetterClientSerializer(
+                letter_client, context={"request": request}, many=True
             )
-            letters.append(letter_serializer.data)
 
-        return JsonResponse(letters, safe=False)
+        return JsonResponse(letters.data, safe=False)
     except LetterBureau.DoesNotExist:
         return JsonResponse(
             {"error": "Letter Bureau does not exist"},
