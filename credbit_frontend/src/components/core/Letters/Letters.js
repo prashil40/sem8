@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../partials/Header/Header';
 import Footer from '../../partials/Footer/Footer';
 import classes from './Letters.module.css';
 import { Link } from 'react-router-dom';
+import LetterCard from '../../partials/LetterCard/LetterCard';
+import { getLetters } from '../helpers/LetterApiCall';
 
 const Letters = () => {
+  const [letters, setLetters] = useState([]);
+  const [error, setError] = useState(false);
+
+  let letterCards = letters.map((letter, index) => {
+    letter.index = index;
+    return <LetterCard key={index} letter={letter} letterIndex={index} />;
+  });
+
+  const loadAllLetters = () => {
+    getLetters()
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+          console.log(error);
+        } else {
+          setLetters(data);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    loadAllLetters();
+  }, []);
+
   return (
     <div>
       <Header />
@@ -41,6 +68,62 @@ const Letters = () => {
         >
           <div className={classes.container} id="letters">
             <div className="row">
+              {/* <div className={classes.col_xl_4}>
+                <div className={`${classes.our_services_wrapper} mb-30`}>
+                  <div className={classes.our_services_content}>
+                    <div className={classes.our_services_text}>
+                      <h3>Debt Validation Letter</h3>
+                    </div>
+                  </div>
+                  <div className={classes.our_services_img}>
+                    <img
+                      src="content/preview-letter-template.jpg"
+                      alt="Letter Preview"
+                    />
+                  </div>
+                  <div
+                    className={`${classes.our_services_content} ${classes.text_center}`}
+                  >
+                    <label
+                      className={classes.tooltip}
+                      data-tooltip='Debt Validation Letter: The term "debt validation letter" 
+                      refers to a letter that is sent to the bureau(s) or the creditor collect`ion 
+                      agency requesting proof that the debt in question is valid and not outsi`de 
+                      the statute of limitations for collecting the questionable item or debt.`&nbsp;'
+                    >
+                      ` What is Debt Validation Letter ?
+                      <span class={classes.tooltiptext}>
+                        {' '}
+                        Debt Validation Letter: The term "debt validation
+                        letter" refers to a letter that is sent to the bureau(s)
+                        or the creditor collection agency requesting proof that
+                        the debt in question is valid and not outside the
+                        statute of limitations for collecting the questionable
+                        item or debt.{' '}
+                      </span>
+                    </label>
+                    <div
+                      className={`${classes.our_services_text} ${classes.text_center} mt-20`}
+                    >
+                      <input
+                        type="checkbox"
+                        name="lettersCheck"
+                        id="lettersCheck_1"
+                        value="1"
+                      />
+                      &nbsp;&nbsp;
+                      <label
+                        className={classes.label_select}
+                        for="lettersCheck_1"
+                        id="lblletter_1"
+                      >
+                        Select
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className={classes.col_xl_4}>
                 <div className={`${classes.our_services_wrapper} mb-30`}>
                   <div className={classes.our_services_content}>
@@ -259,8 +342,8 @@ const Letters = () => {
                 </div>
               </div>
 
-              <div className={classes.col_xl_4}>
-                <div className={`${classes.our_services_wrapper} mb-30`}>
+              <div className={classes.col_xl_4}> */}
+              {/* <div className={`${classes.our_services_wrapper} mb-30`}>
                   <div className={classes.our_services_content}>
                     <div className={classes.our_services_text}>
                       <h3>Forgiveness Goodwill Letter</h3>
@@ -309,7 +392,9 @@ const Letters = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
+
+              {letterCards}
             </div>
             <div className={`row ${classes.row_style}`}>
               <div className={classes.about_button}>
