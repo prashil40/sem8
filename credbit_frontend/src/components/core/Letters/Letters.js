@@ -401,7 +401,7 @@ const Letters = () => {
                 <Link
                   className={classes.blue_btn}
                   to="login/"
-                  onclick="letterSelection();"
+                  onClick="letterSelection();"
                 >
                   {' '}
                   <span className="btn-text">

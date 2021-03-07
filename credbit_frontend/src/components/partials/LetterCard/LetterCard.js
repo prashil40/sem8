@@ -34,7 +34,7 @@ const LetterCard = ({ letter, letterIndex }) => {
           >
             <label className={classes.tooltip}>
               What is {title} ?
-              <span class={classes.tooltiptext}> {short_desc} </span>
+              <span className={classes.tooltiptext}> {short_desc} </span>
             </label>
             {/* <div
             className={`${classes.our_services_text} ${classes.text_center} mt-20`}
@@ -59,7 +59,7 @@ const LetterCard = ({ letter, letterIndex }) => {
         </div>
         <button
           className={classes.cardSelectButton}
-          data-cardSelectButton
+          // data-cardSelectButton
           onClick={() => setSelected(!selected)}
         ></button>
       </div>
