@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 import LetterImage from '../../images/LetterImage.jpg';
 import classes from './LetterCard.module.css';
 
-const LetterCard = ({ letter, letterIndex }) => {
+const LetterCard = ({
+  letter,
+  letterIndex,
+  setSelectedLetters = (f) => f,
+  selectedLetters,
+}) => {
   const title = letter.title;
   const short_desc = letter.short_desc;
   const status = letter.status;
@@ -11,7 +16,33 @@ const LetterCard = ({ letter, letterIndex }) => {
 
   const [selected, setSelected] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const index = selectedLetters.indexOf(letter);
+    console.log(
+      'index and selected,selected letters',
+      index,
+      selected
+      // selectedLetters
+    );
+    if (selected === true) {
+      if (index === -1) {
+        setSelectedLetters([...selectedLetters, letter]);
+      }
+    } else {
+      if (index !== -1) {
+        setSelectedLetters(
+          selectedLetters.filter(
+            (selectedLetter) => selectedLetter.id !== letter.id
+          )
+        );
+      }
+    }
+    // console.log('Selected Letters', selectedLetters);
+  }, [selected]);
+
+  const handleSelect = () => {
+    setSelected(!selected);
+  };
 
   return (
     <div className={`${classes.col_xl_4} `}>
@@ -34,7 +65,7 @@ const LetterCard = ({ letter, letterIndex }) => {
           >
             <label className={classes.tooltip}>
               What is {title} ?
-              <span class={classes.tooltiptext}> {short_desc} </span>
+              <span className={classes.tooltiptext}> {short_desc} </span>
             </label>
             {/* <div
             className={`${classes.our_services_text} ${classes.text_center} mt-20`}
@@ -59,8 +90,10 @@ const LetterCard = ({ letter, letterIndex }) => {
         </div>
         <button
           className={classes.cardSelectButton}
-          data-cardSelectButton
-          onClick={() => setSelected(!selected)}
+          // data-cardSelectButton
+          onClick={() => {
+            handleSelect();
+          }}
         ></button>
       </div>
     </div>
