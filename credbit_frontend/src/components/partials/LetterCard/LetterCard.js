@@ -31,9 +31,9 @@ const LetterCard = ({
     } else {
       if (index !== -1) {
         setSelectedLetters(
-          selectedLetters.filter(
-            (selectedLetter) => selectedLetter.id !== letter.id
-          )
+          selectedLetters.filter((selectedLetter) => selectedLetter !== letter)
+
+          // selectedLetters.splice(index, 1)
         );
       }
     }
