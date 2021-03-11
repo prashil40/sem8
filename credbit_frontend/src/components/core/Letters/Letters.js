@@ -10,6 +10,7 @@ const Letters = () => {
   const [letters, setLetters] = useState([]);
   const [error, setError] = useState(false);
   const [selectedLetters, setSelectedLetters] = useState([]);
+  const [nextValue, setNext] = useState(false);
 
   let letterCards = letters.map((letter, index) => {
     letter.index = index;
@@ -44,38 +45,12 @@ const Letters = () => {
 
   const handleSubmit = () => {
     console.log('Selected Letters', selectedLetters);
+    setNext(true);
   };
-  return (
-    <div>
-      <Header />
-      <main>
-        {/* <!-- breadcrumb-area-start --> */}
-        <div
-          className={classes.breadcrumb_area}
-          //   style="background-image:url('page/big_img/bg-14502568.jpeg');"
-        >
-          <div className={classes.container}>
-            <div className="row">
-              <div className={classes.col_xl_12}>
-                <div
-                  className={`${classes.breadcrumb_text} ${classes.text_center}`}
-                >
-                  <h1>Letters</h1>
-                  <ul className={classes.breadcrumb_menu}>
-                    <li>
-                      <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                      <span>Letters</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <!-- breadcrumb-area-start -->*/}
 
+  const dynamicComponent = () => {
+    if (!nextValue) {
+      return (
         <div
           className={`${classes.our_services_area} ${classes.grey_bg_2} pt-120 pb-130`}
         >
@@ -128,6 +103,43 @@ const Letters = () => {
             </div>
           </div>
         </div>
+      );
+    } else {
+      return <div>Bureau</div>;
+    }
+  };
+  return (
+    <div>
+      <Header />
+      <main>
+        {/* <!-- breadcrumb-area-start --> */}
+        <div
+          className={classes.breadcrumb_area}
+          //   style="background-image:url('page/big_img/bg-14502568.jpeg');"
+        >
+          <div className={classes.container}>
+            <div className="row">
+              <div className={classes.col_xl_12}>
+                <div
+                  className={`${classes.breadcrumb_text} ${classes.text_center}`}
+                >
+                  <h1>Letters</h1>
+                  <ul className={classes.breadcrumb_menu}>
+                    <li>
+                      <Link to="/">Home</Link>
+                    </li>
+                    <li>
+                      <span>Letters</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!-- breadcrumb-area-start -->*/}
+
+        {dynamicComponent()}
       </main>
       <Footer />
     </div>
