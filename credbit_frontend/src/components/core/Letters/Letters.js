@@ -5,12 +5,19 @@ import classes from './Letters.module.css';
 import { Link } from 'react-router-dom';
 import LetterCard from '../../partials/LetterCard/LetterCard';
 import { getLetters } from '../helpers/LetterApiCall';
+import FileUpload from '../../partials/FileUpload/FileUpload';
 
 const Letters = () => {
   const [letters, setLetters] = useState([]);
   const [error, setError] = useState(false);
   const [selectedLetters, setSelectedLetters] = useState([]);
   const [nextValue, setNext] = useState(false);
+
+  const [document, setDocument] = useState({ documentsArr: [] });
+
+  const updateDocument = (files) => {
+    setDocument({ ...document, documentsArr: files });
+  };
 
   let letterCards = letters.map((letter, index) => {
     letter.index = index;
@@ -105,7 +112,13 @@ const Letters = () => {
         </div>
       );
     } else {
-      return <div>Bureau</div>;
+      return (
+        <FileUpload
+          accept=".jpg,.jpeg,.png,.pdf"
+          label="Document"
+          updateFilesCb={updateDocument}
+        />
+      );
     }
   };
   return (
