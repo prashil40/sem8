@@ -7,6 +7,19 @@ import LetterCard from '../../partials/LetterCard/LetterCard';
 import { getLetters } from '../helpers/LetterApiCall';
 import FileUpload from '../../partials/FileUpload/FileUpload';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const options = {
+	position: 'bottom-right',
+	autoClose: 5000,
+	hideProgressBar: false,
+	closeOnClick: true,
+	pauseOnHover: true,
+	draggable: true,
+	progress: undefined,
+};
+
 const Letters = () => {
   const [letters, setLetters] = useState([]);
   const [error, setError] = useState(false);
@@ -52,7 +65,12 @@ const Letters = () => {
 
   const handleSubmit = () => {
     console.log('Selected Letters', selectedLetters);
-    setNext(true);
+    
+    if (selectedLetters.length === 0) {
+      toast.error('Select atleast one letter', options);
+    } else {
+      setNext(true);
+    }
   };
 
   const dynamicComponent = () => {
@@ -115,7 +133,7 @@ const Letters = () => {
       return (
         <FileUpload
           accept=".jpg,.jpeg,.png,.pdf"
-          label="Doc  ument"
+          label="Document"
           updateFilesCb={updateDocument}
         />
       );
@@ -153,6 +171,7 @@ const Letters = () => {
         {/* <!-- breadcrumb-area-start -->*/}
 
         {dynamicComponent()}
+        {/* <ToastContainer /> */}
       </main>
       <Footer />
     </div>
