@@ -60,7 +60,12 @@ const Letters = () => {
               <div className={classes.about_button} onClick={handleSubmit}>
                 <Link
                   className={classes.blue_btn}
+<<<<<<< HEAD
                   // to="login/"
+=======
+                  to="login/"
+                  onClick="letterSelection();"
+>>>>>>> style-improvements
                 >
                   {' '}
                   <span className="btn-text">

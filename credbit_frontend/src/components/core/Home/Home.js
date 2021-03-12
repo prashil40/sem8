@@ -97,7 +97,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className={`${classes.col_xl_4} mb-30`}>
-                  <div className="about-text">
+                  <div className={classes.about_text}>
                     <p
                       className={`${classes.text_justify} ${classes.font_18} ${classes.p}`}
                     >
@@ -106,7 +106,7 @@ const Home = () => {
                       good&nbsp;credit helps.
                     </p>
                   </div>
-                  <div
+                  {/* <div
                     className={` header-button mt-40`}
                     // style="margin-left:0px;"
                   >
@@ -115,7 +115,7 @@ const Home = () => {
                         Get Started <i className="far fa-long-arrow-right"></i>
                       </span>{' '}
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
                 <div className={`${classes.col_xl_4} mb-30`}>
                   <div className="about-img">
@@ -151,7 +151,7 @@ const Home = () => {
                   </p>
                 </div>
               </div>
-              <div className={`${classes.col_xl_4} mt-10`}>
+              {/* <div className={`${classes.col_xl_4} mt-10`}>
                 <div
                   className={`${classes.text_lg_right} mb-30 mt-20`}
                   // style="margin-top:18px;"
@@ -162,7 +162,7 @@ const Home = () => {
                     </span>{' '}
                   </Link>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -234,7 +234,7 @@ const Home = () => {
                 <img src={s_img4} className={classes.service_image2} />
               </div>
 
-              <div className={`${classes.text_center} ${classes.col_4}`}>
+              {/* <div className={`${classes.text_center} ${classes.col_4}`}>
                 <div className={`${classes.ml_0} mt-105`}>
                   <Link className={` ${classes.blue_btn}`} to="working/">
                     <span className="btn-text">
@@ -242,7 +242,7 @@ const Home = () => {
                     </span>{' '}
                   </Link>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

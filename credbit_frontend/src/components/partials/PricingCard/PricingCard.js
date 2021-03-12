@@ -42,20 +42,21 @@ const PricingCard = ({ pricing, pricingIndex }) => {
             //   style="color:#000;"
             >
               <span className={classes.usd}>$</span>
-              {amount} <span className={classes.time_period}>/Monthly</span>
+              {amount} <span className={classes.time_period}>/&nbsp;&nbsp;Monthly</span>
             </h1>
           </div>
         </div>
+        <hr/>
         <div className={classes.pricing_menu}>
-          <p>{letters_count} letter</p>
+          <p>{letters_count}&nbsp; x &nbsp;letters</p>
 
-          <p>Challenge&nbsp;{letters_count} Item</p>
+          <p>Challenge&nbsp;{letters_count} Items</p>
 
           <p>Portal access</p>
 
           <p>Pre-written letters</p>
 
-          <p>Select letter(s)</p>
+          {/* <p>Select letter(s)</p>
 
           <p>Dispute to bureaus</p>
 
@@ -63,18 +64,18 @@ const PricingCard = ({ pricing, pricingIndex }) => {
 
           <p>Input creditor info</p>
 
-          <p>Challenge creditors</p>
+          <p>Challenge creditors</p> */}
         </div>
 
-        <div className="pricing-button">
+        <div className={classes.pricing_button}>
           <Link
             to="/signin"
             className={classes.blue_btn}
             // onclick="selectPlan('5','1')"
           >
             {' '}
-            <span className="pricings-button" id="planBtn1">
-              select plan <i className="far fa-long-arrow-right"></i>
+            <span className={classes.pricing_span}>
+              Select Plan
             </span>{' '}
           </Link>
         </div>
