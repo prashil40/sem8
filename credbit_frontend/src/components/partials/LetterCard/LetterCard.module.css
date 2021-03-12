@@ -141,25 +141,28 @@
 .card_select .cardSelectButton:hover {
     width: 100%;
     border-style: none;
-    background-color: #1779ba;
+    background-color: #096bd8;
+    color: #fff;
+    cursor: pointer;
 }
   
 .card_select .cardSelectButton:focus {
     width: 100%;
     border-style: none;
-    background-color: #1779ba;
+    /* background-color: #2d4390; */
 }
   
 .card_is_selected {
-    border: 3px solid #1779ba;
-    box_shadow: 0 0 10px #e6e6e6;
+    border: 3px solid #096bd8;
+    box-shadow: 0 0 10px #e6e6e6;
     transition: all 0.2s ease;
 }
+
   
 .card_is_selected .cardSelectButton {
     width: 100%;
     border-style: none;
-    background-color: #1779ba;
+    background-color: #096bd8;
 }
   
 .card_is_selected .cardSelectButton:after {

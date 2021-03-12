@@ -115,7 +115,7 @@ const Letters = () => {
       return (
         <FileUpload
           accept=".jpg,.jpeg,.png,.pdf"
-          label="Document"
+          label="Doc  ument"
           updateFilesCb={updateDocument}
         />
       );

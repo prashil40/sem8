@@ -31,13 +31,13 @@ class Client(AbstractUser):
 
     letter_sub_url = models.URLField(max_length=500, blank=True, default='')
 
-    objects = models.DjongoManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    def get_name(self):
-        return self.first_name
+    @property
+    def full_name(self):
+        return '%s %s %s' % (self.first_name, self.middle_name, self.last_name)
 
     def __str__(self):
         return self.email

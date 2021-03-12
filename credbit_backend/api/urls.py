@@ -5,5 +5,6 @@ urlpatterns = [
     path('l/', include('api.letter.urls')),
     path('b/', include('api.bureau.urls')),
     path('p/', include('api.pricing.urls')),
+    path('s/', include('api.subscription.urls')),
     path('cms/', include('api.cms.urls')),
 ]

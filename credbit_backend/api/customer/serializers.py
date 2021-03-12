@@ -3,10 +3,8 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from .models import Client
-from api.letter.models import LetterSubscription
 import re
 
-from api.letter.serializers import LetterSubscriptionSerializer
 
 # From https://github.com/encode/django-rest-framework/issues/1249
 
@@ -90,7 +88,7 @@ class ClientSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Client
-        exclude = ("user_permissions", "groups")
+        exclude = ("user_permissions", "groups", "password")
         # Since there are no default viewsets for Permissions, Django will try to look up for them
         # and will throw error "ImproperlyConfigured"
         # solution is either add your own Permission viewset as mentioned above
