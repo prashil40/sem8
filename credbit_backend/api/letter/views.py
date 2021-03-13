@@ -498,26 +498,30 @@ class LetterBureauViewSet(viewsets.ModelViewSet):
 def get_client_letters(request):
     if "url" in request.headers:
         url = request.headers["url"]
+        client_id = get_id_from_url(url)
+    elif "id" in request.headers:
+        client_id = request.headers["id"]
     else:
         return JsonResponse(
-            {"error": "Provide proper URL in header"},
+            {"error": "Provide proper URL / ID in header"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
     try:
-        client_id = get_id_from_url(url)
         client_sub_url = Client.objects.values_list("letter_sub_url", flat=True).get(
             _id=ObjectId(client_id)
         )
         letters_client = LetterClient.objects.filter(letter_sub_url=client_sub_url)
-        letters = []
-        for letter_client in letters_client:
-            letter_serializer = LetterClientSerializer(
-                letter_client, context={"request": request}
-            )
-            letters.append(letter_serializer.data)
+        letters = LetterClientSerializer(
+            letters_client, context={"request": request}, many=True
+        )
+        # for letter_client in letters_client:
+        #     letter_serializer = LetterClientSerializer(
+        #         letter_client, context={"request": request}
+        #     )
+        #     letters.append(letter_serializer.data)
 
-        return JsonResponse(letters, safe=False)
+        return JsonResponse(letters.data, safe=False)
     except Client.DoesNotExist:
         return JsonResponse(
             {"error": "Client does not exist"},
@@ -530,25 +534,27 @@ def get_client_letters(request):
 def get_bureau_letters(request):
     if "url" in request.headers:
         url = request.headers["url"]
+    elif "id" in request.headers:
+        url = get_url_from_id(request.headers["id"], "single_bureau", request)
     else:
         return JsonResponse(
-            {"error": "Provide proper URL in header"},
+            {"error": "Provide proper URL / ID in header"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
+    letters_bureau = LetterBureau.objects.filter(bureau_url=url)
     try:
-        letters_bureau = LetterBureau.objects.filter(bureau_url=url)
-
-        letters = []
+        letters_client_ids = []
         for letter_bureau in letters_bureau:
             letter_client_id = get_id_from_url(letter_bureau.letter_client_url)
-            letter_client = LetterClient.objects.get(_id=ObjectId(letter_client_id))
-            letter_serializer = LetterClientSerializer(
-                letter_client, context={"request": request}
-            )
-            letters.append(letter_serializer.data)
+            letters_client_ids.append(ObjectId(letter_client_id))
+        letter_client = LetterClient.objects.filter(_id__in=letters_client_ids)
+        print(letter_client)
+        letters = LetterClientSerializer(
+            letter_client, context={"request": request}, many=True
+        )
 
-        return JsonResponse(letters, safe=False)
+        return JsonResponse(letters.data, safe=False)
     except LetterBureau.DoesNotExist:
         return JsonResponse(
             {"error": "Letter Bureau does not exist"},
@@ -563,15 +569,6 @@ def post_letters(request):
     not_found = status.HTTP_404_NOT_FOUND
 
     data = JSONParser().parse(request)
-    account_no = data.pop("account_no", "")
-    creditor_name = data.pop("creditor_name", "")
-    mention_date = parse_date(data.pop("mention_date", ""))
-
-    if not isinstance(mention_date, datetime.date):
-        return JsonResponse(
-            {"error": "Please provide proper date string with format %Y-%m-%d"},
-            status=bad_req,
-        )
 
     info = {}
 
@@ -605,11 +602,27 @@ def post_letters(request):
 
     bureau_ids = []
     letter_ids = []
+    creditor_names = []
+    account_nos = []
+    mention_dates = []
 
     if len(mappings) > 0:
         for mapping in mappings:
+            account_no = mapping.pop("account_no", "")
+            creditor_name = mapping.pop("creditor_name", "")
+            mention_date = parse_date(mapping.pop("mention_date", ""))
             bureau_url = mapping.pop("bureau_url", "")
             letter_url = mapping.pop("letter_url", "")
+
+            if not isinstance(mention_date, datetime.date):
+                return JsonResponse(
+                    {"error": "Please provide proper date string with format %Y-%m-%d"},
+                    status=bad_req,
+                )
+
+            mention_dates.append(mention_date)
+            account_nos.append(account_no)
+            creditor_names.append(creditor_name)
 
             if bureau_url == "":
                 bureau_id = mapping.pop("bureau_id", "")
@@ -665,7 +678,7 @@ def post_letters(request):
         )
 
         if not can_proceed:
-            return JsonResponse({'error': msg}, status=bad_req)
+            return JsonResponse({"error": msg}, status=bad_req)
 
         letter_client_mappings = []
         for letter_id in unique_letter_ids:
@@ -680,7 +693,9 @@ def post_letters(request):
             print("Created letter client")
             letter_client_mappings.append({letter_id: letter_client._id})
 
-        for bureau_id, letter_id in zip(bureau_ids, letter_ids):
+        for bureau_id, letter_id, creditor_name, account_no, mention_date in zip(
+            bureau_ids, letter_ids, creditor_names, account_nos, mention_dates
+        ):
             letter_client_id = get_letter_client_id(letter_client_mappings, letter_id)
             letter_client_url = get_url_from_id(
                 letter_client_id, "single_letter_client", request
