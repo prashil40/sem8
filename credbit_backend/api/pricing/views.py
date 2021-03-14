@@ -7,34 +7,7 @@ from bson import ObjectId, errors
 
 from .serializers import PricingSerializer
 from .models import Pricing
-
-from django.conf import settings
-
-import razorpay
-
-
-def setup_client():
-    try:
-        key = settings.ENV("RZP_KEY_ID")
-        secret = settings.ENV("RZP_KEY_SECRET")
-    except:
-        raise KeyError("Cannot fetch razorpay key or secret")
-
-    client = razorpay.Client(auth=(key, secret))
-    return client
-
-
-def get_period(period):
-    if period == "m":
-        return "monthly"
-    elif period == "d":
-        return "daily"
-    elif period == "w":
-        return "weekly"
-    elif period == "y":
-        return "yearly"
-    else:
-        raise KeyError("Invalid key passed")
+from api.utils.rzp_utils import setup_client, get_period, get_pricing_rzp_info
 
 
 class PricingViewSet(viewsets.ModelViewSet):
@@ -61,7 +34,13 @@ class PricingViewSet(viewsets.ModelViewSet):
         queryset = Pricing.objects.all()
         razorpay_plans = []
         for pricing in queryset:
-            razorpay_plan = client.plan.fetch(pricing.rzp_plan_id)
+            try:
+                razorpay_plan = get_pricing_rzp_info(pricing._id)
+            except KeyError:
+                return JsonResponse(
+                    {"error": "Cannot fetch razorpay plans. Check your credentials"},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
             razorpay_plans.append(razorpay_plan)
 
         pricing_serializer = PricingSerializer(queryset, many=True, context={"request": request})
@@ -119,16 +98,15 @@ class PricingViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
+            pricing_serializer = PricingSerializer(pricing, context={"request": request})
+
             try:
-                client = setup_client()
+                razorpay_plan = get_pricing_rzp_info(id)
             except KeyError:
                 return JsonResponse(
                     {"error": "Cannot fetch razorpay plans. Check your credentials"},
                     status=status.HTTP_403_FORBIDDEN,
                 )
-
-            pricing_serializer = PricingSerializer(pricing, context={"request": request})
-            razorpay_plan = client.plan.fetch(pricing.rzp_plan_id)
 
             return JsonResponse(
                 {"data": pricing_serializer.data, "razorpay": razorpay_plan},

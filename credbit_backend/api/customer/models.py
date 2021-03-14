@@ -30,7 +30,7 @@ class Client(AbstractUser):
     status = models.IntegerField(blank=True, default=0)
 
     letter_sub_url = models.URLField(max_length=500, blank=True, default='')
-
+    rzp_customer_id = models.CharField(max_length=500, blank=True, default='')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
