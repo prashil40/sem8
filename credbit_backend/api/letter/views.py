@@ -17,6 +17,7 @@ from .serializers import (
     LetterBureauSerializer,
 )
 from .models import Letter, LetterClient, LetterSubscription, LetterBureau
+from .tasks import trigger_emails
 
 from api.customer.models import Client
 from api.bureau.models import Bureau
@@ -714,8 +715,8 @@ def post_letters(request):
                 creditor_name=creditor_name,
                 mention_date=mention_date,
             )
-            letter_bureau.save()
-
+            duration = 'm'
+            letter_bureau.save(duration)
         reduce_sub_count(
             letter_sub,
             len(unique_bureau_ids),

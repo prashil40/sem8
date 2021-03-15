@@ -1,7 +1,6 @@
 from djongo import models
 from django.contrib.auth.models import AbstractUser
 
-from api.letter.models import LetterSubscription
 
 
 class Client(AbstractUser):
