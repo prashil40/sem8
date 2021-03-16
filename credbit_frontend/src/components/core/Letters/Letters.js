@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../../partials/Header/Header';
-import Footer from '../../partials/Footer/Footer';
-import classes from './Letters.module.css';
-import { Link } from 'react-router-dom';
-import LetterCard from '../../partials/LetterCard/LetterCard';
-import { getLetters } from '../helpers/LetterApiCall';
+import React, { useState, useEffect } from "react";
+import Header from "../../partials/Header/Header";
+import Footer from "../../partials/Footer/Footer";
+import classes from "./Letters.module.css";
+import { Link } from "react-router-dom";
+import LetterCard from "../../partials/LetterCard/LetterCard";
+import { getLetters } from "../helpers/LetterApiCall";
+import BureauSelectionCard from "../../partials/Bureau/BureauSelectionCard";
 
 const Letters = () => {
   const [letters, setLetters] = useState([]);
@@ -397,16 +398,19 @@ const Letters = () => {
               {letterCards}
             </div>
             <div className={`row ${classes.row_style}`}>
+              <BureauSelectionCard />
+            </div>
+            <div className={`row ${classes.row_style}`}>
               <div className={classes.about_button}>
                 <Link
                   className={classes.blue_btn}
                   to="login/"
                   onclick="letterSelection();"
                 >
-                  {' '}
+                  {" "}
                   <span className="btn-text">
                     Next <i className="far fa-long-arrow-right"></i>
-                  </span>{' '}
+                  </span>{" "}
                 </Link>
               </div>
               <div
