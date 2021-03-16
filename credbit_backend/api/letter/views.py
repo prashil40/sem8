@@ -1,6 +1,6 @@
 from api.utils.field_utils import get_id_from_url, get_url_from_id
 from api.utils.list_utils import get_letter_client_id
-from api.utils.letter_utils import create_letter, validate_sub_count, reduce_sub_count
+from api.utils.letter_utils import create_letter, validate_sub_count, reduce_sub_count, send_mail
 from django.http.response import JsonResponse
 from django.core import serializers
 from rest_framework import status, viewsets
@@ -17,13 +17,13 @@ from .serializers import (
     LetterBureauSerializer,
 )
 from .models import Letter, LetterClient, LetterSubscription, LetterBureau
-from .tasks import trigger_emails
 
 from api.customer.models import Client
 from api.bureau.models import Bureau
 
 from django.utils.dateparse import parse_date
 import datetime
+import json
 
 
 class LetterViewSet(viewsets.ModelViewSet):
@@ -562,16 +562,14 @@ def get_bureau_letters(request):
             status=status.HTTP_404_NOT_FOUND,
         )
 
-
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def post_letters(request):
     bad_req = status.HTTP_400_BAD_REQUEST
     not_found = status.HTTP_404_NOT_FOUND
 
-    data = JSONParser().parse(request)
-
-    info = {}
+    data = json.loads(request.data['data'])
+    id_proof = request.data['id_proof']
 
     client_url = data.pop("client_url", "")
     if client_url == "":
@@ -586,6 +584,8 @@ def post_letters(request):
 
     try:
         client = Client.objects.get(_id=ObjectId(client_id))
+        client.id_proof = id_proof
+        client.save()
     except Client.DoesNotExist:
         return JsonResponse({"error": "Client does not exist"}, status=not_found)
     except errors.InvalidId:
@@ -717,6 +717,7 @@ def post_letters(request):
             )
             duration = 'm'
             letter_bureau.save(duration)
+            send_mail(letter_bureau, client)
         reduce_sub_count(
             letter_sub,
             len(unique_bureau_ids),
@@ -726,4 +727,4 @@ def post_letters(request):
         JsonResponse(
             {"error": "Please provide atleast one letter and bureau"}, status=bad_req
         )
-    return JsonResponse({"success": True, "msg": "Letters created successfully"})
+    return JsonResponse({"success": True, "msg": "Letters created and sent successfully"})

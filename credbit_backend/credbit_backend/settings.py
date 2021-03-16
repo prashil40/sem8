@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',  # For custom sign-up
     'django_celery_results', # To store celery tasks into DB
     'django_celery_beat', 
+    'gridfs_storage',
 
     # Custom Apps
     'api',
@@ -163,6 +164,9 @@ REST_FRAMEWORK = {
     ]
 }
 
+DEFAULT_GRIDFS_URL = 'mongodb+srv://jaimish00:dmxtAbxn5r0oruc7@learningcluster.oarn6.mongodb.net' 
+DEFAULT_GRIDFS_SERVE_URL = '/grid_media/'  
+DEFAULT_GRIDFS_COLLECTION = 'id_proof'
 
 BROKER_URL = 'amqp://guest:**@127.0.0.1:5672//'
 # CELERY_RESULT_BACKEND = 'sqlite3'
