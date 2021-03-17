@@ -211,7 +211,7 @@
 }
 
 .blue_btn:hover,
-.blue-btn:focus{
+.blue_btn:focus{
     background-color:#096bd8;
     border-color: #096bd8;
     box-shadow: 0 0 10px #096ad87e;
@@ -220,15 +220,17 @@
 .blue_btn span{
     text-decoration: none;
     color:#ffffff;
+    padding: 20px;
 }
 
 .about_button {
     text-align:center;
     margin-top:60px;
+    width: 100%;
 }
 
 .about_button a{
-    background:#1d4685;
+    background: var(--secondary);
 }
 
 .hide_div {

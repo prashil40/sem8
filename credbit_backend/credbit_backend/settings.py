@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 '''
-
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -41,6 +40,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',  # For throwing json format to React
     'rest_framework.authtoken',  # For custom sign-up
+    'django_celery_results', # To store celery tasks into DB
+    'django_celery_beat', 
+    'gridfs_storage',
 
     # Custom Apps
     'api',
@@ -161,3 +163,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+DEFAULT_GRIDFS_URL = 'mongodb+srv://jaimish00:dmxtAbxn5r0oruc7@learningcluster.oarn6.mongodb.net' 
+DEFAULT_GRIDFS_SERVE_URL = '/grid_media/'  
+DEFAULT_GRIDFS_COLLECTION = 'id_proof'
+
+BROKER_URL = 'amqp://guest:**@127.0.0.1:5672//'
+# CELERY_RESULT_BACKEND = 'sqlite3'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'

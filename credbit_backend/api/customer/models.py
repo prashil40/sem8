@@ -1,7 +1,6 @@
 from djongo import models
 from django.contrib.auth.models import AbstractUser
-
-from api.letter.models import LetterSubscription
+from gridfs_storage.storage import GridFSStorage
 
 
 class Client(AbstractUser):
@@ -28,6 +27,8 @@ class Client(AbstractUser):
     session_token = models.CharField(max_length=10, default=0)
 
     status = models.IntegerField(blank=True, default=0)
+
+    id_proof = models.FileField(storage=GridFSStorage(collection='id_proof'), null=True, blank=True)
 
     letter_sub_url = models.URLField(max_length=500, blank=True, default='')
 
