@@ -16,6 +16,7 @@ import random
 
 from api.permissions.custom_perm import IsAuthenticated, IsAdminUser
 
+
 def generate_session_tokens(length=10):
     token_chars_list = (
         [chr(i) for i in range(97, 123)]
@@ -62,7 +63,8 @@ def client_signin(request):
 
         # Check is password entered by user is matching with 'user' or not
         if user.check_password(password):
-            user_dict = UserModel.objects.filter(email=username).values().first()
+            user_dict = UserModel.objects.filter(
+                email=username).values().first()
 
             user_dict.pop("password")
 
@@ -78,7 +80,8 @@ def client_signin(request):
             user.session_token = token
             user.save()
             user_dict["session_token"] = token
-            user_dict["_id"] = str(user_dict["_id"])  # To convert ObjectId to String
+            # To convert ObjectId to String
+            user_dict["_id"] = str(user_dict["_id"])
 
             user = authenticate(username=username, password=password)
             login(request, user)
@@ -123,6 +126,7 @@ def client_signout(request, id):
             {"error": "Provide proper ID"}, status=status.HTTP_406_NOT_ACCEPTABLE
         )
 
+
 @csrf_exempt
 def get_client(request, email=None):
     if email is not None:
@@ -133,7 +137,8 @@ def get_client(request, email=None):
                 {"error": "Client does not exist"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        client_serializer = ClientSerializer(client, context={"request": request})
+        client_serializer = ClientSerializer(
+            client, context={"request": request})
 
         return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
     else:
@@ -148,7 +153,7 @@ class ClientViewSet(viewsets.ModelViewSet):
         "create": [AllowAny],
         "update": [AllowAny],
         "retrieve": [IsAuthenticated],
-        "list": [IsAdminUser],
+        "list": [AllowAny],
     }
 
     queryset = Client.objects.all().exclude(is_superuser=True)
@@ -177,7 +182,8 @@ class ClientViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_404_NOT_FOUND,
                 )
             # Since this is hyperlinked model serializer, we need to pass request
-            client_serializer = ClientSerializer(client, context={"request": request})
+            client_serializer = ClientSerializer(
+                client, context={"request": request})
 
             return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
         else:
@@ -200,7 +206,8 @@ class ClientViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        client_serializer = ClientSerializer(client, data=data, partial=True, context={"request": request})
+        client_serializer = ClientSerializer(
+            client, data=data, partial=True, context={"request": request})
         if client_serializer.is_valid():
             client_serializer.save()
             return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)

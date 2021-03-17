@@ -11,13 +11,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const options = {
-	position: 'bottom-right',
-	autoClose: 5000,
-	hideProgressBar: false,
-	closeOnClick: true,
-	pauseOnHover: true,
-	draggable: true,
-	progress: undefined,
+  position: 'bottom-right',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
 };
 
 const Letters = () => {
@@ -65,7 +65,7 @@ const Letters = () => {
 
   const handleSubmit = () => {
     console.log('Selected Letters', selectedLetters);
-    
+
     if (selectedLetters.length === 0) {
       toast.error('Select atleast one letter', options);
     } else {
