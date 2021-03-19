@@ -157,7 +157,6 @@ class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     lookup_field = "_id"
 
-
     def create(self, request):
         data = JSONParser().parse(request)
         try:
@@ -213,9 +212,10 @@ class ClientViewSet(viewsets.ModelViewSet):
 
             # Since this is hyperlinked model serializer, we need to pass request
             client_serializer = ClientSerializer(client, context={"request": request})
-            # return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
+            
+            client_serializer.data["razorpay"] = razorpay_customer
             return JsonResponse(
-                {"data": client_serializer.data, "razorpay": razorpay_customer},
+                client_serializer.data,
                 status=status.HTTP_200_OK,
             )
         else:

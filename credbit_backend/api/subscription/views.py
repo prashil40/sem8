@@ -12,7 +12,7 @@ from .serializers import SubscriptionSerializer
 from api.pricing.models import Pricing
 
 from api.utils.field_utils import get_url_from_id, get_id_from_url
-from api.utils.rzp_utils import setup_client, get_client_rzp_info, get_pricing_rzp_info
+from api.utils.rzp_utils import setup_client, get_client_rzp_info, get_pricing_rzp_info, get_sub_rzp_info
 
 from django.utils import timezone
 from datetime import timedelta
@@ -103,7 +103,7 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
             )
 
         # duration = Pricing.objects.filter(_id=ObjectId(pricing_id)).values('duration')[0]['duration']
-        expiry_by = (timezone.now() + timedelta(days=30)).replace(tzinfo=timezone.utc).timestamp()
+        # expiry_by = (timezone.now() + timedelta(days=30)).replace(tzinfo=timezone.utc).timestamp()
         sub_data = {
             "plan_id": rzp_pricing_id,
             "customer_id": rzp_customer_id,
@@ -119,6 +119,7 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         )
         if sub_serializer.is_valid():
             sub_serializer.save()
+            sub_serializer.data['razorpay'] = res
             return JsonResponse(sub_serializer.data, status=status.HTTP_200_OK)
         else:
             return JsonResponse(
@@ -143,7 +144,14 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
             subscription_serializer = SubscriptionSerializer(
                 subscription, context={"request": request}
             )
-
+            try:
+                razorpay_sub = get_sub_rzp_info(id)
+            except KeyError:
+                return JsonResponse(
+                    {"error": "Cannot fetch razorpay subscription. Check your credentials"},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+            subscription_serializer.data['razorpay'] = razorpay_sub
             return JsonResponse(subscription_serializer.data, status=status.HTTP_200_OK)
         else:
             return JsonResponse(
@@ -199,7 +207,7 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
                         status=status.HTTP_403_FORBIDDEN,
                     )
 
-                client.subscription.cancel(subscription.rzp_sub_id)
+                client.subscription.cancel(subscription.rzp_sub_id, data={'cancel_at_cycle_end': 1})
 
                 subscription.delete()
             except errors.InvalidId:

@@ -1,3 +1,4 @@
+from api.subscription.models import Subscription
 from django.conf import settings
 from api.customer.models import Client
 from api.pricing.models import Pricing
@@ -38,3 +39,8 @@ def get_pricing_rzp_info(pricing_id):
   rzp_plan_id = Pricing.objects.filter(_id=ObjectId(pricing_id)).values('rzp_plan_id')[0]['rzp_plan_id']
   client = setup_client()
   return client.plan.fetch(rzp_plan_id)
+
+def get_sub_rzp_info(sub_id):
+  rzp_sub_id = Subscription.objects.filter(_id=ObjectId(sub_id)).values('rzp_sub_id')[0]['rzp_sub_id']
+  client = setup_client()
+  return client.plan.fetch(rzp_sub_id)

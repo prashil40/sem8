@@ -22,29 +22,6 @@ class PricingViewSet(viewsets.ModelViewSet):
     serializer_class = PricingSerializer
     lookup_field = "_id"
 
-    def list(self, request):
-        try:
-            client = setup_client()
-        except KeyError:
-            return JsonResponse(
-                {"error": "Cannot fetch razorpay plans. Check your credentials"},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        queryset = Pricing.objects.all()
-        razorpay_plans = []
-        for pricing in queryset:
-            try:
-                razorpay_plan = get_pricing_rzp_info(pricing._id)
-            except KeyError:
-                return JsonResponse(
-                    {"error": "Cannot fetch razorpay plans. Check your credentials"},
-                    status=status.HTTP_403_FORBIDDEN,
-                )
-            razorpay_plans.append(razorpay_plan)
-
-        pricing_serializer = PricingSerializer(queryset, many=True, context={"request": request})
-        return JsonResponse({"data": pricing_serializer.data, "razorpay": razorpay_plans}, status=status.HTTP_200_OK)
 
     def create(self, request):
         data = JSONParser().parse(request)
@@ -66,8 +43,8 @@ class PricingViewSet(viewsets.ModelViewSet):
                 "description": data["desc"] if "desc" in data.keys() else "",
             },
             "notes": {
-                "letters_count": data["letters_count"],
-                "bureaus_count": data["bureaus_count"],
+                "initial_letters_count": data["letters_count"],
+                "initial_bureaus_count": data["bureaus_count"],
             },
         }
         res = client.plan.create(data=plan_data)
@@ -76,7 +53,7 @@ class PricingViewSet(viewsets.ModelViewSet):
         pricing_serializer = PricingSerializer(data=data, context={"request": request})
         if pricing_serializer.is_valid():
             pricing_serializer.save()
-            print(pricing_serializer.data)
+            pricing_serializer.data['razorpay'] = res
             return JsonResponse(pricing_serializer.data, status=status.HTTP_200_OK)
         else:
             return JsonResponse(
@@ -107,9 +84,9 @@ class PricingViewSet(viewsets.ModelViewSet):
                     {"error": "Cannot fetch razorpay plans. Check your credentials"},
                     status=status.HTTP_403_FORBIDDEN,
                 )
-
+            pricing_serializer.data['razorpay'] = razorpay_plan
             return JsonResponse(
-                {"data": pricing_serializer.data, "razorpay": razorpay_plan},
+                pricing_serializer.data,
                 status=status.HTTP_200_OK,
             )
         else:
