@@ -17,6 +17,7 @@ class Pricing(models.Model):
   bureaus_count = models.IntegerField(blank=True, default=1)
   desc = models.TextField(blank=True, default='')
   status = models.BooleanField(blank=True, default=True)
+  rzp_plan_id = models.CharField(max_length=500, blank=True, default='')
 
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)

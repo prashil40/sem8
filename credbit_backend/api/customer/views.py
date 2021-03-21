@@ -1,4 +1,3 @@
-from django.contrib.auth.models import Permission
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
@@ -14,6 +13,7 @@ from bson import ObjectId, errors
 import re
 import random
 
+from api.utils.rzp_utils import setup_client, get_client_rzp_info
 from api.permissions.custom_perm import IsAuthenticated, IsAdminUser
 
 
@@ -160,12 +160,35 @@ class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     lookup_field = "_id"
 
-    # def create(self, request):
-    #     data = JSONParser().parse(request)
-    #     print(data)
-    #     client_serializer = ClientSerializer(data, context={"request": request})
-    #     print(client_serializer)
-    #     return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
+    def create(self, request):
+        data = JSONParser().parse(request)
+        try:
+            client = setup_client()
+        except KeyError:
+            return JsonResponse(
+                {"error": "Cannot make razorpay plans. Check your credentials"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        name = (data["first_name"] if "first_name" in data.keys() else "Anonymous") + (
+            data["last_name"] if "last_name" in data.keys() else ""
+        )
+        customer_data = {
+            "name": name,
+            "contact": data["phone"] if "phone" in data.keys() else "",
+            "email": data["email"],
+        }
+
+        res = client.customer.create(data=customer_data)
+        data["rzp_customer_id"] = res["id"]
+
+        client_serializer = ClientSerializer(data=data, context={"request": request})
+        if client_serializer.is_valid():
+            client_serializer.save()
+            return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(
+                client_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
 
     def retrieve(self, request, id=None):
         if id is not None:
@@ -181,11 +204,23 @@ class ClientViewSet(viewsets.ModelViewSet):
                     {"error": "Client does not exist"},
                     status=status.HTTP_404_NOT_FOUND,
                 )
-            # Since this is hyperlinked model serializer, we need to pass request
-            client_serializer = ClientSerializer(
-                client, context={"request": request})
 
-            return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
+            try:
+                razorpay_customer = get_client_rzp_info(id)
+            except KeyError:
+                return JsonResponse(
+                    {"error": "Cannot fetch razorpay customer. Check your credentials"},
+                    status=status.HTTP_403_FORBIDDEN,
+                )
+
+            # Since this is hyperlinked model serializer, we need to pass request
+            client_serializer = ClientSerializer(client, context={"request": request})
+            
+            client_serializer.data["razorpay"] = razorpay_customer
+            return JsonResponse(
+                client_serializer.data,
+                status=status.HTTP_200_OK,
+            )
         else:
             return JsonResponse(
                 {"error": "Provide proper ID"},
@@ -207,7 +242,8 @@ class ClientViewSet(viewsets.ModelViewSet):
             )
 
         client_serializer = ClientSerializer(
-            client, data=data, partial=True, context={"request": request})
+            client, data=data, partial=True, context={"request": request}
+        )
         if client_serializer.is_valid():
             client_serializer.save()
             return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)

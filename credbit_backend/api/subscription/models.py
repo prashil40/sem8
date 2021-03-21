@@ -1,6 +1,6 @@
 from bson import ObjectId, errors
 from djongo import models
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from django.utils import timezone
 
 from django.db.models.signals import post_save
@@ -25,6 +25,8 @@ class Subscription(models.Model):
     unsubscribe_date = models.DateTimeField(
         blank=True, default=get_default_date
     )
+
+    rzp_sub_id = models.CharField(max_length=500, blank=True, default='')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
