@@ -1,0 +1,415 @@
+.col_xl_4 {
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col_xl_3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.col_xl_6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.col_xl_12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  display: flex;
+}
+
+.letter_image {
+  width: 100%;
+}
+
+.bureau_card {
+  margin: 10px 0px;
+  box-shadow: 0px 0px 10px #3334;
+  border-radius: 5px;
+}
+
+.image_div {
+  display: flex;
+  align-items: center;
+  padding: 40px 20px 40px 5px;
+}
+
+.user_info_div {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.user_info_div p {
+  margin: 5px;
+  text-align: left;
+  color: #000;
+}
+
+.our_services_wrapper {
+  background: #fff;
+  box-shadow: 0px 10px 60px 0px rgb(231 231 231 / 65%);
+  padding: 30px 30px 0px 30px;
+}
+
+.our_services_content {
+  margin-top: 0px;
+}
+
+.our_services_text {
+  overflow: hidden;
+}
+
+.our_services_text h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  color: #000000;
+}
+
+.our_services_img img {
+  width: 100%;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* border-bottom: 1px dotted black; */
+}
+
+.tooltip .tooltiptext {
+  --tooltip-width: 18rem;
+  background-color: rgba(195, 195, 195, 1);
+  visibility: hidden;
+  /* width:140px; */
+  /* background-color: #999; */
+  /* color: #fff; */
+  width: var(--tooltip-width);
+  margin-left: calc(var(--tooltip-width) / -2);
+  color: #000;
+  font-size: 17px;
+  line-height: 1.2;
+  text-align: center;
+  padding: 10px 10px;
+  border-radius: 6px;
+
+  position: absolute;
+  /* position: relative; */
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  /* margin-left: -60px; */
+
+  opacity: 0;
+  transition: opacity 0.7s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.label_select {
+  font-size: 17px;
+  font-weight: bold;
+  color: #004586 !important;
+}
+
+.our_services_content label {
+  color: #000000;
+}
+
+.our_services_area label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.card_select {
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+/* .card-select .card-divider {
+    background-color: #fefefe;
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: 1px solid #cacaca;
+} */
+
+.card_select .cardSelectButton {
+  width: 100%;
+  border-style: none;
+  padding: 1rem;
+  background-color: #cacaca;
+}
+
+.card_select .cardSelectButton:after {
+  width: 100%;
+  border-style: none;
+  content: "Select";
+}
+
+.card_select .cardSelectButton:hover {
+  width: 100%;
+  border-style: none;
+  background-color: #1779ba;
+}
+
+.card_select .cardSelectButton:focus {
+  width: 100%;
+  border-style: none;
+  background-color: #1779ba;
+}
+
+.card_is_selected {
+  border: 3px solid #1779ba;
+  box-shadow: 0 0 10px #e6e6e6;
+  transition: all 0.2s ease;
+}
+
+.card_is_selected .cardSelectButton {
+  width: 100%;
+  border-style: none;
+  background-color: #1779ba;
+}
+
+.card_is_selected .cardSelectButton:after {
+  width: 100%;
+  border-style: none;
+  content: "Selected";
+  color: #fff;
+}
+
+.form {
+  /* height: 400px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.form_row:first-of-type {
+  margin-top: 50px;
+}
+
+.form_row {
+  width: 70%;
+  margin: 20px auto;
+  position: relative;
+}
+
+/*make label absolute and position it on input area*/
+.floating_label {
+  font-size: 16px;
+  position: absolute;
+  top: 15px;
+  left: 0;
+  transition: all 0.2s ease-out;
+  cursor: text;
+}
+
+.form_control,
+.invalid_control {
+  padding: 15px 0 10px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #34495e;
+  font-size: 16px;
+  background: transparent;
+}
+
+/*magic happens here */
+.form_control:valid,
+.form_control:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* detects if input has valid input */
+.form_control:valid ~ label,
+.form_control:focus ~ label {
+  top: -20px;
+  font-size: 14px;
+  color: rgba(49, 49, 49, 0.938);
+  cursor: auto;
+}
+
+.bureaus ~ label {
+  top: -20px;
+  font-size: 14px;
+  color: rgba(49, 49, 49, 0.938);
+  cursor: auto;
+}
+
+.invalid_control {
+  outline: none;
+  border-color: var(--failure);
+}
+
+.invalid_control ~ label {
+  color: var(--failure);
+}
+
+.invalid_control:valid ~ label,
+.invalid_control:focus ~ label {
+  top: -20px;
+  font-size: 14px;
+  color: var(--failure);
+  cursor: auto;
+}
+
+.submit_button {
+  width: 150px;
+  padding: 12px 24px;
+  border: 1px solid rgb(95, 95, 95);
+  border-radius: 30px;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 20px;
+}
+
+.submit_button:hover,
+.submit_button:focus {
+  border: 1px solid var(--primary);
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 1px 1px 7px rgba(34, 167, 34, 0.63);
+}
+
+.after_form_area {
+  width: 70%;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.after_form_area span {
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.after_form_area a {
+  transition: all 0.2s ease-in;
+}
+
+.after_form_area a:hover {
+  color: var(--secondary);
+  border-bottom: 1px dotted var(--secondary);
+}
+
+@media screen and (min-width: 1400px) {
+  /* section{
+		height: 900px;
+	} */
+
+  .form_area {
+    width: 45%;
+    margin-top: -20px;
+    height: 40vh;
+    min-height: 970px;
+  }
+
+  .form {
+    display: flex;
+    align-items: unset;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding: 10px 84px;
+    /* width: 500px; */
+  }
+
+  .container {
+    max-width: 600px;
+  }
+
+  .form_row {
+    width: 100%;
+    /* margin: 20px auto; */
+  }
+
+  .email_control {
+    width: 90%;
+  }
+
+  .fname_control,
+  .mname_control,
+  .lname_control {
+    width: 30%;
+  }
+
+  .phone_control {
+    width: 60%;
+  }
+
+  .street_control,
+  .city_control {
+    width: 45%;
+  }
+
+  .state_control,
+  .zip_control {
+    width: 45%;
+  }
+
+  .pass_control,
+  .cpass_control {
+    width: 45%;
+  }
+
+  .illustration_area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55%;
+    background-color: var(--bg-color);
+    height: 40vh;
+    min-height: 970px;
+  }
+
+  .illustration_area img {
+    width: 45%;
+  }
+
+  .blob {
+    position: absolute;
+    z-index: -1;
+  }
+}

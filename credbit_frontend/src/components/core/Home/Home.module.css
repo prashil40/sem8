@@ -123,8 +123,7 @@
     line-height: 1.2;
 }
 .cta_area{
-    background-color: grey;
-    background:grey;
+    background-color: rgb(102, 102, 102);
 }
 
 
@@ -236,6 +235,7 @@
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    margin: 0 auto;
 }
 
 .col_4 {
@@ -251,3 +251,6 @@
     margin-left: 0!important;
 }
 
+.about_text{
+    margin: 20% 0;
+}

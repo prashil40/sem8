@@ -63,7 +63,8 @@ def client_signin(request):
 
         # Check is password entered by user is matching with 'user' or not
         if user.check_password(password):
-            user_dict = UserModel.objects.filter(email=username).values().first()
+            user_dict = UserModel.objects.filter(
+                email=username).values().first()
 
             user_dict.pop("password")
 
@@ -79,7 +80,8 @@ def client_signin(request):
             user.session_token = token
             user.save()
             user_dict["session_token"] = token
-            user_dict["_id"] = str(user_dict["_id"])  # To convert ObjectId to String
+            # To convert ObjectId to String
+            user_dict["_id"] = str(user_dict["_id"])
 
             user = authenticate(username=username, password=password)
             login(request, user)
@@ -135,7 +137,8 @@ def get_client(request, email=None):
                 {"error": "Client does not exist"},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        client_serializer = ClientSerializer(client, context={"request": request})
+        client_serializer = ClientSerializer(
+            client, context={"request": request})
 
         return JsonResponse(client_serializer.data, status=status.HTTP_200_OK)
     else:
@@ -150,7 +153,7 @@ class ClientViewSet(viewsets.ModelViewSet):
         "create": [AllowAny],
         "update": [AllowAny],
         "retrieve": [IsAuthenticated],
-        "list": [IsAdminUser],
+        "list": [AllowAny],
     }
 
     queryset = Client.objects.all().exclude(is_superuser=True)

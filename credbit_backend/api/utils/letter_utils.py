@@ -1,8 +1,20 @@
 from weasyprint import HTML
 from django.core.files.base import ContentFile
 import datetime
-from bson import ObjectId, errors
+from bson import ObjectId
+from PyPDF2 import PdfFileReader, PdfFileWriter
+from PIL import Image
+from urllib.request import urlopen
+from django.urls import reverse
+from io import BytesIO
+from .field_utils import get_id_from_url
+from api.bureau.models import Bureau
 import stringcase
+import yagmail
+import secrets
+import string
+import os
+
 
 html_prev = """
 <!DOCTYPE html>
@@ -130,3 +142,82 @@ def reduce_sub_count(letter_sub, bureaus_count, letters_count):
     )
 
     return
+
+
+def send_mail(letter_bureau, client):
+    if client.id_proof is None:
+      print(FileNotFoundError('Cannot find id proof of client'))
+      return
+
+    url = "http://127.0.0.1:8000" + reverse(
+        "grid_url:media_url", args={client.id_proof}
+    )
+    print(url)
+    page = urlopen(url)
+    content_type = page.headers.get("content-type")
+    extension = content_type.split("/")[-1]
+
+    f = page.read()
+    f = BytesIO(f)
+    file_name = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "id_"
+        + "".join(
+            secrets.choice(string.ascii_uppercase + string.digits) for _ in range(15)
+        ),
+    )
+
+    if content_type == "application/pdf":
+        reader = PdfFileReader(f)
+        writer = PdfFileWriter()
+
+        for pageNum in range(reader.getNumPages()):
+            currentPage = reader.getPage(pageNum)
+            writer.addPage(currentPage)
+
+        file_name += f".{extension}"
+        outputStream = open(file_name, "wb")
+        writer.write(outputStream)
+        outputStream.close()
+    else:
+        image = Image.open(f)
+        file_name += f".{extension}"
+        try:
+            image.save(file_name)
+        except OSError:
+            new_image = image.convert("RGB")
+            new_image.save(file_name)
+    try:
+      html = open(
+          os.path.join(
+              os.path.dirname(os.path.abspath(__file__)), "letter_email_template.html"
+          ),
+          "r",
+          encoding="utf-8",
+      )
+    except:
+      print(FileNotFoundError('Cannot find email template'))
+      return
+    
+    bureau_email = Bureau.objects.filter(
+        _id=ObjectId(get_id_from_url(letter_bureau.bureau_url))
+    ).values("email")[0]["email"]
+
+    letter_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        "media",
+        str(letter_bureau.pdf_file),
+    )
+    yag = yagmail.SMTP("credbitservice@gmail.com")
+    yag.send(
+        bureau_email,
+        f"Request to solve dispute of {client.full_name}",
+        html.read(),
+        [
+            file_name,
+            letter_path,
+        ],
+    )
+
+    if os.path.exists(file_name):
+        os.remove(file_name)
