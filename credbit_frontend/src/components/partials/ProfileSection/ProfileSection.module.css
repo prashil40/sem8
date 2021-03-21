@@ -1,0 +1,43 @@
+.menu_container{
+    flex: 0 0 30%;
+    max-width: 30%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    border: 1px solid;
+    margin-right: auto;
+}
+
+.selected_menu{
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: 0 auto;
+    border: 1px solid;
+    margin-left: auto;
+}
+
+.p_section{
+    max-width: 85%;
+
+}
+
+.menu_item{
+    /* cursor: pointer; */
+}
+
+.menu_list{
+    
+}
+
+.menu_list div{
+    cursor: pointer;       
+}
+
+.active{
+    color: blue;
+}
