@@ -1,0 +1,54 @@
+.col_xl_12 {
+    /* -ms-flex: 0 0 100%; */
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 100%;
+    flex-direction: row;
+    max-width: 100%;
+}
+
+.col_xl_8{
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}
+
+.col_xl_4{
+    position: relative;
+    /* width: 100%; */
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    margin : 0px 0px;
+}
+
+.form_box{
+    width: 100%;
+}
+
+.label{
+    color:black;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.text_input{
+    font-size: 14px;
+    line-height : 20px;
+    margin : 2px 0px;
+}
+
+.listSelect{
+    width: 100%;
+    margin-top: 2px;
+    min-height: 26px;
+}
