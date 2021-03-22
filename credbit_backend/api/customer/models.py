@@ -31,7 +31,7 @@ class Client(AbstractUser):
     id_proof = models.FileField(storage=GridFSStorage(collection='id_proof'), null=True, blank=True)
 
     letter_sub_url = models.URLField(max_length=500, blank=True, default='')
-
+    rzp_customer_id = models.CharField(max_length=500, blank=True, default='')
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
