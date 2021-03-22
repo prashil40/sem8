@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../../partials/Header/Header';
-import Footer from '../../partials/Footer/Footer';
-import classes from './Letters.module.css';
-import { Link } from 'react-router-dom';
-import LetterCard from '../../partials/LetterCard/LetterCard';
-import { getLetters } from '../helpers/LetterApiCall';
-import FileUpload from '../../partials/FileUpload/FileUpload';
+import React, { useState, useEffect } from "react";
+import Header from "../../partials/Header/Header";
+import Footer from "../../partials/Footer/Footer";
+import classes from "./Letters.module.css";
+import { Link } from "react-router-dom";
+import LetterCard from "../../partials/LetterCard/LetterCard";
+import { getLetters, createLetters } from "../helpers/LetterApiCall";
+import { getBureaus } from "../helpers/BureauApiCall";
+import FileUpload from "../../partials/FileUpload/FileUpload";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import BureauSelectionCard from "../../partials/Bureau/BureauSelectionCard";
 
 const options = {
-  position: 'bottom-right',
+  position: "bottom-right",
   autoClose: 5000,
   hideProgressBar: false,
   closeOnClick: true,
@@ -22,8 +24,14 @@ const options = {
 
 const Letters = () => {
   const [letters, setLetters] = useState([]);
+  const [bureaus, setBureaus] = useState([]);
   const [error, setError] = useState(false);
   const [selectedLetters, setSelectedLetters] = useState([]);
+  const [letterBureaus, setLetterBureaus] = useState({});
+  const [sendingError, setSendingError] = useState("");
+  const [lettersSent, setLettersSent] = useState(false);
+  const [lettersSending, setLettersSending] = useState(false);
+
   const [nextValue, setNext] = useState(false);
 
   const [document, setDocument] = useState({ documentsArr: [] });
@@ -58,19 +66,82 @@ const Letters = () => {
       .catch((err) => console.log(err));
   };
 
+  const loadAllBureaus = () => {
+    getBureaus()
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+          console.log(error);
+        } else {
+          setBureaus(data);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     loadAllLetters();
-    console.log('Selected Letters', selectedLetters);
+    loadAllBureaus();
+    console.log("Selected Letters", selectedLetters);
   }, []);
 
   const handleSubmit = () => {
-    console.log('Selected Letters', selectedLetters);
+    console.log("Selected Letters", selectedLetters);
 
     if (selectedLetters.length === 0) {
-      toast.error('Select atleast one letter', options);
+      toast.error("Select atleast one letter", options);
     } else {
       setNext(true);
     }
+  };
+  let user;
+  if (localStorage.getItem("token")) {
+    user = JSON.parse(localStorage.getItem("token")).user;
+  }
+  const [functionToCall, createFunctionToCall] = useState();
+  const mappings = [];
+  const sendLetters = async () => {
+    if (document.documentsArr.length === 0) {
+      setSendingError("Choose ID proof!");
+      return;
+    }
+
+    const id_proof = document.documentsArr[0];
+
+    for (const fun in functionToCall) {
+      // fun().call();
+      const inputs = functionToCall[fun]().call();
+      if (inputs === null) {
+        setSendingError("Enter details properly!");
+        return;
+      }
+      for (const bureau in inputs.bureaus) {
+        mappings.push({
+          bureau_url: inputs.bureaus[bureau]["value"],
+          letter_url: inputs.letter_url,
+          account_number: inputs.account_number,
+          creditor_name: inputs.creditor_name,
+          mention_date: inputs.date,
+        });
+      }
+    }
+    const data = {
+      client_id: user._id,
+      mappings,
+    };
+
+    console.log("Data", data);
+    console.log("Document", id_proof);
+    setSendingError("");
+
+    setLettersSending((lettersSending) => !lettersSending);
+
+    const res = await createLetters(data, id_proof);
+    if (res) {
+      setLettersSent((lettersSent) => !lettersSent);
+      console.log("Letters sent successfully!", res);
+    }
+    setLettersSending((lettersSending) => !lettersSending);
   };
 
   const dynamicComponent = () => {
@@ -82,17 +153,28 @@ const Letters = () => {
           <div className={classes.container} id="letters">
             <div className="row">{letterCards}</div>
             <div className={`row ${classes.row_style}`}>
-              <div className={classes.about_button} onClick={handleSubmit}>
-                <Link
-                  className={classes.blue_btn}
-                  // to="login/"
-                >
-                  {' '}
-                  <span className="btn-text">
-                    Next <i className="far fa-long-arrow-right"></i>
-                  </span>{' '}
-                </Link>
-              </div>
+              {user ? (
+                <div className={classes.about_button} onClick={handleSubmit}>
+                  <Link
+                    className={classes.blue_btn}
+                    // to="login/"
+                  >
+                    {" "}
+                    <span className="btn-text">
+                      Next <i className="far fa-long-arrow-right"></i>
+                    </span>{" "}
+                  </Link>
+                </div>
+              ) : (
+                <div className={classes.about_button}>
+                  <Link className={classes.blue_btn} to="signin/">
+                    {" "}
+                    <span className="btn-text">
+                      Next <i className="far fa-long-arrow-right"></i>
+                    </span>{" "}
+                  </Link>
+                </div>
+              )}
               <div
                 id="hideDiv"
                 className={classes.hide_div}
@@ -129,13 +211,83 @@ const Letters = () => {
           </div>
         </div>
       );
-    } else {
+    } else if (user) {
       return (
-        <FileUpload
-          accept=".jpg,.jpeg,.png,.pdf"
-          label="Document"
-          updateFilesCb={updateDocument}
-        />
+        <>
+          <FileUpload
+            accept=".jpg,.jpeg,.png,.pdf"
+            label="Document"
+            updateFilesCb={updateDocument}
+          />
+          <div className="container">
+            {/* <BureauSelectionCard /> */}
+            {selectedLetters.map((letter) => {
+              return (
+                <BureauSelectionCard
+                  key={letter.url}
+                  letter={letter}
+                  user={user}
+                  bureaus={bureaus}
+                  setLetterBureaus={setLetterBureaus}
+                  letterBureaus={letterBureaus}
+                  createFunctionToCall={createFunctionToCall}
+                  functionToCall={functionToCall}
+                />
+              );
+            })}
+          </div>
+          <div className="container pb-130">
+            {lettersSending ? (
+              <label className={classes.success_message}>
+                Sending letters...
+              </label>
+            ) : (
+              ""
+            )}
+            {!lettersSent ? (
+              <>
+                {sendingError ? (
+                  <label className={classes.error_message}>
+                    {sendingError}
+                  </label>
+                ) : (
+                  ""
+                )}
+
+                <div
+                  className={`${classes.about_button} ${classes.send_button}`}
+                  onClick={sendLetters}
+                >
+                  <a
+                    className={classes.blue_btn}
+                    // to="login/"
+                  >
+                    {" "}
+                    <span className="btn-text">
+                      Send <i className="far fa-long-arrow-right"></i>
+                    </span>{" "}
+                  </a>
+                </div>
+              </>
+            ) : (
+              <>
+                <label className={classes.success_message}>
+                  Letters sent successfully!
+                </label>
+                <div
+                  className={`${classes.about_button} ${classes.send_button}`}
+                >
+                  <a className={classes.blue_btn} to="./">
+                    {" "}
+                    <span className="btn-text">
+                      Home <i className="far fa-long-arrow-right"></i>
+                    </span>{" "}
+                  </a>
+                </div>
+              </>
+            )}
+          </div>
+        </>
       );
     }
   };

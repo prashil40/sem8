@@ -95,7 +95,8 @@ def create_letter(letter_id, bureau_id, client, Letter, Bureau, **kwargs):
     letter = Letter.objects.filter(_id=ObjectId(letter_id)).values("title", "content")[
         0
     ]
-    bureau = Bureau.objects.filter(_id=ObjectId(bureau_id)).values("title", "desc")[0]
+    bureau = Bureau.objects.filter(_id=ObjectId(
+        bureau_id)).values("title", "desc")[0]
 
     letter_title = stringcase.spinalcase(letter["title"].replace(" ", ""))
     bureau_title = stringcase.spinalcase(bureau["title"].replace(" ", ""))
@@ -129,8 +130,8 @@ def validate_sub_count(letter_sub, bureaus_count, letters_count):
 
     if (sub_letters_count - letters_count) < 0:
         return (False, "Client does not have enough letter count")
-    elif (sub_bureaus_count - bureaus_count) < 0:
-        return (False, "Client does not have enough bureau count")
+    # elif (sub_bureaus_count - bureaus_count) < 0:
+    #     return (False, "Client does not have enough bureau count")
     else:
         return (True, "Can proceed further")
 
@@ -146,8 +147,8 @@ def reduce_sub_count(letter_sub, bureaus_count, letters_count):
 
 def send_mail(letter_bureau, client):
     if client.id_proof is None:
-      print(FileNotFoundError('Cannot find id proof of client'))
-      return
+        print(FileNotFoundError('Cannot find id proof of client'))
+        return
 
     url = "http://127.0.0.1:8000" + reverse(
         "grid_url:media_url", args={client.id_proof}
@@ -188,23 +189,25 @@ def send_mail(letter_bureau, client):
             new_image = image.convert("RGB")
             new_image.save(file_name)
     try:
-      html = open(
-          os.path.join(
-              os.path.dirname(os.path.abspath(__file__)), "letter_email_template.html"
-          ),
-          "r",
-          encoding="utf-8",
-      )
+        html = open(
+            os.path.join(
+                os.path.dirname(os.path.abspath(__file__)
+                                ), "letter_email_template.html"
+            ),
+            "r",
+            encoding="utf-8",
+        )
     except:
-      print(FileNotFoundError('Cannot find email template'))
-      return
-    
+        print(FileNotFoundError('Cannot find email template'))
+        return
+
     bureau_email = Bureau.objects.filter(
         _id=ObjectId(get_id_from_url(letter_bureau.bureau_url))
     ).values("email")[0]["email"]
 
     letter_path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__)))),
         "media",
         str(letter_bureau.pdf_file),
     )

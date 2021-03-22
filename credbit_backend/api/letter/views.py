@@ -512,7 +512,8 @@ def get_client_letters(request):
         client_sub_url = Client.objects.values_list("letter_sub_url", flat=True).get(
             _id=ObjectId(client_id)
         )
-        letters_client = LetterClient.objects.filter(letter_sub_url=client_sub_url)
+        letters_client = LetterClient.objects.filter(
+            letter_sub_url=client_sub_url)
         letters = LetterClientSerializer(
             letters_client, context={"request": request}, many=True
         )
@@ -562,6 +563,7 @@ def get_bureau_letters(request):
             status=status.HTTP_404_NOT_FOUND,
         )
 
+
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def post_letters(request):
@@ -570,6 +572,7 @@ def post_letters(request):
 
     data = json.loads(request.data['data'])
     id_proof = request.data['id_proof']
+    print(type(id_proof))
 
     client_url = data.pop("client_url", "")
     if client_url == "":
@@ -600,7 +603,6 @@ def post_letters(request):
         )
 
     mappings = data.pop("mappings", [])
-
     bureau_ids = []
     letter_ids = []
     creditor_names = []
@@ -615,11 +617,11 @@ def post_letters(request):
             bureau_url = mapping.pop("bureau_url", "")
             letter_url = mapping.pop("letter_url", "")
 
-            if not isinstance(mention_date, datetime.date):
-                return JsonResponse(
-                    {"error": "Please provide proper date string with format %Y-%m-%d"},
-                    status=bad_req,
-                )
+            # if not isinstance(mention_date, datetime.date):
+            #     return JsonResponse(
+            #         {"error": "Please provide proper date string with format %Y-%m-%d"},
+            #         status=bad_req,
+            #     )
 
             mention_dates.append(mention_date)
             account_nos.append(account_no)
@@ -671,7 +673,8 @@ def post_letters(request):
         unique_bureau_ids = list(set(bureau_ids))
         unique_letter_ids = list(set(letter_ids))
 
-        letter_sub = LetterSubscription.objects.filter(_id=ObjectId(letter_sub_id))
+        letter_sub = LetterSubscription.objects.filter(
+            _id=ObjectId(letter_sub_id))
         can_proceed, msg = validate_sub_count(
             letter_sub,
             len(unique_bureau_ids),
@@ -697,7 +700,8 @@ def post_letters(request):
         for bureau_id, letter_id, creditor_name, account_no, mention_date in zip(
             bureau_ids, letter_ids, creditor_names, account_nos, mention_dates
         ):
-            letter_client_id = get_letter_client_id(letter_client_mappings, letter_id)
+            letter_client_id = get_letter_client_id(
+                letter_client_mappings, letter_id)
             letter_client_url = get_url_from_id(
                 letter_client_id, "single_letter_client", request
             )

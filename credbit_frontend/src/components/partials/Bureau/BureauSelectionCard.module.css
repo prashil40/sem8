@@ -335,6 +335,14 @@
   border-bottom: 1px dotted var(--secondary);
 }
 
+.error_message {
+  color: #d8000c;
+  font-size: 18px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
 @media screen and (min-width: 1400px) {
   /* section{
 		height: 900px;

@@ -8,7 +8,7 @@ const LetterCard = ({
   letterIndex,
   setSelectedLetters = (f) => f,
   selectedLetters,
-}) => {
+}) => {setSelectedLetters
   const title = letter.title;
   const short_desc = letter.short_desc;
   const status = letter.status;

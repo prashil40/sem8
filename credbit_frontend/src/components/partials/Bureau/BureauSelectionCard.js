@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LetterCard from "../LetterCard/LetterCard";
 import LetterImage from "../../images/LetterImage.jpg";
 import classes from "./BureauSelectionCard.module.css";
@@ -7,17 +7,68 @@ import makeAnimated from "react-select/animated";
 
 const animatedComponents = makeAnimated();
 
-const BureauSelectionCard = () => {
-  const title = "Sample title";
-  const name = "Vishnu Kantliwala";
-  const address = "334, Nevada, US";
-  const contact_no = "9876543210";
-  const email = "vkantliwala@gmail.com";
-  const bureaus = [
-    { value: "Transunion", label: "Transunion" },
-    { value: "Equifax", label: "Equifax" },
-    { value: "Experian", label: "Experian" },
-  ];
+const BureauSelectionCard = (props) => {
+  const letter = props.letter;
+  const title = letter.title;
+  const url = letter.url;
+  const user = props.user;
+  const name = user.first_name;
+  const createFunctionToCall = props.createFunctionToCall;
+
+  // console.log("Props", props);
+  const address =
+    user.street + " " + user.city + " " + user.state + " " + user.zip_code;
+  const contact_no = user.phone;
+  const email = user.email;
+  const bureaus = [];
+  const [validationError, setValidationError] = useState("");
+
+  let [inputs, setInputs] = useState({
+    bureaus: "",
+    creditor_name: "",
+    account_number: "",
+    date: "",
+    letter_url: url,
+  });
+
+  const getInputs = () => {
+    if (inputs.bureaus === "") {
+      setValidationError("Select bureaus!");
+      return null;
+    } else if (inputs.creditor_name === "") {
+      setValidationError("Enter creditor name!");
+      return null;
+    } else if (inputs.account_number === "") {
+      setValidationError("Enter account number!");
+      return null;
+    } else {
+      setValidationError("");
+      return inputs;
+    }
+  };
+
+  useEffect(() => {
+    function theFunctionToCall() {
+      // do something like setting something
+      console.log(`Checking in letter ${title}`);
+      // don't forget to set dependancies properly.
+
+      return getInputs();
+    }
+    createFunctionToCall((prev) => ({
+      ...prev,
+      [url]: () => theFunctionToCall,
+    }));
+  }, [createFunctionToCall, inputs]);
+
+  useEffect(() => {
+    props.setLetterBureaus({ ...props.letterBureaus, [url]: inputs });
+  }, [inputs]);
+
+  props.bureaus.map((bureau) =>
+    bureaus.push({ value: bureau.url, label: bureau.title })
+  );
+
   return (
     <div className={`${classes.col_xl_12} ${classes.bureau_card} `}>
       <div className={`${classes.col_xl_3} ${classes.image_div}  `}>
@@ -51,6 +102,10 @@ const BureauSelectionCard = () => {
               placeholder="Select bureaus"
               id="bureaus"
               className={`${classes.bureaus}`}
+              name="bureaus"
+              onChange={(selectedOption) =>
+                setInputs({ ...inputs, bureaus: selectedOption })
+              }
             />
             <label htmlFor="bureaus" className={classes.floating_label}>
               Bureaus
@@ -63,6 +118,9 @@ const BureauSelectionCard = () => {
               id="name"
               name="name"
               required
+              onChange={(e) =>
+                setInputs({ ...inputs, creditor_name: e.target.value })
+              }
             />
             <label htmlFor="name" className={classes.floating_label}>
               Creditor Name
@@ -76,6 +134,9 @@ const BureauSelectionCard = () => {
               id="ac_number"
               name="ac_number"
               required
+              onChange={(e) =>
+                setInputs({ ...inputs, account_number: e.target.value })
+              }
             />
             <label htmlFor="ac_number" className={classes.floating_label}>
               Account Number / SS Number
@@ -89,12 +150,18 @@ const BureauSelectionCard = () => {
               id="date"
               name="date"
               placeholder=""
+              onChange={(e) => setInputs({ ...inputs, date: e.target.value })}
             />
             <label htmlFor="date" className={classes.floating_label}>
               Date
             </label>
           </div>
         </form>
+        {validationError ? (
+          <label className={classes.error_message}>{validationError}</label>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
