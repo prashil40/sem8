@@ -9,8 +9,8 @@ const Subscription = () => {
         id="changePasswordForm"
       >
         <div className="row">
-          <div className={`${classes.col_xl_12} mt-30`}>
-            <h4>SUBSCRIPTION</h4>
+          <div className={`${classes.col_xl_12_header} mt-30`}>
+            <h3>SUBSCRIPTION</h3>
             <hr style={{ margin: '10px 0px' }} />
           </div>
         </div>

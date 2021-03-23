@@ -60,8 +60,9 @@ const ProfileSection = () => {
           `${classes.menu_item} ` +
           (selectedMenu === item ? `${classes.active}` : '')
         }
+        onClick={(e) => handleClick(e)}
       >
-        <div onClick={(e) => handleClick(e)}>{item}</div>
+        <div>{item}</div>
       </li>
     );
   });

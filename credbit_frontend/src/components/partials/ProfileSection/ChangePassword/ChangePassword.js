@@ -1,4 +1,5 @@
 import classes from './ChangePassword.module.css';
+import { Link } from 'react-router-dom';
 
 const ChangePassword = () => {
   return (
@@ -9,8 +10,8 @@ const ChangePassword = () => {
         id="changePasswordForm"
       >
         <div className="row">
-          <div className={`${classes.col_xl_12} mt-30`}>
-            <h4>CHANGE PASSWORD</h4>
+          <div className={`${classes.col_xl_12_header} mt-30`}>
+            <h3>CHANGE PASSWORD</h3>
             <hr style={{ margin: '10px 0px' }} />
           </div>
         </div>
@@ -41,7 +42,9 @@ const ChangePassword = () => {
               />
             </div>
             {/* <div > */}
-            <div className={classes.btn}>Change Password</div>
+            <div className={`${classes.blue_btn} ${classes.col_xl_4}`}>
+              <span>Change Password</span>
+            </div>
             {/* </div> */}
           </div>
         </div>

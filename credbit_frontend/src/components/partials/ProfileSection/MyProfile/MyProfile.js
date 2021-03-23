@@ -11,8 +11,8 @@ const MyProfile = () => {
     <div className="appointment-wrapper contact-form-page">
       <form className="appointment-form" name="profileForm" id="profileForm">
         <div className="row desktop">
-          <div className={`${classes.col_xl_12} mt-30`}>
-            <h4>MY PROFILE</h4>
+          <div className={`${classes.col_xl_12_header} mt-30`}>
+            <h3>MY PROFILE</h3>
             <hr style={{ margin: '10px 0px' }} />
           </div>
           <div className={classes.col_xl_12}>
@@ -172,7 +172,7 @@ const MyProfile = () => {
           </div>
           <div className={classes.col_xl_12} style={{ display: 'inline-flex' }}>
             <div
-              className={classes.col_xl_8}
+              className={classes.col_xl_4}
               style={{
                 'font-size': '12px',
                 'text-align': 'right',
@@ -188,15 +188,18 @@ const MyProfile = () => {
                 }}
               ></label>
             </div>
-            <div className={classes.col_xl_4}>
-              <button
+            <div
+              className={`${classes.col_xl_4} ${classes.blue_btn}`}
+              type="submit"
+            >
+              {/* <div
                 className="btn"
                 type="submit"
                 style={{ padding: '10px 40px' }}
-              >
-                <span className="btn-text mb-30">Save Changes</span>{' '}
-                <span className="btn-border"></span>
-              </button>
+              > */}
+              <span className="btn-text">Save Changes</span>{' '}
+              {/* <span className="btn-border"></span> */}
+              {/* </div> */}
             </div>
           </div>
         </div>
