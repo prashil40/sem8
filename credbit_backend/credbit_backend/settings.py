@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
 
     'corsheaders',
     'rest_framework',  # For throwing json format to React
@@ -165,4 +166,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ]
+}
+
+GRAPH_MODELS = {
+    'app_labels': ["api.bureau", "api.cms", "api.customer", "api.letter", "api.pricing", "api.subscription"],
 }
