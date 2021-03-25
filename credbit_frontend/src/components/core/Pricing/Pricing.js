@@ -14,7 +14,7 @@ const Pricing = () => {
 	const [error, setError] = useState(false);
 
 	let pricingCard = pricings.map((pricing, index) => {
-		return <PricingCard key={index} pricing={pricing} pricingIndex={index} />;
+		return <PricingCard key={index} pricing={pricing} pricingIndex={index}  />;
 	});
 
 	const loadAllPricings = () => {

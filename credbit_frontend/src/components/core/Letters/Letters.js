@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Header from "../../partials/Header/Header";
 import Footer from "../../partials/Footer/Footer";
@@ -35,41 +34,40 @@ const Letters = () => {
 
   const [nextValue, setNext] = useState(false);
 
+  const [document, setDocument] = useState({ documentsArr: [] });
 
-	const [document, setDocument] = useState({ documentsArr: [] });
+  const updateDocument = (files) => {
+    setDocument({ ...document, documentsArr: files });
+  };
 
-	const updateDocument = (files) => {
-		setDocument({ ...document, documentsArr: files });
-	};
+  let letterCards = letters.map((letter, index) => {
+    letter.index = index;
+    return (
+      <LetterCard
+        key={index}
+        letter={letter}
+        letterIndex={index}
+        setSelectedLetters={setSelectedLetters}
+        selectedLetters={selectedLetters}
+      />
+    );
+  });
 
-	let letterCards = letters.map((letter, index) => {
-		letter.index = index;
-		return (
-			<LetterCard
-				key={index}
-				letter={letter}
-				letterIndex={index}
-				setSelectedLetters={setSelectedLetters}
-				selectedLetters={selectedLetters}
-			/>
-		);
-	});
-
-	const loadAllLetters = () => {
-		getLetters()
-			.then((data) => {
-				if (data.error) {
-					setError(data.error);
-					console.log(error);
-				} else {
-					setLetters(data);
-				}
-			})
-			.catch((err) => {
-				setError(true);
-				console.log(err);
-			});
-	};
+  const loadAllLetters = () => {
+    getLetters()
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+          console.log(error);
+        } else {
+          setLetters(data);
+        }
+      })
+      .catch((err) => {
+        setError(true);
+        console.log(err);
+      });
+  };
 
   const loadAllBureaus = () => {
     getBureaus()
@@ -296,50 +294,52 @@ const Letters = () => {
       );
     }
   };
-  
-	return (
-		<div>
-			<Header />
-			<main>
-				{/* <!-- breadcrumb-area-start --> */}
-				{!error && (
-					<>
-						<div
-							className={classes.breadcrumb_area}
-							//   style="background-image:url('page/big_img/bg-14502568.jpeg');"
-						>
-							<div className={classes.container}>
-								<div className='row'>
-									<div className={classes.col_xl_12}>
-										<div className={`${classes.breadcrumb_text} ${classes.text_center}`}>
-											<h1>Letters</h1>
-											<ul className={classes.breadcrumb_menu}>
-												<li>
-													<Link to='/'>Home</Link>
-												</li>
-												<li>
-													<span>Letters</span>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 
-						{dynamicComponent()}
-					</>
+  return (
+    <div>
+      <Header />
+      <main>
+        {/* <!-- breadcrumb-area-start --> */}
+        {!error && (
+          <>
+            <div
+              className={classes.breadcrumb_area}
+              //   style="background-image:url('page/big_img/bg-14502568.jpeg');"
+            >
+              <div className={classes.container}>
+                <div className="row">
+                  <div className={classes.col_xl_12}>
+                    <div
+                      className={`${classes.breadcrumb_text} ${classes.text_center}`}
+                    >
+                      <h1>Letters</h1>
+                      <ul className={classes.breadcrumb_menu}>
+                        <li>
+                          <Link to="/">Home</Link>
+                        </li>
+                        <li>
+                          <span>Letters</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {dynamicComponent()}
+          </>
         )}
         {error && (
-					<div className={classes.error_area}>
-						<img src={illustration} alt='Error Illustration' />
-						<span>Server Down. Try again later!</span>
-					</div>
-				)}
-			</main>
-			<Footer />
-		</div>
-	);
+          <div className={classes.error_area}>
+            {/* <img src={illustration} alt='Error Illustration' /> */}
+            <span>Server Down. Try again later!</span>
+          </div>
+        )}
+      </main>
+      <Footer />
+    </div>
+  );
 };
 
 export default Letters;

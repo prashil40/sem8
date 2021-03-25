@@ -17,6 +17,7 @@ from api.utils.rzp_utils import setup_client, get_client_rzp_info, get_pricing_r
 from django.utils import timezone
 from datetime import timedelta
 
+
 @api_view(["GET"])
 @permission_classes((AllowAny,))
 def get_specifc_subscriptions(request, type):
@@ -35,11 +36,13 @@ def get_specifc_subscriptions(request, type):
         if type == "pricing":
             if not is_url:
                 url = get_url_from_id(id, "single_pricing", request)
-            specific_subscriptions = Subscription.objects.filter(pricing_url=url)
+            specific_subscriptions = Subscription.objects.filter(
+                pricing_url=url)
         elif type == "client":
             if not is_url:
                 url = get_url_from_id(id, "single_client", request)
-            specific_subscriptions = Subscription.objects.filter(client_url=url)
+            specific_subscriptions = Subscription.objects.filter(
+                client_url=url)
         else:
             return JsonResponse(
                 {"error": "Provide proper type (pricing, client)"},
@@ -207,7 +210,8 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
                         status=status.HTTP_403_FORBIDDEN,
                     )
 
-                client.subscription.cancel(subscription.rzp_sub_id, data={'cancel_at_cycle_end': 1})
+                client.subscription.cancel(subscription.rzp_sub_id, data={
+                                           'cancel_at_cycle_end': 1})
 
                 subscription.delete()
             except errors.InvalidId:
