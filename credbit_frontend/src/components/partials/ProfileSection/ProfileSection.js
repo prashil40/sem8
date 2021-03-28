@@ -35,8 +35,11 @@ const ProfileSection = () => {
       case 'Change Password':
         selectComponent(<ChangePassword />);
         break;
-      case 'Logout':
-        selectComponent(<Logout />);
+      // case 'Logout':
+      //   selectComponent(<Logout />);
+      //   break;
+      default:
+        selectComponent(<MyProfile />);
         break;
     }
   };
@@ -44,17 +47,18 @@ const ProfileSection = () => {
   useEffect(() => {}, [selectedComponent]);
 
   const menu_items = [
-    'My Profile',
-    'My Letters',
+    'Profile',
+    // 'My Letters',
     'Letters History',
-    'Subscription',
+    'Subscriptions',
     'Change Password',
-    'Logout',
+    // 'Logout',
   ];
 
   let menuItems = menu_items.map((item, index) => {
     return (
       <li
+        key={index}
         id={index}
         className={
           `${classes.menu_item} ` +
@@ -69,14 +73,21 @@ const ProfileSection = () => {
 
   let dynamicComponent = (
     <div className={classes.selected_menu}>
-      {selectedMenu === 'My Profile' && <MyProfile />}
-      {selectedMenu === 'My Letters' && <MyLetters />}
+      {selectedMenu === 'Profile' && <MyProfile />}
+      {/* {selectedMenu === 'Letters' && <MyLetters />} */}
       {selectedMenu === 'Letters History' && <LettersHistory />}
-      {selectedMenu === 'Subscription' && <Subscription />}
+      {selectedMenu === 'Subscriptions' && <Subscription />}
       {selectedMenu === 'Change Password' && <ChangePassword />}
-      {selectedMenu === 'Logout' && <Logout />}
+      {/* {selectedMenu === 'Logout' && <Logout />} */}
     </div>
   );
+
+  const getUsername = () => {
+    if (typeof window !== undefined) {
+      let token = JSON.parse(localStorage.getItem('token'));
+      return token ? token.user.first_name : 'Anonymous';
+    }
+  }
 
   return (
     <div>
@@ -88,7 +99,7 @@ const ProfileSection = () => {
                 <div className="widget mb-40 mt-30">
                   <div className="widget-title-box mb-30">
                     <span className="animate-border"></span>
-                    <h3 className="widget-title">Welcome User!</h3>
+                    <h3 className="widget-title">Welcome { getUsername() }</h3>
                   </div>
                   <ul className={`cat ${classes.menu_list}`}>
                     {/* <li

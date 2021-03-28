@@ -21,6 +21,7 @@ const ChangePassword = () => {
               <input
                 type="password"
                 name=""
+                className={classes.form_control}
                 placeholder="Old Password"
                 style={{ width: '100%' }}
               />
@@ -29,6 +30,7 @@ const ChangePassword = () => {
               <input
                 type="password"
                 name=""
+                className={classes.form_control}
                 placeholder="New Password"
                 style={{ width: '100%' }}
               />
@@ -38,11 +40,12 @@ const ChangePassword = () => {
                 type="password"
                 style={{ width: '100%' }}
                 name=""
+                className={classes.form_control}
                 placeholder="Confirm New Password"
               />
             </div>
             {/* <div > */}
-            <div className={`${classes.blue_btn} ${classes.col_xl_4}`}>
+            <div className={`${classes.blue_btn}`}>
               <span>Change Password</span>
             </div>
             {/* </div> */}

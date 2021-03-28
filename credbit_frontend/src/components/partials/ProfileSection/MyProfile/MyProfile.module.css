@@ -29,6 +29,7 @@
 
 .col_xl_12_header h3{
     margin-bottom: 10px;
+    letter-spacing: 2px;
 }
 
 .col_xl_8{
@@ -56,6 +57,28 @@
     width: 100%;
 }
 
+.form_control {
+	padding: 15px 0 10px;
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid #34495e;
+	font-size: 16px;
+	background: var(--bg-color);
+}
+
+.form_control:focus {
+	outline: none;
+	border-color: var(--primary);
+}
+
+.form_control:valid ~ label,
+.form_control:focus ~ label {
+	top: -20px;
+	font-size: 14px;
+	color: rgba(49, 49, 49, 0.938);
+	cursor: auto;
+}
+
 .label{
     color:black;
     font-size: 14px;
@@ -74,20 +97,20 @@
     min-height: 26px;
 }
 
-.blue_btn,
-.green_btn{
+.blue_btn{
     background-color: var(--secondary);
     border: none;
     border-radius: 30px;
     /* border-color: #2D4390; */
-    padding: 10px 20px;
+    padding: 12px 24px;
     /* padding-left: auto; */
     margin-left: 0px;
     margin-top: 20px;
-    /* width: 100%; */
+    width: 20%;
     cursor: pointer;
     display: flex;
     justify-content:center;
+    transition: .2s all ease;
     /* text-decoration: none; */
 }
 
@@ -102,3 +125,98 @@
     text-decoration: none;
     color:#ffffff;
 }
+
+
+.select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    /* width: 350px; */
+  }
+  
+  .select option {
+    /* color: red; */
+    margin: 10px;
+  }
+  
+  .select_text,
+  .invalid_select_text {
+    position: relative;
+    background-color: transparent;
+    width: 100%;
+    padding: 10px 10px 10px 0;
+    font-size: 18px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #34495e;
+    cursor: pointer;
+  }
+  
+  .invalid_select_text,
+  .invalid_select_text:focus {
+    outline: none;
+    border-bottom: 1px solid var(--failure);
+  }
+  
+  /* Remove focus */
+  .select_text:focus {
+    outline: none;
+    border-bottom: 1px solid var(--primary);
+  }
+  
+  /* Use custom arrow */
+  .select .select_text,
+  .select .invalid_select_text {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  
+  .select:after {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    /* Styling the down arrow */
+    width: 0;
+    height: 0;
+    padding: 0;
+    content: "";
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #34495e;
+    pointer-events: none;
+  }
+  
+  option:first-of-type {
+    display: none;
+  }
+  
+  /* LABEL ======================================= */
+  .select_label {
+    font-size: 16px;
+    font-weight: normal;
+    pointer-events: none;
+    left: 0;
+    top: 10px;
+    transition: 0.2s ease all;
+  }
+  
+  .invalid_select_text ~ .select_label {
+    color: var(--failure);
+  }
+  
+  /* active state */
+  .select_text:focus ~ .select_label,
+  .select_text:valid ~ .select_label,
+  .invalid_select_text:focus ~ .select_label,
+  .invalid_select_text:valid ~ .select_label {
+    color: rgba(49, 49, 49, 0.938);
+    top: -20px;
+    /* transition: 0.2s ease all; */
+    font-size: 14px;
+  }
+  
+  .invalid_select_text:focus ~ .select_label,
+  .invalid_select_text:valid ~ .select_label {
+    color: var(--failure);
+  }

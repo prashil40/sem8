@@ -41,7 +41,7 @@ const PricingCard = ({ pricing, pricingIndex }) => {
             <h1
             //   style="color:#000;"
             >
-              <span className={classes.usd}>$</span>
+              <span className={classes.usd}>₹</span>
               {amount} <span className={classes.time_period}>/&nbsp;&nbsp;Monthly</span>
             </h1>
           </div>

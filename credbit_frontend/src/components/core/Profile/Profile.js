@@ -15,13 +15,13 @@ const Profile = () => {
             <div className="row ">
               <div className={classes.col}>
                 <div className={`${classes.breadcrumb_text} text_center`}>
-                  <h1>My Profile</h1>
+                  <h1>Profile</h1>
                   <ul className={classes.breadcrumb_menu}>
                     <li>
                       <Link to="/">Home</Link>
                     </li>
                     <li>
-                      <span>My Profile</span>
+                      <span>Profile</span>
                     </li>
                   </ul>
                 </div>
