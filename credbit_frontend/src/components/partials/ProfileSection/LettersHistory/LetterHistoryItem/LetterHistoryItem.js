@@ -6,14 +6,17 @@ import classes from './LetterHistoryitem.module.css';
 const LetterHistoryItem = ({ sentDate, letters }) => {
 	const [titles, setTitles] = useState([]);
 	useEffect(() => {
+		let temp = []
 		letters.forEach((letter) => {
 			fetch(letter.letter_url)
 				.then((response) => response.json())
 				.then((data) => {
-					setTitles([...titles, data.title]);
+					temp.push(data.title);
 				})
 				.catch((err) => console.error(err));
 		});
+		console.log(temp)
+		setTitles(temp);
 	}, []);
 
 	const displayTitles = titles.map((title, index) => <li key={index}>{title}</li>);

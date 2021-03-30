@@ -670,14 +670,14 @@ def post_letters(request):
                     status=bad_req,
                 )
 
-        unique_bureau_ids = list(set(bureau_ids))
+        # unique_bureau_ids = list(set(bureau_ids))
         unique_letter_ids = list(set(letter_ids))
 
         letter_sub = LetterSubscription.objects.filter(
             _id=ObjectId(letter_sub_id))
         can_proceed, msg = validate_sub_count(
             letter_sub,
-            len(unique_bureau_ids),
+            # len(unique_bureau_ids),
             len(unique_letter_ids),
         )
 
@@ -724,7 +724,7 @@ def post_letters(request):
             send_mail(letter_bureau, client)
         reduce_sub_count(
             letter_sub,
-            len(unique_bureau_ids),
+            # len(unique_bureau_ids),
             len(unique_letter_ids),
         )
     else:

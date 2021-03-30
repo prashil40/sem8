@@ -35,6 +35,7 @@ export const signout = async (next) => {
 };
 
 export const authenticate = (data, next) => {
+  console.log("DATA", data);
   if (typeof window !== undefined) {
     localStorage.setItem('token', JSON.stringify(data));
     next();

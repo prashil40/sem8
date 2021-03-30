@@ -280,7 +280,7 @@ const Letters = ({ history }) => {
               </>
             ) : (
                 <>
-                  {history.push('/')}
+                  {history.push('/letters')}
                   {toast.success('Letters sent successfully', options)}
                 {/* <label className={classes.success_message}>
                   Letters sent successfully!

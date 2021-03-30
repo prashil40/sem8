@@ -9,3 +9,13 @@ export const getPricings = async () => {
     })
     .catch((err) => console.log(err));
 };
+
+export const getPricing = (pricing_url) => {
+  return fetch(pricing_url, {
+    method: 'GET',
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};

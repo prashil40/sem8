@@ -1,6 +1,37 @@
 import classes from './Subscription.module.css';
+import { getClientSub, getClientLetterSub } from '../../../core/helpers/SubscriptionAPICalls'
+import { getPricing } from '../../../core/helpers/PricingApiCall'
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Subscription = () => {
+	const [sub, setSub] = useState({});
+	const [letterSub, setLetterSub] = useState({});
+	const [pricing, setPricing] = useState({});
+	useEffect(() => {
+		const user = JSON.parse(localStorage.getItem('token')).user;
+		getClientSub(user._id)
+			.then(data => {
+				console.log("SUB", data);
+				setSub(data[0]);
+
+				getPricing(data[0].pricing_url)
+					.then(data => {
+						console.log('PRICING', data);
+						setPricing(data);
+					})
+			})
+			.catch(err => console.error(err));
+		
+			getClientLetterSub(user.letter_sub_url)
+			.then(data => {
+				console.log("LETTER SUB", data);
+				setLetterSub(data);
+			})
+			.catch(err => console.error(err));
+		
+	}, [])
+
 	return (
 		<div>
 			<form className='changepassword-form' name='changePasswordForm' id='changePasswordForm'>
@@ -15,17 +46,20 @@ const Subscription = () => {
 					<div className={classes.subscription}>
 						<div className={classes.dates}>
 							<strong>
-								<span>Start Date : 26-03-2021</span>
+								<span>Start Date : {new Date(Date.parse(sub.period_start)).toLocaleDateString()}</span>
 							</strong>
 							<strong>
-								<span>End Date : 26-04-2021</span>
+								<span>End Date : {new Date(Date.parse(sub.period_end)).toLocaleDateString()}</span>
 							</strong>
 						</div>
 						<div className={classes.pricing}>
-							<span><strong>₹ 200 </strong>/ monthly</span>
+							<span><strong>₹ {pricing.amount} </strong>/ monthly</span>
 						</div>
+						<div className={classes.letters_remaining}>
+							<span>Total Letters : {letterSub.initial_letters_count}</span>
+            </div>
             <div className={classes.letters_remaining}>
-              <span>Letters Remaining : 17</span>
+              <span>Letters Remaining : {letterSub.letters_count}</span>
             </div>
 
             <div className={classes.deactivate_btn}>

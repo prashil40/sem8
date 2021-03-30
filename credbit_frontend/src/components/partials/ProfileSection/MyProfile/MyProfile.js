@@ -40,7 +40,7 @@ const MyProfile = () => {
 									// className="emailbox"
 									name='client_email'
 									placeholder='Email Here'
-									autocomplete='off'
+									autoComplete='off'
 									required
 									disabled={true}
 									defaultValue={values.email}
@@ -176,16 +176,16 @@ const MyProfile = () => {
 						<div
 							className={classes.col_xl_4}
 							style={{
-								'font-size': '12px',
-								'text-align': 'right',
-								'padding-top': '10px',
+								fontSize: '12px',
+								textAlign: 'right',
+								paddingTop: '10px',
 							}}>
 							<label
 								id='lblMsg'
 								style={{
-									'font-style': 'italic',
+									fontStyle: 'italic',
 									color: 'green',
-									'margin-left': '10px',
+									marginLeft: '10px',
 								}}></label>
 						</div>
 						<div className={`${classes.blue_btn}`} type='submit'>
