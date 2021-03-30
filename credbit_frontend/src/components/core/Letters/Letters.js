@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import Header from "../../partials/Header/Header";
 import Footer from "../../partials/Footer/Footer";
 import classes from "./Letters.module.css";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import LetterCard from "../../partials/LetterCard/LetterCard";
 import { getLetters, createLetters } from "../helpers/LetterApiCall";
 import { getBureaus } from "../helpers/BureauApiCall";
 import FileUpload from "../../partials/FileUpload/FileUpload";
-
-import { ToastContainer, toast } from "react-toastify";
+import illustration from "../../images/undraw_server_down_s4lk.svg"
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BureauSelectionCard from "../../partials/Bureau/BureauSelectionCard";
 
@@ -22,7 +22,7 @@ const options = {
   progress: undefined,
 };
 
-const Letters = () => {
+const Letters = ({ history }) => {
   const [letters, setLetters] = useState([]);
   const [bureaus, setBureaus] = useState([]);
   const [error, setError] = useState(false);
@@ -58,13 +58,14 @@ const Letters = () => {
       .then((data) => {
         if (data.error) {
           setError(data.error);
-          console.log(error);
+          toast.error(data.error, options);
         } else {
           setLetters(data);
         }
       })
       .catch((err) => {
         setError(true);
+        toast.error("Cannot load letters", options);
         console.log(err);
       });
   };
@@ -74,7 +75,7 @@ const Letters = () => {
       .then((data) => {
         if (data.error) {
           setError(data.error);
-          console.log(error);
+          toast.error(data.error, options);
         } else {
           setBureaus(data);
         }
@@ -106,6 +107,7 @@ const Letters = () => {
   const sendLetters = async () => {
     if (document.documentsArr.length === 0) {
       setSendingError("Choose ID proof!");
+      toast.error("Choose ID proof!", options);
       return;
     }
 
@@ -116,6 +118,7 @@ const Letters = () => {
       const inputs = functionToCall[fun]().call();
       if (inputs === null) {
         setSendingError("Enter details properly!");
+        toast.error("Enter details properly!", options);
         return;
       }
       for (const bureau in inputs.bureaus) {
@@ -140,9 +143,12 @@ const Letters = () => {
     setLettersSending((lettersSending) => !lettersSending);
 
     const res = await createLetters(data, id_proof);
-    if (res) {
+    if (res && !res.error) {
       setLettersSent((lettersSent) => !lettersSent);
       console.log("Letters sent successfully!", res);
+    } else {
+      setSendingError(res.error);
+      toast.error(res.error, options);
     }
     setLettersSending((lettersSending) => !lettersSending);
   };
@@ -249,13 +255,13 @@ const Letters = () => {
             )}
             {!lettersSent ? (
               <>
-                {sendingError ? (
+                {/* {sendingError ? (
                   <label className={classes.error_message}>
                     {sendingError}
                   </label>
                 ) : (
                   ""
-                )}
+                )} */}
 
                 <div
                   className={`${classes.about_button} ${classes.send_button}`}
@@ -273,8 +279,10 @@ const Letters = () => {
                 </div>
               </>
             ) : (
-              <>
-                <label className={classes.success_message}>
+                <>
+                  {history.push('/')}
+                  {toast.success('Letters sent successfully', options)}
+                {/* <label className={classes.success_message}>
                   Letters sent successfully!
                 </label>
                 <div
@@ -286,7 +294,7 @@ const Letters = () => {
                       Home <i className="far fa-long-arrow-right"></i>
                     </span>{" "}
                   </a>
-                </div>
+                </div> */}
               </>
             )}
           </div>
@@ -332,7 +340,7 @@ const Letters = () => {
         )}
         {error && (
           <div className={classes.error_area}>
-            {/* <img src={illustration} alt='Error Illustration' /> */}
+            <img src={illustration} alt='Error Illustration' />
             <span>Server Down. Try again later!</span>
           </div>
         )}
@@ -342,4 +350,4 @@ const Letters = () => {
   );
 };
 
-export default Letters;
+export default withRouter(Letters);

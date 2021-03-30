@@ -1,4 +1,4 @@
-from weasyprint import HTML
+# from weasyprint import HTML
 from django.core.files.base import ContentFile
 import datetime
 from bson import ObjectId
@@ -82,13 +82,13 @@ html_next = """
 
 def create_pdf(html):
     import logging
+    return
+    # logger = logging.getLogger("weasyprint")
+    # logger.addHandler(logging.FileHandler("weasyprint.log"))
 
-    logger = logging.getLogger("weasyprint")
-    logger.addHandler(logging.FileHandler("weasyprint.log"))
+    # pdf = HTML(string=html.encode("utf-8"))
 
-    pdf = HTML(string=html.encode("utf-8"))
-
-    return pdf.write_pdf()
+    # return pdf.write_pdf()
 
 
 def create_letter(letter_id, bureau_id, client, Letter, Bureau, **kwargs):

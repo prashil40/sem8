@@ -1,0 +1,36 @@
+.history_item{
+  width: 40%;
+  margin: 20px auto;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 130px;
+  padding: 12px 24px;
+  /* Neumorphism CSS */
+	border-radius: 20px;
+	background: #e9e8e8;
+	box-shadow: 20px 20px 60px #d0d0d0, -20px -20px 60px #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.history_item>section{
+  background: #f5f5f5;
+  width: 130%;
+  height: 100%;
+  position: relative;
+  top: 30px;
+  /* right: 40px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.history_item>section>ul{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
